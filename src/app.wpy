@@ -1,13 +1,60 @@
-<style lang="less">
-.container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-</style>
+// customData = {}  // 自定义数据
+// customFunction ()　{}  // 自定义方法
+// onLoad () {}  // 在Page和Component共用的生命周期函数
+// onShow () {}  // 只在Page中存在的页面生命周期函数
+// config = {};  // 只在Page实例中存在的配置数据，对应于原生的page.json文件
+// data = {};  // 页面所需数据均需在这里声明，可用于模板数据绑定
+// components = {};  // 声明页面中所引用的组件，或声明组件中所引用的子组件
+// mixins = [];  // 声明页面所引用的Mixin实例
+// computed = {};  // 声明计算属性（详见后文介绍）
+// watch = {};  // 声明数据watcher（详见后文介绍）
+// methods = {};  // 声明页面wxml中标签的事件处理函数。注意，此处只用于声明页面wxml中标签的bind、catch事件，自定义方法需以自定义方法的方式声明
+// 普通自定义方法在methods对象外声明，与methods平级
+// events = {};  // 声明组件之间的事件处理函数
+//props  {传值}  在WePY中属于  父子组件之间  传值的一种机制
+
+// 页面跳转，传参写法
+// this.$redirect('./page2', {a: 1, b: 2})
+// this.$redirect({
+//   url: './pages?a=1&b=2'
+// });
+// this.$navigate(url)
+
+// 阴影边框
+// box-shadow: #f1fefb 1rpx 1rpx 10rpx 5rpx;
+
+// flexflexflexflexflexflexflexflex
+// display: flex;
+// align-items: center;
+// justify-content: space-between;
+// 竖向
+// flex-direction: column;
+// 换行
+// display: flex;
+// align-items: center;
+// justify-content: space-between;
+// flex-direction: row;
+// flex-wrap: wrap;
+
+
+
+// 居右
+// flex-direction:row;
+// justify-content:flex-end
+
+// vertical-align:middle;
+
+// overflow:hidden;
+// text-overflow:ellipsis;
+// white-space:nowrap;
+
+// 自动换行
+// word-break:break-all;
+
+// overflow:hidden;
+// text-overflow:ellipsis;
+// white-space:nowrap;
+
 
 <script>
 import wepy from 'wepy'
@@ -22,7 +69,10 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index'
+      'pages/selRegistered', // 注册选择
+      'pages/index', // 首页
+      
+
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -72,3 +122,127 @@ export default class extends wepy.app {
   }
 }
 </script>
+<style lang="less">
+  .container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+
+  @font-face {font-family: "iconfont";
+    src: url('//at.alicdn.com/t/font_1459873_xznajlstqlk.eot?t=1571132441707'); /* IE9 */
+    src: url('//at.alicdn.com/t/font_1459873_xznajlstqlk.eot?t=1571132441707#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('data:application/x-font-woff2;charset=utf-8;base64,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') format('woff2'),
+    url('//at.alicdn.com/t/font_1459873_xznajlstqlk.woff?t=1571132441707') format('woff'),
+    url('//at.alicdn.com/t/font_1459873_xznajlstqlk.ttf?t=1571132441707') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+    url('//at.alicdn.com/t/font_1459873_xznajlstqlk.svg?t=1571132441707#iconfont') format('svg'); /* iOS 4.1- */
+  }
+
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .iconjiantouarrow486:before {
+    content: "\e6ab";
+  }
+
+  .iconjiantouarrow492:before {
+    content: "\e6b2";
+  }
+
+  .iconduihao:before {
+    content: "\e61e";
+  }
+
+  .iconbuoumaotubiao20:before {
+    content: "\e612";
+  }
+
+  .iconjiantou1:before {
+    content: "\e603";
+  }
+
+  .iconjiantou_zuo:before {
+    content: "\e663";
+  }
+
+  .iconfabu:before {
+    content: "\e6a4";
+  }
+
+  .iconfanhui:before {
+    content: "\e6a5";
+  }
+
+  .iconfenxiang:before {
+    content: "\e6a6";
+  }
+
+  .iconjiantou:before {
+    content: "\e6a7";
+  }
+
+  .iconkefu:before {
+    content: "\e6a8";
+  }
+
+  .iconsousuo:before {
+    content: "\e6aa";
+  }
+
+  .iconfabu1:before {
+    content: "\e6ac";
+  }
+
+  .iconweixuanzhong:before {
+    content: "\e6ad";
+  }
+
+  .iconweishoucang:before {
+    content: "\e6ae";
+  }
+
+  .iconwode:before {
+    content: "\e6af";
+  }
+
+  .iconshouye:before {
+    content: "\e6b0";
+  }
+
+  .iconxiaoxi:before {
+    content: "\e6b1";
+  }
+
+  .iconxiaoxi1:before {
+    content: "\e6b3";
+  }
+
+  .iconshezhi:before {
+    content: "\e6b4";
+  }
+
+  .icondianhua1:before {
+    content: "\e6b5";
+  }
+
+  .iconchuanzhaopian:before {
+    content: "\e6b7";
+  }
+
+  .iconwode1:before {
+    content: "\e6b8";
+  }
+
+  .iconshouye1:before {
+    content: "\e6ba";
+  }
+
+</style>

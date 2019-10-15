@@ -1,0 +1,96 @@
+<template>
+  <view>
+    <view class="title">请选择用户类型</view>
+    <view class="typeList">
+      <view class="item">
+        <view class="name">客户</view>
+        <image src="../image/Registered1.png" />
+        <icon class="iconfont iconduihao"></icon>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class SelRegistered extends wepy.page {
+    config = {
+      navigationBarTitleText: '注册'
+    }
+    components = {}
+
+    mixins = []
+
+    data = {
+
+    }
+
+    computed = {
+      
+    }
+
+    methods = {
+     
+    }
+
+    events = {
+      
+    }
+
+    onLoad() {
+      
+    }
+  }
+</script>
+<style lang="less">
+  .title{
+    width: 750rpx;
+    font-size: 35rpx;
+    font-weight: 600;
+    color: #1F1F1F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .typeList{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    .item{
+      position: relative;
+      width: 690rpx;
+      padding: 30rpx 0;
+      height: 164rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    image{
+      width: 164rpx;
+      height: 164rpx;
+    }
+    .iconfont{
+      position: absolute;
+      
+      right: 0;
+      font-size: 30rpx;
+      width: 52rpx;
+      height: 52rpx;
+      border-radius: 52rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #FFF;
+    }
+    .name{
+      font-size: 35rpx;
+      font-weight: 600;
+      padding-right: 60rpx;
+    }
+  }
+
+</style>
