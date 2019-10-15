@@ -1,0 +1,13 @@
+{
+  "description": "普京婚庆",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram",
+  "appid": "wx85ae2745ca3ac253",
+  "projectname": "putinwedding",
+  "miniprogramRoot": "./dist"
+}
