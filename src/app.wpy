@@ -69,7 +69,7 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      
+      'pages/registeredSelIndustry', // 注册--选择行业
       'pages/registeredClient', // 客户注册
       'pages/registeredService', // 客服注册
       'pages/registeredMerchant', // 商户注册
@@ -163,6 +163,67 @@ export default class extends wepy.app {
     left: 0;
     right: 0;
   }
+  .maskCon{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    .showCon{
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-direction: column;
+      background-color: #fff;
+      border-radius: 10rpx;
+      z-index: 999;
+      position: fixed;
+      margin:auto;
+      left:0;
+      right:0;
+      top:0;
+      bottom:0;
+    }
+    .name{
+      font-size: 30rpx;
+      font-weight: 600;
+      color: #1F1F1F;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    input{
+      width: 280rpx;
+      height: 80rpx;
+      border-radius: 10rpx;
+      border: 1rpx solid #DFDFDF;
+      color: #1F1F1F;
+      font-size: 28rpx;
+      text-align: center;
+    }
+    .maskSub{
+      width: 280rpx;
+      height: 80rpx;
+      border-radius: 10rpx;
+      background-color: #F42652;
+      color: #fff;
+      font-size: 32rpx;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mask{
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      background: rgba(0, 0, 0, 0.8);
+      // z-index: 1;
+    }
+  }
+  
   @font-face {font-family: "iconfont";
     src: url('//at.alicdn.com/t/font_1459873_xznajlstqlk.eot?t=1571132441707'); /* IE9 */
     src: url('//at.alicdn.com/t/font_1459873_xznajlstqlk.eot?t=1571132441707#iefix') format('embedded-opentype'), /* IE6-IE8 */

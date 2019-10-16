@@ -12,7 +12,7 @@
       <input type="text" data-name="phone" @input="getSetData" placeholder="请输入邀请码(必填)" />
     </view>
     <view class="submit">
-      <view @tap="sub">提交</view>
+      <view @tap="sub">下一步</view>
     </view>
   </view>
 </template>
