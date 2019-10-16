@@ -1,254 +1,246 @@
-<style lang="less">
-  .userinfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .userinfo-avatar {
-    width: 80rpx;
-    height: 80rpx;
-    border-radius: 50%;
-  }
-
-  .userinfo-nickname {
-    color: #aaa;
-  }
-</style>
 <template>
-  <view class="container">
-    <view class="userinfo" @tap="handleViewTap">
-      <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
-      <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
+  <view>
+    <view class="address">
+      <view>
+        <icon class="iconfont icondingwei"></icon>
+        <text>西安</text>
+      </view>
+      <icon class="iconfont iconkefu"></icon>
     </view>
-
-    <panel>
-      <view class="title" slot="title">测试数据绑定</view>
-
-      <text class="info">{{normalTitle}}</text>
-      <text class="info">{{setTimeoutTitle}}</text>
-      <text class="info">{{mixin}}</text>
-      <text class="info">{{mynum}}</text>
-      <text class="info">{{now}}</text>
-      <text class="info">{{num}}</text>
-      <text class="info">{{asyncNum}}</text>
-      <text class="info">{{sumNum}}</text>
-      <button @tap="plus('a')" size="mini">  +  </button>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">其它测试</view>
-      <button @tap="toast" size="mini">第三方组件</button>
-      <button @tap="communicate" size="mini">组件通信</button>
-      <button @tap="tap" size="mini">混合TAP事件</button>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试并发网络请求</view>
-      <view>返回结果: <text>{{netrst}}</text></view>
-      <button @tap="request" size="mini"> 点我发起10个请求 </button>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试组件</view>
-
-      <text class="testcounter">计数组件1: </text>
-      <view class="counterview">
-        <counter1 @index-emit.user="counterEmit" />
-      </view>
-
-      <text class="testcounter">计数组件2: </text>
-
-      <view class="counterview">
-        <counter2 :num.sync="mynum"></counter2>
-      </view>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试组件Repeat</view>
-      <repeat for="" index="index" item="item" key="key">
-        <group :grouplist="item" :indexa="index"></group>
+    <swiper wx:if="{{swiperList.length > 0}}" class='swiper' indicator-dots="true" autoplay='true' interval='5000' duration='2000'>
+      <repeat for="{{swiperList}}" item="item">
+        <swiper-item data-id="{{ item.id }}">
+          <image src="{{ item.image_url }}" bindtap='shareQRCodeImg' data-imgurl="{{requestImgUrl + item.image_url}}" />
+        </swiper-item>
       </repeat>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试列表</view>
-      <list></list>
-    </panel>
-
-    <toast />
+    </swiper>
+    <view class="listCon">
+      <view class="listTile">
+        <text class="name">服务推荐</text>
+        <view>
+          更多
+          <icon class="iconfont icondingwei"></icon>
+        </view>
+      </view>
+      <view class="list">
+        <repeat for="{{serviceList}}" item="item">
+          <view class="item" data-id="{{item.id}}">
+            <image src="{{item.image_url}}" />
+            <view class="name">{{item.name}}</view>
+            <view class="price">
+              ￥{{item.price}}
+              <text>起</text>
+            </view>
+          </view>
+        </repeat>
+      </view>
+    </view>
+    <view class="listCon">
+      <view class="listTile">
+        <text class="name">服务推荐</text>
+        <view>
+          更多
+          <icon class="iconfont icondingwei"></icon>
+        </view>
+      </view>
+      <view class="list">
+        <repeat for="{{peopleList}}" item="item">
+          <view class="item" data-id="{{item.id}}">
+            <image src="{{item.image_url}}" />
+            <view class="name">{{item.name}}</view>
+            <view class="price">
+              ￥{{item.price}}
+              <text>起</text>
+            </view>
+          </view>
+        </repeat>
+      </view>
+    </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
-  import Panel from '@/components/panel' // alias example
-  import Counter from 'counter' // alias example
-  import List from '../components/list' // aliasFields example
-  import moduleA from 'module-a' // aliasFields ignore module example
-  import Group from '../components/group'
-  import Toast from 'wepy-com-toast'
-  import testMixin from '../mixins/test'
-
-  console.log('moduleA ignored: ', moduleA) // => moduleA ignored: {}
-
-  @connect({
-    num (state) {
-      return state.counter.num
-    },
-    asyncNum (state) {
-      return state.counter.asyncNum
-    },
-    sumNum (state) {
-      return state.counter.num + state.counter.asyncNum
-    }
-  })
-
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '普京婚庆'
     }
     components = {
-      panel: Panel,
-      counter1: Counter,
-      counter2: Counter,
-      list: List,
-      group: Group,
-      toast: Toast
     }
 
-    mixins = [testMixin]
+    mixins = []
 
     data = {
-      mynum: 20,
-      userInfo: {
-        nickName: '加载中...'
-      },
-      normalTitle: '原始标题',
-      setTimeoutTitle: '标题三秒后会被修改',
-      count: 0,
-      netrst: '',
-      groupList: [
-        {
-          id: 1,
-          name: '点击改变',
-          list: [
-            {
-              childid: '1.1',
-              childname: '子项，点我改变'
-            }, {
-              childid: '1.2',
-              childname: '子项，点我改变'
-            }, {
-              childid: '1.3',
-              childname: '子项，点我改变'
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: '点击改变',
-          list: [
-            {
-              childid: '2.1',
-              childname: '子项，点我改变'
-            }, {
-              childid: '2.2',
-              childname: '子项，点我改变'
-            }, {
-              childid: '2.3',
-              childname: '子项，点我改变'
-            }
-          ]
-        },
-        {
-          id: 3,
-          name: '点击改变',
-          list: [
-            {
-              childid: '3.1',
-              childname: '子项，点我改变'
-            }
-          ]
-        }
-      ]
+      swiperList: [
+        {image_url: '../image/daw.jpg'},
+        {image_url: '../image/daw.jpg'},
+        {image_url: '../image/daw.jpg'},
+        {image_url: '../image/daw.jpg'}
+      ],
+      serviceList: [
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+      ],
+      peopleList: [
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
+      ],
+      userInfo: null,
+      cityNode: [],
+      searchList: []
     }
 
     computed = {
-      now () {
-        return +new Date()
-      }
+
     }
 
     methods = {
-      plus () {
-        this.mynum++
+      // 底部导航跳转
+      goPage (url, evt) {
+        // 销毁当前页{跳转}
+        this.$redirect(url)
       },
-      toast () {
-        let promise = this.$invoke('toast', 'show', {
-          title: '自定义标题',
-          img: 'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
-        })
-
-        promise.then((d) => {
-          console.log('toast done')
-        })
-      },
-      tap () {
-        console.log('do noting from ' + this.$name)
-      },
-      communicate () {
-        console.log(this.$name + ' tap')
-
-        this.$invoke('counter2', 'minus', 45, 6)
-        this.$invoke('counter1', 'plus', 45, 6)
-
-        this.$broadcast('index-broadcast', 1, 3, 4)
-      },
-      request () {
-        let self = this
-        let i = 10
-        let map = ['MA==', 'MQo=', 'Mg==', 'Mw==', 'NA==', 'NQ==', 'Ng==', 'Nw==', 'OA==', 'OQ==']
-        while (i--) {
-          wepy.request({
-            url: 'https://www.madcoder.cn/tests/sleep.php?time=1&t=css&c=' + map[i] + '&i=' + i,
-            success: function (d) {
-              self.netrst += d.data + '.'
-              self.$apply()
-            }
-          })
-        }
-      },
-      counterEmit (...args) {
-        let $event = args[args.length - 1]
-        console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
-      }
     }
 
     events = {
-      'index-emit': (...args) => {
-        let $event = args[args.length - 1]
-        console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
-      }
+
     }
 
     onLoad() {
-      let self = this
-      this.$parent.getUserInfo(function (userInfo) {
-        if (userInfo) {
-          self.userInfo = userInfo
-        }
-        self.normalTitle = '标题已被修改'
-
-        self.setTimeoutTitle = '标题三秒后会被修改'
-        setTimeout(() => {
-          self.setTimeoutTitle = '到三秒了'
-          self.$apply()
-        }, 3000)
-
-        self.$apply()
-      })
+      
     }
+    
   }
 </script>
+<style lang="less">
+  .address{
+    width: 690rpx;
+    height: auto;
+    padding: 20rpx 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1rpx solid #EEEEEE;
+    view{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 32rpx;
+      font-weight: 600;
+      color: #1F1F1F;
+      .iconfont{
+        font-size: 32rpx;
+      }
+    }
+    text{
+      padding-left: 10rpx;
+    }
+    .iconfont{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999999;
+      font-size: 48rpx;
+    }
+  }
+  .swiper {
+    width: 690rpx;
+    height: 315rpx;
+    padding: 0rpx 30rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
+    image {
+      width: 100%;
+      height: 100%;
+      border-radius: 10rpx;
+    }
+  }
+
+  .listCon{
+    width: 690rpx;
+    height: auto;
+    padding: 0 30rpx;
+    border-top: 10rpx solid #F8F8F8;
+    .listTile{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 26rpx;
+      color: #999999;
+      padding: 20rpx 0;
+      .name{
+        font-size: 32rpx;
+        font-weight: 600;
+        color: #1F1F1F;
+      }
+      view{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      icon{
+        width: 28rpx;
+        width: 28rpx;
+        font-size: 28rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999999
+      }
+    }
+    .list{
+      width: 690rpx;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .item{
+      width: 222rpx;
+      height: 350rpx;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: column;
+      border-radius: 10rpx;
+      margin: 10rpx 0;
+      background-color: #F5F5F5;
+      .name{
+        font-size: 30rpx;
+        font-weight: 600;
+        color: #1F1F1F;
+        padding: 15rpx 0;
+      }
+    }
+    image{
+      width: 222rpx;
+      height: 230rpx;
+      border-radius: 10rpx 10rpx 0 0;
+    }
+    .price{
+      font-size: 22rpx;
+      font-weight: 600;
+      color: #F42652;
+      text{
+        font-size: 20rpx;
+        font-weight: 500;
+        color: #999999;
+      }
+    }
+  }
+  .listCon:last-of-type{
+    margin-bottom: 130rpx
+  }
+</style>
