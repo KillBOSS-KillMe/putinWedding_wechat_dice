@@ -56,6 +56,14 @@
         </repeat>
       </view>
     </view>
+    <view class="maskCon" wx:if="{{maskShow}}">
+      <view class="mask" @tap="newItem"></view>
+      <view class="showCon">
+        <view class="name">为了方便您使用此产品，点击</view>
+        <view class="name">右上角按钮，选择“添加到桌面”</view>
+      </view>
+    </view>
+    
     <nav @childFn.user="goPage" @childFnOrReturn.user="goModifyUserInfo" />
   </view>
 </template>
@@ -98,6 +106,7 @@
         {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
         {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
       ],
+      maskShow: true,
       userInfo: null,
       cityNode: [],
       searchList: []
@@ -116,6 +125,15 @@
         }
         // 销毁当前页{跳转}
         this.$redirect(url)
+      },
+      // 弹框显示
+      newItem() {
+        if (this.maskShow) {
+          this.maskShow = false
+        } else {
+          this.maskShow = true
+        }
+        this.$apply()
       },
     }
 
@@ -260,5 +278,10 @@
   }
   .listCon:last-of-type{
     margin-bottom: 130rpx
+  }
+  .maskCon .showCon{
+    width: 580rpx;
+    height: 445rpx;
+    justify-content: center;
   }
 </style>

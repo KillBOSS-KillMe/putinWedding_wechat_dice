@@ -1,5 +1,4 @@
 <template>
-<view>
   <view class="footer">
     <view class="ft_item {{navAction[0]}}" @tap="goIndex">
       <!-- <view class="iconfont icon-shouye"></view> -->
@@ -26,7 +25,6 @@
       <text class="text">我的</text>
     </view>
   </view>
-</view>
 </template>
 <script>
 import wepy from 'wepy'

@@ -165,7 +165,7 @@ export default class extends wepy.app {
   .maskCon{
     width: 100vw;
     height: 100vh;
-    position: fixed;
+    position: absolute;
     top: 0px;
     left: 0px;
     .showCon{
@@ -219,7 +219,7 @@ export default class extends wepy.app {
       top: 0px;
       left: 0px;
       background: rgba(0, 0, 0, 0.8);
-      // z-index: 1;
+      z-index: 100;
     }
   }
   
