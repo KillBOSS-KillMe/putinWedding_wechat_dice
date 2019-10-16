@@ -56,16 +56,19 @@
         </repeat>
       </view>
     </view>
+    <nav @childFn.user="goPage" @childFnOrReturn.user="goModifyUserInfo" />
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import nav from '../components/nav' // 底部导航
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '普京婚庆'
     }
     components = {
+      nav: nav
     }
 
     mixins = []
@@ -106,7 +109,11 @@
 
     methods = {
       // 底部导航跳转
+      // 底部导航跳转
       goPage (url, evt) {
+        if (this.verificationUserInfo()) {
+          return 
+        }
         // 销毁当前页{跳转}
         this.$redirect(url)
       },
@@ -120,6 +127,17 @@
       
     }
     
+
+    // 用户信息校验
+    verificationUserInfo() {
+      if (!this.userInfo.hasOwnProperty('id')) {
+        wx.showToast({
+          title: "用户信息加载中...",
+          icon: 'none',
+        });
+        return true
+      }
+    }
   }
 </script>
 <style lang="less">
