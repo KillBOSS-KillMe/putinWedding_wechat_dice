@@ -2,11 +2,20 @@
   <view>
     <view class="title">请选择用户类型</view>
     <view class="typeList">
-      <view class="item">
-        <view class="name">客户</view>
-        <image src="../image/Registered1.png" />
-        <icon class="iconfont iconduihao"></icon>
-      </view>
+      <repeat for="{{typeList}}" item="item">
+        <view class="item {{item.type == active?'active':''}}" data-type="{{item.type}}" @tap="selUserType">
+          <view class="name">{{item.name}}</view>
+          <image src="../image/{{item.img}}" />
+          <icon class="iconfont iconduihao"></icon>
+        </view>
+      </repeat>
+    </view>
+    <view class="tourist" @tap="selUserType">
+      <view class="name">游客模式</view>
+      <view>点击进入</view>
+    </view>
+    <view class="sub">
+      <view>下一步</view>
     </view>
   </view>
 </template>
@@ -22,7 +31,24 @@
     mixins = []
 
     data = {
-
+      active: '',
+      typeList: [
+        {
+          name: '客户',
+          type: '1',
+          img: 'Registered1.png'
+        },
+        {
+          name: '商户',
+          type: '2',
+          img: 'Registered2.png'
+        },
+        {
+          name: '客服',
+          type: '3',
+          img: 'Registered3.png'
+        },
+      ]
     }
 
     computed = {
@@ -30,7 +56,21 @@
     }
 
     methods = {
-     
+      // 类别选择
+      selUserType(e) {
+        // let type = e.currentTarget.dataset.type
+        this.active = e.currentTarget.dataset.type
+        this.$apply()
+      },
+      // 游客模式
+      tourist() {
+        let url = `/pages/cleaningInfo?id=${id}`
+        this.$navigate(url)
+      },
+      // 下一步
+      sub() {
+        
+      }
     }
 
     events = {
@@ -62,8 +102,8 @@
     flex-direction: column;
     .item{
       position: relative;
-      width: 690rpx;
-      padding: 30rpx 0;
+      width: 325rpx;
+      padding: 40rpx 0;
       height: 164rpx;
       display: flex;
       align-items: center;
@@ -75,9 +115,10 @@
     }
     .iconfont{
       position: absolute;
-      
-      right: 0;
+      bottom: 40rpx;
+      right: 20rpx;
       font-size: 30rpx;
+      font-weight: 600;
       width: 52rpx;
       height: 52rpx;
       border-radius: 52rpx;
@@ -85,12 +126,42 @@
       align-items: center;
       justify-content: center;
       background-color: #FFF;
+      color: #FFF;
     }
     .name{
       font-size: 35rpx;
       font-weight: 600;
       padding-right: 60rpx;
     }
+    .active:nth-child(1) .iconfont{
+      color: #e5214b
+    }
+    .active:nth-child(2) .iconfont, 
+    .active:nth-child(3) .iconfont{
+      color: #3fb6f9
+    }
   }
-
+  .tourist{
+    position: relative;
+    width: 325rpx;
+    padding: 20rpx 0;
+    height: 164rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 26rpx;
+    color: #999;
+    margin: auto;
+    view{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .name{
+      font-size: 32rpx;
+      font-weight: 600;
+      color: #1F1F1F;
+    }
+  }
 </style>

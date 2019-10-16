@@ -131,7 +131,31 @@ export default class extends wepy.app {
     justify-content: space-between;
     box-sizing: border-box;
   }
-
+  .sub{
+    // height: 200;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 690rpx;
+    height: auto;
+    padding: 50rpx 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    view{
+      width: 604rpx;
+      height: 100rpx;
+      border-radius: 5rpx;
+      background-color: #F42652;
+      color: #fff;
+      font-size: 32rpx;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
   @font-face {font-family: "iconfont";
     src: url('//at.alicdn.com/t/font_1459873_xznajlstqlk.eot?t=1571132441707'); /* IE9 */
     src: url('//at.alicdn.com/t/font_1459873_xznajlstqlk.eot?t=1571132441707#iefix') format('embedded-opentype'), /* IE6-IE8 */
