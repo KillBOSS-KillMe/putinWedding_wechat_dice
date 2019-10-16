@@ -1,23 +1,16 @@
 <template>
   <view>
     <view class="item">
-      <label>身份证</label>
-      <input type="text" data-name="IDCard" @input="getSetData" placeholder="请输入身份证号码" />
-    </view>
-    <view class="item">
-      <label>姓名</label>
-      <input type="text" data-name="name" @input="getSetData" placeholder="请输入真实姓名" />
-    </view>
-    <view class="item">
-      <label>电话</label>
-      <input type="text" data-name="phone" @input="getSetData" placeholder="请输入联系电话" />
+      <input type="number" data-name="phone" @input="getSetData" placeholder="请输入手机号码" />
     </view>
     <view class="item code">
-      <label>验证码</label>
       <input type="text" data-name="code" @input="getSetData" placeholder="请输入验证码" />
       <view class="getCode" @tap="getCode">{{time}}</view>
     </view>
-    <view class="sub">
+    <view class="item">
+      <input type="text" data-name="name" @input="getSetData" placeholder="请输入邀请码(必填)" />
+    </view>
+    <view class="submit">
       <view @tap="sub">提交</view>
     </view>
   </view>
@@ -27,7 +20,7 @@
   import wepy from 'wepy'
   export default class RegisteredClient extends wepy.page {
     config = {
-      navigationBarTitleText: '注册'
+      navigationBarTitleText: '客户注册'
     }
     components = {}
 
@@ -57,6 +50,10 @@
         this.formNode = formNode
         this.$apply()
       },
+      getCode() {
+        // 获取验证码
+        this.runGetCode()
+      },
       // 下一步
       sub() {
 
@@ -70,9 +67,68 @@
     onLoad() {
       
     }
+    // 获取验证码
+    runGetCode() {
+      if (this.disabled) {
+        return false
+      }
+      if (this.check.isPhone(this.formNode.phone)) {
+        wepy.showModal({
+          title: '',
+          content: '请输入电话',
+          showCancel: false
+        })
+        return
+      }
+      wx.showToast({
+        title: "请求发送中...",
+        icon: 'loading',
+        duration: 10000
+      });
+      this.disabled = true
+      this.$apply()
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/auth/send_code`,
+        method: 'POST',
+        header: {
+          'content-type':'application/json',
+          authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        data: {
+          phone: this.formNode.phone
+        },
+        success: data => {
+          wx.hideToast()
+          data = this.$parent.null2str(data)
+          if (data.data.code === 8888) {
+            wx.showToast({
+              title: data.data.msg,
+              icon: 'success',
+              duration: 1000
+            });
+            this.$apply()
+            this.countdown()
+          } else {
+            wx.showToast({
+              title: data.data.msg,
+              icon: 'none'
+            });
+          }
+        }
+      })
+    }
   }
 </script>
 <style lang="less">
+page{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 .item{
   width: 690rpx;
   padding: 30rpx;
@@ -88,18 +144,8 @@
     color: #666;
     border-radius: 10rpx;
   }
-  label{
-    width: 152rpx;
-    height: 80rpx;
-    font-size: 32rpx;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
 }
 .code{
-  justify-content: flex-start;
   input{
     width: 310rpx;
     margin-right: 20rpx;
@@ -108,12 +154,15 @@
     width: 174rpx;
     height: 80rpx;
     border-radius: 10rpx;
-    border: 1rpx solid #30A2F4;
-    color: #30A2F4;
+    border: 1rpx solid #F42652;
+    color: #F42652;
     font-size: 28rpx;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+}
+.submit{
+  margin-top: 200rpx;
 }
 </style>
