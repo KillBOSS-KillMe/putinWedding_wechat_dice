@@ -69,7 +69,10 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/selRegistered', // 注册选择
+      'pages/registeredService', // 客户注册
+      'pages/registeredMerchant', // 商户注册
+      'pages/registeredClient', // 客户注册
+      'pages/registeredSel', // 注册选择
       'pages/index', // 首页
       
 

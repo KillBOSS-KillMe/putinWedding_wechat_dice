@@ -22,7 +22,7 @@
 
 <script>
   import wepy from 'wepy'
-  export default class SelRegistered extends wepy.page {
+  export default class RegisteredSel extends wepy.page {
     config = {
       navigationBarTitleText: '注册'
     }
@@ -69,7 +69,7 @@
       },
       // 下一步
       sub() {
-        
+
       }
     }
 
