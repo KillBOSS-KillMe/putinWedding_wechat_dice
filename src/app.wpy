@@ -70,8 +70,10 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index', // 首页
+      'pages/selIndustry', // 选择行业
+      
       'pages/citySel', // 选择城市
-      'pages/registeredSelIndustry', // 选择行业
+      'pages/registeredSelIndustry', // 选择行业--注册
       'pages/registeredClient', // 客户注册
       'pages/registeredService', // 客服注册
       'pages/registeredMerchant', // 商户注册

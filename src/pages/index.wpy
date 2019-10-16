@@ -14,6 +14,17 @@
         </swiper-item>
       </repeat>
     </swiper>
+    <view class="pageNav">
+      <repeat for="{{pageNav}}" item="item">
+        <view class="item" data-id="{{item.id}}" @tap="pageNavClick">
+          <image src="{{item.img}}" />
+          <text>{{item.name}}</text>
+        </view>
+      </repeat>
+    </view>
+    <view class="VIP">
+      <image src="../image/vip.png" />
+    </view>
     <view class="listCon">
       <view class="listTile">
         <text class="name">服务推荐</text>
@@ -88,6 +99,12 @@
         {image_url: '../image/daw.jpg'},
         {image_url: '../image/daw.jpg'}
       ],
+      pageNav: [
+        {id: '1', name: '全部商家', img: '../image/allMerchant.png' },
+        {id: '2', name: '抢单', img: '../image/grabOrder.png' },
+        {id: '3', name: '服务', img: '../image/service.png' },
+        {id: '4', name: '同行互换', img: '../image/exchange.png' }
+      ],
       serviceList: [
         {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
         {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
@@ -106,7 +123,7 @@
         {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
         {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
       ],
-      maskShow: true,
+      maskShow: false,
       userInfo: null,
       cityNode: [],
       searchList: []
@@ -126,6 +143,10 @@
         // 销毁当前页{跳转}
         this.$redirect(url)
       },
+      // 页面中部导航点击事件
+      pageNavClick(e) {
+        let id = e.currentTarget.dataset.id
+      },
       // 弹框显示
       newItem() {
         if (this.maskShow) {
@@ -135,6 +156,7 @@
         }
         this.$apply()
       },
+      
     }
 
     events = {
@@ -201,7 +223,39 @@
       border-radius: 10rpx;
     }
   }
-
+  .pageNav{
+    width: 690rpx;
+    height: auto;
+    padding: 20rpx 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .item{
+      width: 25%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: column;
+      font-size: 26rpx;
+      color: #494949;
+    }
+    image{
+      width: 106rpx;
+      height: 106rpx;
+    }
+  }
+  .VIP{
+    width: 690rpx;
+    height: auto;
+    padding: 0 30rpx;
+    border-top: 10rpx solid #F8F8F8;
+    image{
+      width: 690rpx;
+      height: 236rpx;
+    }
+  }
   .listCon{
     width: 690rpx;
     height: auto;
