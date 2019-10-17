@@ -40,16 +40,17 @@
                 <text class="name">{{item.name}}</text>
               </view>
               <view class="address">
-                <icon class="iconfont iconjiantouarrow486"></icon>
+                <icon class="iconfont icondingwei"></icon>
                 <text>{{item.address}}</text>
               </view>
               <view class="address">
-                <icon class="iconfont iconjiantouarrow486"></icon>
-                <text>{{item.address}}</text>
+                <icon class="iconfont iconshijian"></icon>
+                <text>{{item.time}}</text>
               </view>
             </view>
-            <view>
+            <view class="grabOrder">
               <text class="price">￥{{item.price}}</text>
+              <view>抢单</view>
             </view>
           </view>
         </view>
@@ -76,6 +77,16 @@
           type: '1', 
           price: '1200', 
           address: '西安市西安市西安市西安市西安市西安市西安市西安市西安市', 
+          time: '2019.10.11',
+          img: '../image/daw.jpg'
+        },
+         {
+          id: '1', 
+          name: '宝马', 
+          type: '1', 
+          price: '1200', 
+          address: '西安市西安市西安市西安市西安市西安市西安市西安市西安市',
+          time: '2019.10.11',
           img: '../image/daw.jpg'
         },
          {
@@ -84,6 +95,7 @@
           type: '1', 
           price: '1200', 
           address: '西安市西安市西安市西安市西安市西安市西安市西安市西安市', 
+          time: '2019.10.11',
           img: '../image/daw.jpg'
         },
          {
@@ -92,14 +104,7 @@
           type: '1', 
           price: '1200', 
           address: '西安市西安市西安市西安市西安市西安市西安市西安市西安市', 
-          img: '../image/daw.jpg'
-        },
-         {
-          id: '1', 
-          name: '宝马', 
-          type: '1', 
-          price: '1200', 
-          address: '西安市西安市西安市西安市西安市西安市西安市西安市西安市', 
+          time: '2019.10.11',
           img: '../image/daw.jpg'
         }
         
@@ -265,7 +270,7 @@
         justify-content: flex-start;
         font-size: 24rpx;
         color: #494949;
-        padding: 0;
+        padding: 5rpx 0;
         icon{
           width: 24rpx;
           height: 24rpx;
@@ -278,7 +283,23 @@
         }
       }
     }
-    
+    .grabOrder{
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      view{
+        font-size: 24rpx;
+        font-weight: 600;
+        width: 150rpx;
+        height: 60rpx;
+        border-radius: 60rpx;
+        background-color: #F42652;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
     .name{
       font-size: 30rpx;
       font-weight: 600;
