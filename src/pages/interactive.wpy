@@ -30,18 +30,22 @@
     <view class="list">
       <repeat for="{{list}}" item="item">
         <view class="item">
-          <image src="{{item.img}}" />
+          <view class="name">
+            <text class="type" wx:if="{{item.type == '1'}}">车队</text>
+            <text class="type" wx:if="{{item.type == '2'}}">主持</text>
+            <text class="type" wx:if="{{item.type == '3'}}">化妆</text>
+            <text class="name">{{item.name}}</text>
+          </view>
           <view class="info">
-            <view>
-              <text class="type" wx:if="{{item.type == '1'}}">车队</text>
-              <text class="type" wx:if="{{item.type == '2'}}">主持</text>
-              <text class="type" wx:if="{{item.type == '3'}}">化妆</text>
-              <text class="name">{{item.name}}</text>
+            <view class="inofItem">
+              <view>
+                <text class="label">发布于</text>
+                <text class="price">￥{{item.price}}</text>
+                <text class="user">{{item.user}}/{{item.address}}</text>
+              </view>
+              <view>发布于{{item.time}}</view>
             </view>
-            <view>
-              <text class="price">￥{{item.price}}</text>
-              <text class="user">{{item.user}}/{{item.address}}</text>
-            </view>
+            <view class="interactive">互换</view>
           </view>
         </view>
       </repeat>
@@ -51,9 +55,9 @@
 
 <script>
   import wepy from 'wepy'
-  export default class AllCommodity extends wepy.page {
+  export default class Interactive extends wepy.page {
     config = {
-      navigationBarTitleText: '所有商品'
+      navigationBarTitleText: '同行互动'
     }
     components = {}
 
@@ -61,17 +65,34 @@
 
     data = {
       list: [
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '2', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '3', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'}
+        {
+          id: '1', 
+          name: '宝马', 
+          type: '1', 
+          price: '1200', 
+          user: '二狗子', 
+          address: '西安市', 
+          time: '2019.12.10'
+        },
+        {
+          id: '1', 
+          name: '宝马', 
+          type: '1', 
+          price: '1200', 
+          user: '二狗子', 
+          address: '西安市', 
+          time: '2019.12.10'
+        },
+        {
+          id: '1', 
+          name: '宝马', 
+          type: '1', 
+          price: '1200', 
+          user: '二狗子', 
+          address: '西安市', 
+          time: '2019.12.10'
+        },
+       
       ],
       indexNode: [0,0,0],
       showType: ['全部','摄像师','车队','花艺','主持人','策划','灯光'],
@@ -197,39 +218,51 @@
     padding: 0 30rpx;
     .item{
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20rpx 0;
-      border-bottom: 1rpx solid #EEEEEE;
-    }
-    image{
-      width: 200rpx;
-      height: 150rpx;
-      border-radius: 10rpx;
-    }
-    .info{
-      width: 470rpx;
-      height: 150rpx;
-      display: flex;
       align-items: flex-start;
       justify-content: space-between;
       flex-direction: column;
-      view{
-        width: 100%;
-        padding: 3rpx 0;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-      }
+      padding: 20rpx 0;
+      border-bottom: 1rpx solid #EEEEEE;
     }
     .name{
+      width: 100%;
+      padding-bottom: 20rpx;
       font-size: 30rpx;
       font-weight: 600;
       color: #1F1F1F;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .info{
+      width: 690rpx;
+      height: auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      view{
+        font-size: 24rpx;
+        color: #494949;
+      }
+      .interactive{
+        width: 150rpx;
+        font-size: 24rpx;
+        padding: 15rpx 0;
+        color: #fff;
+        border-radius: 60rpx;
+        background-color: #F42652;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .inofItem view{
+      padding: 5rpx 0;
     }
     .type{
       color: #F42652;
       font-size: 20rpx;
+      font-weight: 500;
       padding: 5rpx 10rpx;
       border: 1rpx solid #F42652;
       border-radius: 5rpx;
@@ -241,9 +274,10 @@
       font-weight: 600;
       margin-right: 10rpx;
     }
-    .user{
-      font-size: 24rpx;
-      color: #999999;
+    .label{
+      color: #494949;
+      font-size: 26rpx;
     }
+    
   }
 </style>

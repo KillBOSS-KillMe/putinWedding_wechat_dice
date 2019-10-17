@@ -70,9 +70,11 @@ export default class extends wepy.app {
   config = {
     pages: [
       
+      'pages/interactive', // 同行互动
       'pages/allCommodity', // 所有商品
-      'pages/index', // 首页
       'pages/selIndustry', // 选择行业
+      'pages/index', // 首页
+      
       
       'pages/citySel', // 选择城市
       'pages/registeredSelIndustry', // 选择行业--注册
