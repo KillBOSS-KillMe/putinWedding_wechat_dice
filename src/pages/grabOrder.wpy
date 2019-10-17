@@ -1,0 +1,308 @@
+<template>
+  <view class="container">
+    <view class="search">
+      <input type="text" placeholder="请输入搜索内容" @input="getSearchKey" />
+      <icon class="iconfont iconsousuo"></icon>
+    </view>
+    <view class="selList">
+      <picker bindchange="setType" value="{{indexNode[0]}}" range="{{showType}}">
+        <view class="item">
+          {{showType[indexNode[0]]}}
+          <icon class="iconfont iconjiantouarrow486"></icon>
+        </view>
+      </picker>
+      <picker bindchange="setPrice" value="{{indexNode[1]}}" range="{{priceList}}">
+        <view class="item">
+          {{priceList[indexNode[1]]}}
+          <view class="icon">
+            <icon class="iconfont iconjiantouarrow492 noActive"></icon>
+            <icon class="iconfont iconjiantouarrow486"></icon>
+          </view>
+      </view>
+      </picker>
+      <picker bindchange="setAddress" value="{{indexNode[2]}}" range="{{addressList}}">
+        <view class="item">
+          {{addressList[indexNode[2]]}}
+          <icon class="iconfont iconjiantouarrow486"></icon>
+        </view>
+      </picker>
+    </view>
+    <view class="list">
+      <repeat for="{{list}}" item="item">
+        <view class="item">
+          <image src="{{item.img}}" />
+          <view class="info">
+            <view>
+              <view class="title">
+                <text class="type" wx:if="{{item.type == '1'}}">车队</text>
+                <text class="type" wx:if="{{item.type == '2'}}">主持</text>
+                <text class="type" wx:if="{{item.type == '3'}}">化妆</text>
+                <text class="name">{{item.name}}</text>
+              </view>
+              <view class="address">
+                <icon class="iconfont iconjiantouarrow486"></icon>
+                <text>{{item.address}}</text>
+              </view>
+              <view class="address">
+                <icon class="iconfont iconjiantouarrow486"></icon>
+                <text>{{item.address}}</text>
+              </view>
+            </view>
+            <view>
+              <text class="price">￥{{item.price}}</text>
+            </view>
+          </view>
+        </view>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class GrabOrder extends wepy.page {
+    config = {
+      navigationBarTitleText: '所有商品'
+    }
+    components = {}
+
+    mixins = []
+
+    data = {
+      list: [
+        {
+          id: '1', 
+          name: '宝马', 
+          type: '1', 
+          price: '1200', 
+          address: '西安市西安市西安市西安市西安市西安市西安市西安市西安市', 
+          img: '../image/daw.jpg'
+        },
+         {
+          id: '1', 
+          name: '宝马', 
+          type: '1', 
+          price: '1200', 
+          address: '西安市西安市西安市西安市西安市西安市西安市西安市西安市', 
+          img: '../image/daw.jpg'
+        },
+         {
+          id: '1', 
+          name: '宝马', 
+          type: '1', 
+          price: '1200', 
+          address: '西安市西安市西安市西安市西安市西安市西安市西安市西安市', 
+          img: '../image/daw.jpg'
+        },
+         {
+          id: '1', 
+          name: '宝马', 
+          type: '1', 
+          price: '1200', 
+          address: '西安市西安市西安市西安市西安市西安市西安市西安市西安市', 
+          img: '../image/daw.jpg'
+        }
+        
+      ],
+      indexNode: [0,0,0],
+      showType: ['全部','摄像师','车队','花艺','主持人','策划','灯光'],
+      priceList: ['全部','升序','降序'],
+      addressList: ['区域','西安','咸阳','宝鸡'],
+      searchKey: ''
+    }
+
+    computed = {
+      
+    }
+
+    methods = {
+      setType(e) {
+        // let index = e.detail.value
+        this.indexNode[0] = e.detail.value
+        // this.formNode['room_type_id'] = this.typeList[index].id
+        // this.formNode['roomType'] = this.typeList[index].name
+        this.$apply()
+      },
+      setPrice(e) {
+        // let index = e.detail.value
+        this.indexNode[1] = e.detail.value
+        // this.formNode['room_type_id'] = this.typeList[index].id
+        // this.formNode['roomType'] = this.typeList[index].name
+        this.$apply()
+      },
+      setAddress(e) {
+        // let index = e.detail.value
+        this.indexNode[2] = e.detail.value
+        // this.formNode['room_type_id'] = this.typeList[index].id
+        // this.formNode['roomType'] = this.typeList[index].name
+        this.$apply()
+      },
+      // 搜索输入监听
+      getSearchKey(e) {
+        this.searchKey = e.detail.value
+        this.runSearch()
+      }
+    }
+
+    events = {
+      
+    }
+
+    onLoad() {
+    }
+  }
+</script>
+<style lang="less">
+  .container{
+    border-top: 1rpx solid #EEEEEE;
+    width: 750rpx;
+    height: auto;
+  }
+  .search{
+    width: 688rpx;
+    height: 76rpx;
+    border-radius: 76rpx;
+    border: 1rpx solid #EEEEEE;
+    margin: 10rpx 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    input{
+      width: 603rpx;
+      height: 70rpx;
+      font-size: 28rpx;
+      color: #1F1F1F;
+    }
+    icon{
+      width: 45rpx;
+      height: 45rpx;
+      font-size: 45rpx;
+      color: #999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .selList{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 690rpx;
+    padding: 30rpx 0;
+    margin: 0 30rpx;
+    border-bottom: 1rpx solid #EEEEEE;
+    .item{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 26rpx;
+      color: #1F1F1F;
+    }
+    icon{
+      width: 30rpx;
+      height: 30rpx;
+      font-size: 30rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 5rpx;
+    }
+    .icon{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: column;
+      icon{
+        width: 20rpx;
+        height: 20rpx;
+        font-size: 20rpx;
+      }
+    }
+    .noActive{
+      color: #999;
+    }
+  }
+  .list{
+    width: 690rpx;
+    height: auto;
+    padding: 0 30rpx;
+    .item{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20rpx 0;
+      border-bottom: 1rpx solid #EEEEEE;
+    }
+    image{
+      width: 200rpx;
+      height:200rpx;
+      border-radius: 10rpx;
+    }
+    .info{
+      width: 470rpx;
+      height: 200rpx;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-direction: column;
+      view{
+        width: 100%;
+        padding: 3rpx 0;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+      }
+      .title{
+        padding-bottom: 10rpx;
+      }
+      .address{
+        width: 100%;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 24rpx;
+        color: #494949;
+        padding: 0;
+        icon{
+          width: 24rpx;
+          height: 24rpx;
+          font-size: 24rpx;
+          color: #494949;
+          margin-right: 10rpx;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+    
+    .name{
+      font-size: 30rpx;
+      font-weight: 600;
+      color: #1F1F1F;
+      
+    }
+    
+    .type{
+      color: #F42652;
+      font-size: 20rpx;
+      padding: 5rpx 10rpx;
+      border: 1rpx solid #F42652;
+      border-radius: 5rpx;
+      margin-right: 10rpx;
+    }
+    .price{
+      color: #F42652;
+      font-size: 26rpx;
+      font-weight: 600;
+      margin-right: 10rpx;
+    }
+    .user{
+      font-size: 24rpx;
+      color: #999999;
+    }
+  }
+</style>
