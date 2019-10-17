@@ -1,6 +1,45 @@
 <template>
-  <view>
-    <view class="search"></view>
+  <view class="container">
+    <view class="search">
+      <input type="text" placeholder="请输入搜索内容" @input="a" />
+      <icon class="iconfont iconsousuo"></icon>
+    </view>
+    <view class="selList">
+      <view class="item">
+        全部
+        <icon class="iconfont iconjiantouarrow486"></icon>
+      </view>
+      <view class="item">
+        全部
+        <view class="icon">
+          <icon class="iconfont iconjiantouarrow492 noActive"></icon>
+          <icon class="iconfont iconjiantouarrow486"></icon>
+        </view>
+      </view>
+      <view class="item">
+        全部
+        <icon class="iconfont iconjiantouarrow486"></icon>
+      </view>
+    </view>
+    <view class="list">
+      <repeat for="{{list}}" item="item">
+        <view class="item">
+          <image src="{{item.img}}" />
+          <view class="info">
+            <view>
+              <text class="type" wx:if="{{item.type == '1'}}">车队</text>
+              <text class="type" wx:if="{{item.type == '2'}}">主持</text>
+              <text class="type" wx:if="{{item.type == '3'}}">化妆</text>
+              <text class="name">{{item.name}}</text>
+            </view>
+            <view>
+              <text class="price">￥{{item.price}}</text>
+              <text class="user">{{item.user}}/{{item.address}}</text>
+            </view>
+          </view>
+        </view>
+      </repeat>
+    </view>
   </view>
 </template>
 
@@ -15,6 +54,19 @@
     mixins = []
 
     data = {
+      list: [
+        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
+        {id: '1', name: '宝马', type: '2', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
+        {id: '1', name: '宝马', type: '3', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
+        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
+        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
+        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
+        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
+        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
+        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
+        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
+        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'}
+      ]
     }
 
     computed = {
@@ -33,10 +85,128 @@
   }
 </script>
 <style lang="less">
+  .container{
+    border-top: 1rpx solid #EEEEEE;
+    width: 750rpx;
+    height: auto;
+  }
   .search{
     width: 688rpx;
     height: 76rpx;
     border-radius: 76rpx;
     border: 1rpx solid #EEEEEE;
+    margin: 10rpx 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    input{
+      width: 603rpx;
+      height: 70rpx;
+      font-size: 28rpx;
+      color: #1F1F1F;
+    }
+    icon{
+      width: 45rpx;
+      height: 45rpx;
+      font-size: 45rpx;
+      color: #999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .selList{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 690rpx;
+    padding: 30rpx 0;
+    margin: 0 30rpx;
+    border-bottom: 1rpx solid #EEEEEE;
+    .item{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 26rpx;
+      color: #1F1F1F;
+    }
+    icon{
+      width: 30rpx;
+      height: 30rpx;
+      font-size: 30rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 5rpx;
+    }
+    .icon{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: column;
+      icon{
+        width: 20rpx;
+        height: 20rpx;
+        font-size: 20rpx;
+      }
+    }
+    .noActive{
+      color: #999;
+    }
+  }
+  .list{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
+    .item{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20rpx 0;
+      border-bottom: 1rpx solid #EEEEEE;
+    }
+    image{
+      width: 200rpx;
+      height: 150rpx;
+      border-radius: 10rpx;
+    }
+    .info{
+      width: 470rpx;
+      height: 150rpx;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-direction: column;
+      view{
+        width: 100%;
+        padding: 3rpx 0;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+      }
+    }
+    .name{
+      font-size: 30rpx;
+      font-weight: 600;
+      color: #1F1F1F;
+    }
+    .type{
+      color: #F42652;
+      font-size: 20rpx;
+      padding: 5rpx 10rpx;
+      border: 1rpx solid #F42652;
+      border-radius: 5rpx;
+      margin-right: 10rpx;
+    }
+    .price{
+      color: #F42652;
+      font-size: 26rpx;
+      font-weight: 600;
+      margin-right: 10rpx;
+    }
+    .user{
+      font-size: 24rpx;
+      color: #999999;
+    }
   }
 </style>
