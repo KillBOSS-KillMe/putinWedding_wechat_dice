@@ -5,21 +5,27 @@
       <icon class="iconfont iconsousuo"></icon>
     </view>
     <view class="selList">
-      <view class="item">
-        全部
-        <icon class="iconfont iconjiantouarrow486"></icon>
-      </view>
-      <view class="item">
-        全部
-        <view class="icon">
-          <icon class="iconfont iconjiantouarrow492 noActive"></icon>
+      <picker bindchange="setType" value="{{indexNode[0]}}" range="{{showType}}">
+        <view class="item">
+          {{showType[indexNode[0]]}}
           <icon class="iconfont iconjiantouarrow486"></icon>
         </view>
+      </picker>
+      <picker bindchange="setPrice" value="{{indexNode[1]}}" range="{{priceList}}">
+        <view class="item">
+          {{priceList[indexNode[1]]}}
+          <view class="icon">
+            <icon class="iconfont iconjiantouarrow492 noActive"></icon>
+            <icon class="iconfont iconjiantouarrow486"></icon>
+          </view>
       </view>
-      <view class="item">
-        全部
-        <icon class="iconfont iconjiantouarrow486"></icon>
-      </view>
+      </picker>
+      <picker bindchange="setAddress" value="{{indexNode[2]}}" range="{{addressList}}">
+        <view class="item">
+          {{addressList[indexNode[2]]}}
+          <icon class="iconfont iconjiantouarrow486"></icon>
+        </view>
+      </picker>
     </view>
     <view class="list">
       <repeat for="{{list}}" item="item">
@@ -66,7 +72,11 @@
         {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
         {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
         {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'}
-      ]
+      ],
+      indexNode: [0,0,0],
+      showType: ['全部','摄像师','车队','花艺','主持人','策划','灯光'],
+      priceList: ['全部','升序','降序'],
+      addressList: ['区域','西安','咸阳','宝鸡'],
     }
 
     computed = {
@@ -74,6 +84,27 @@
     }
 
     methods = {
+      setType(e) {
+        // let index = e.detail.value
+        this.indexNode[0] = e.detail.value
+        // this.formNode['room_type_id'] = this.typeList[index].id
+        // this.formNode['roomType'] = this.typeList[index].name
+        this.$apply()
+      },
+      setPrice(e) {
+        // let index = e.detail.value
+        this.indexNode[1] = e.detail.value
+        // this.formNode['room_type_id'] = this.typeList[index].id
+        // this.formNode['roomType'] = this.typeList[index].name
+        this.$apply()
+      },
+      setAddress(e) {
+        // let index = e.detail.value
+        this.indexNode[2] = e.detail.value
+        // this.formNode['room_type_id'] = this.typeList[index].id
+        // this.formNode['roomType'] = this.typeList[index].name
+        this.$apply()
+      },
     }
 
     events = {
