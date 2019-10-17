@@ -69,7 +69,7 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      
+      'pages/interactiveInfo', // 同行互动-详情
       'pages/interactive', // 同行互动
       'pages/allCommodity', // 所有商品
       'pages/selIndustry', // 选择行业
