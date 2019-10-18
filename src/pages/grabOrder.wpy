@@ -304,7 +304,6 @@
       font-size: 30rpx;
       font-weight: 600;
       color: #1F1F1F;
-      
     }
     
     .type{
@@ -315,6 +314,7 @@
       border-radius: 5rpx;
       margin-right: 10rpx;
     }
+    
     .price{
       color: #F42652;
       font-size: 26rpx;

@@ -1,0 +1,233 @@
+<template>
+  <view class="container">
+    <swiper bindchange="swiperChange" wx:if="{{infoNode.swiperList.length > 0}}" class='swiper' indicator-dots="true" autoplay='true' interval='5000' duration='2000'>
+      <repeat for="{{infoNode.swiperList}}" item="item">
+        <swiper-item data-id="{{ item.id }}">
+          <image src="{{ item.image_url }}" bindtap='shareQRCodeImg' data-imgurl="{{requestImgUrl + item.image_url}}" />
+        </swiper-item>
+      </repeat>
+    </swiper>
+    <view class="swiperNum">{{current+1}}/{{infoNode.swiperList.length}}</view>
+    <view class="info">
+      <view class="item">
+        <view>
+          <text class="type" wx:if="{{infoNode.info.type == '1'}}">车队</text>
+          <text class="type" wx:if="{{infoNode.info.type == '2'}}">主持</text>
+          <text class="type" wx:if="{{infoNode.info.type == '3'}}">化妆</text>
+          <text class="name">{{infoNode.info.name}}</text>
+        </view>
+        <icon class="iconfont iconfenxiang shere"></icon>
+      </view>
+      <view class="item">
+        <view>
+          <text class="user">{{infoNode.info.user}}</text>
+          <icon class="iconfont icondingwei"></icon>
+          <text class="user">{{infoNode.info.address}}</text>
+        </view>
+        <view>
+          <icon class="iconfont icondianhua1"></icon>
+          <text class="user">{{infoNode.info.phone}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="info">
+      <view class="item">
+        <view>
+          <text class="user">需要日期</text>
+          <text class="user">{{infoNode.info.time}}</text>
+        </view>
+        <icon class="iconfont iconjiantou"></icon>
+      </view>
+      <view class="item">
+        <view>
+          <text class="priceLabel">实际金额</text>
+          <text class="price">{{infoNode.info.price}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="operating">
+      <view class="service">
+        <icon class="iconfont iconkefu"></icon>
+        <text>客服</text>
+      </view>
+      <view class="grabOrder">立即抢单</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class GrabOrder extends wepy.page {
+    config = {
+      navigationBarTitleText: '所有商品'
+    }
+    components = {}
+
+    mixins = []
+
+    data = {
+      current: 0,
+      infoNode: {
+        swiperList: [
+          {image_url: '../image/daw.jpg'},
+          {image_url: '../image/daw.jpg'},
+          {image_url: '../image/daw.jpg'},
+          {image_url: '../image/daw.jpg'}
+        ],
+        info: {
+          id: '1',
+          type: '1',
+          name: '花儿主持团',
+          user: '二狗子',
+          address: '西安',
+          phone: '18888888888',
+          time: '2019.12.22.05.11',
+          price: '1200',
+        }
+      }
+    }
+
+    computed = {
+      
+    }
+
+    methods = {
+      swiperChange(e) {
+        if (e.detail.source == 'touch') {
+          this.current = e.detail.current
+          this.$apply()
+        }
+      }
+    }
+
+    events = {
+      
+    }
+
+    onLoad() {
+    }
+  }
+</script>
+<style lang="less">
+  .swiper {
+    width: 750rpx;
+    height: 500rpx;
+    overflow: hidden;
+    image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .swiperNum{
+    position: fixed;
+    top: 400rpx;
+    right: 30rpx;
+    width: 96rpx;
+    height: 56rpx;
+    border-radius: 56rpx;
+    font-size: 23rpx;
+    color: #FEFEFE;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .info{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    border-bottom: 10rpx solid #F8F8F8;
+
+    .item{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .shere{
+      font-size: 32rpx;
+    }
+    icon{
+      font-size: 26rpx;
+      color: #999999;
+      margin: 0 10rpx;
+      // display: flex;
+      // align-items: center;
+      // justify-content: space-between;
+    }
+    .name{
+      font-size: 30rpx;
+      font-weight: 600;
+      color: #1F1F1F;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .type{
+      color: #F42652;
+      font-size: 20rpx;
+      padding: 5rpx 10rpx;
+      border: 1rpx solid #F42652;
+      border-radius: 5rpx;
+      margin-right: 10rpx;
+    }
+    .priceLabel{
+      color: #1F1F1F;
+      font-size: 30rpx;
+      font-weight: 600;
+      margin-right: 10rpx;
+    }
+    .price{
+      color: #F42652;
+      font-size: 26rpx;
+      font-weight: 600;
+      margin-right: 10rpx;
+    }
+    .user{
+      font-size: 24rpx;
+      color: #999999;
+    }
+  }
+  .operating{
+    position: fixed;
+    bottom: 0rpx;
+    left: 0;
+    width: 750rpx;
+    height: 100rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .service{
+      width: 250rpx;
+      height: 100rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #1F1F1F;
+      font-size: 20rpx;
+      icon{
+        width: 42rpx;
+        height: 42rpx;
+        font-size: 42rpx;
+        color: #F42652;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .grabOrder{
+      width: 500rpx;
+      height: 100rpx;
+      background-color: #F42652;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+</style>
