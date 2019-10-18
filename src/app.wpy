@@ -69,16 +69,21 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      
+      'pages/postNeed', // 发帖--需要
+      'pages/selIndustry', // 选择行业
+      'pages/releaseTypeSel', // 发帖类型选择
+      
+
       'pages/productDetails', // 产品详情
       'pages/grabOrder', // 抢单
       'pages/service', // 服务
       'pages/interactiveInfo', // 同行互动-详情
       'pages/interactive', // 同行互动
       'pages/allCommodity', // 所有商品
-      'pages/selIndustry', // 选择行业
+      
       'pages/index', // 首页
-      
-      
+            
       'pages/citySel', // 选择城市
       'pages/registeredSelIndustry', // 选择行业--注册
       'pages/registeredClient', // 客户注册
@@ -151,6 +156,7 @@ export default class extends wepy.app {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #fff;
     view{
       width: 604rpx;
       height: 100rpx;
@@ -231,7 +237,30 @@ export default class extends wepy.app {
       z-index: 100;
     }
   }
-  
+
+  // 多选框样式
+  checkbox .wx-checkbox-input{
+    border-radius: 50%;/* 圆角 */
+    width: 40rpx; /* 背景的宽 */
+    height: 40rpx; /* 背景的高 */
+  }
+  checkbox .wx-checkbox-input.wx-checkbox-input-checked{
+    border: none;
+    background: #fc6800;
+  }
+  checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
+    border-radius: 50%;/* 圆角 */
+    width: 40rpx;/* 选中后对勾大小，不要超过背景的尺寸 */
+    height: 40rpx;/* 选中后对勾大小，不要超过背景的尺寸 */
+    line-height: 40rpx;
+    text-align: center;
+    font-size:40rpx; /* 对勾大小 30rpx */
+    color:#fff; /* 对勾颜色 白色 */
+    background: transparent;
+    // transform:translate(-50%, -50%) scale(1);
+    // -webkit-transform:translate(-50%, -50%) scale(1);
+  }
+
   @font-face {font-family: "iconfont";
     src: url('//at.alicdn.com/t/font_1459873_8lfhe8r4gs.eot?t=1571300728843'); /* IE9 */
     src: url('//at.alicdn.com/t/font_1459873_8lfhe8r4gs.eot?t=1571300728843#iefix') format('embedded-opentype'), /* IE6-IE8 */

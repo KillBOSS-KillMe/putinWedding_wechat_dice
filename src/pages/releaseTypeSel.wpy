@@ -1,0 +1,118 @@
+<template>
+  <view>
+    <view class="name">帖子类型11</view>
+    <checkbox-group bindchange="selLocal" data-index="{{index}}" data-checks="{{item.checks}}">
+      <view class="sel">
+        <repeat for="{{typeList}}" item="item">
+          <view class="item" data-id="{{item.id}}">
+            <checkbox data-index="{{index}}" value="{{index}}" checked="{{item.checks}}"/>
+            {{item.name}}
+          </view>
+        </repeat>
+      </view>
+    </checkbox-group>
+    <view class="sub">
+      <view>下一步</view>
+    </view>
+    <nav @childFn.user="goPage" @childFnOrReturn.user="goModifyUserInfo" />
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import nav from '../components/nav' // 底部导航
+  export default class ReleaseTypeSel extends wepy.page {
+    config = {
+      navigationBarTitleText: '发帖'
+    }
+    components = {
+      nav: nav
+    }
+
+    mixins = []
+
+    data = {
+      userInfo: null,
+      typeList: [
+        {id: '1', name: '需求'},
+        {id: '2', name: '提供'},
+        {id: '3', name: '互换'}
+      ]
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      // 底部导航跳转
+      // 底部导航跳转
+      goPage (url, evt) {
+        if (this.verificationUserInfo()) {
+          return 
+        }
+        // 销毁当前页{跳转}
+        this.$redirect(url)
+      },
+      selLocal(e) {
+        let i = 0
+        let cartIndex = e.detail.value
+        let localList = this.searchList
+        let selList = []
+        // 需要加入去重操作
+        for(i in cartIndex) {
+          selList.push(localList[parseInt(cartIndex[i])])
+        }
+      },
+      
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+      
+    }
+    
+
+    // 用户信息校验
+    verificationUserInfo() {
+      if (!this.userInfo.hasOwnProperty('id')) {
+        wx.showToast({
+          title: "用户信息加载中...",
+          icon: 'none',
+        });
+        return true
+      }
+    }
+  }
+</script>
+<style lang="less">
+  .name{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #1F1F1F;
+  }
+  .sel{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
+    font-size: 26rpx;
+    color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .item{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  .sub{
+    bottom: 100rpx;
+  }
+</style>
