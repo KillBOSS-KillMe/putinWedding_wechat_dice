@@ -22,6 +22,16 @@
       </view>
       <icon class="iconfont iconjiantou"></icon>
     </view>
+    <checkbox-group bindchange="selOrder" data-index="{{index}}" data-checks="{{item.checks}}">
+      <view class="orderList">
+        <repeat for="{{selList}}" item="item">
+          <view class="itemOrder" data-id="{{item.id}}">
+            <checkbox data-index="{{index}}" value="{{index}}" checked="{{item.checks}}"/>
+            {{item.name}}
+          </view>
+        </repeat>
+      </view>
+    </checkbox-group>
     <view class="sub">
       <view>发布</view>
     </view>
@@ -43,6 +53,15 @@
 
     data = {
       userInfo: null,
+      selList: [
+        {id: '1', name: '玛莎拉蒂1'},
+        {id: '1', name: '玛莎拉蒂1'},
+        {id: '1', name: '玛莎拉蒂1'},
+        {id: '1', name: '玛莎拉蒂1'},
+        {id: '1', name: '玛莎拉蒂1'},
+        {id: '1', name: '玛莎拉蒂1'},
+        {id: '1', name: '玛莎拉蒂1'},
+      ]
     }
 
     computed = {
@@ -132,5 +151,22 @@
       border: 1rpx solid #DFDFDF;
     }
   }
-  
+  .orderList{
+    width: 650rpx;
+    height: auto;
+    padding: 20rpx;
+    margin: 0 20rpx;
+    border-radius: 10rpx;
+    background-color: #F7F7F7;
+    margin-bottom: 250rpx;
+    .itemOrder{
+      padding: 20rpx 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    checkbox{
+      margin-right: 10rpx;
+    }
+  }
 </style>
