@@ -1,0 +1,209 @@
+<template>
+  <view>
+    <view class="item">
+      <label>标题</label>
+      <input type="text" placeholder="请输入标题">
+    </view>
+    <view class="item">
+      <label>描述</label>
+      <textarea placeholder="请输入服务描述"></textarea>
+    </view>
+    <view class="item">
+      <view>
+        <label>数量</label>
+        <text>4辆</text>
+      </view>
+      <icon class="iconfont iconjiantou"></icon>
+    </view>
+    <view class="item">
+      <view>
+        <label>需要日期</label>
+        <text>请选择</text>
+      </view>
+      <icon class="iconfont iconjiantou"></icon>
+    </view>
+    <view class="item">
+      <view>
+        <label>同行价</label>
+        <text>1000</text>
+      </view>
+      <icon class="iconfont iconjiantou"></icon>
+    </view>
+    <view class="item">
+      <view>
+        <label>市场价</label>
+        <text>1000</text>
+      </view>
+      <icon class="iconfont iconjiantou"></icon>
+    </view>
+    <view class="item">
+      <view>
+        <label>所在地</label>
+        <text>陕西省西安市雁塔区</text>
+      </view>
+      <icon class="iconfont iconjiantou"></icon>
+    </view>
+    <view class="title">
+      上传图片
+      <text>(最多上传9张)</text>
+    </view>
+    <view class="imgList">
+      <repeat for="{{imgList}}" item="item">
+        <image src="{{item.img}}" />
+      </repeat>
+      <icon class="iconfont iconchuanzhaopian" wx:if="{{imgList.length < 9}}"></icon>
+    </view>
+    <view class="sub">
+      <view>发布</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import nav from '../components/nav' // 底部导航
+  export default class PostProvide extends wepy.page {
+    config = {
+      navigationBarTitleText: '发帖'
+    }
+    components = {
+      nav: nav
+    }
+
+    mixins = []
+
+    data = {
+      userInfo: null,
+      imgList: [
+        {id: '', img: '../image/daw.jpg'},
+        {id: '', img: '../image/daw.jpg'},
+        {id: '', img: '../image/daw.jpg'},
+        {id: '', img: '../image/daw.jpg'},
+        {id: '', img: '../image/daw.jpg'},
+      ]
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      // 底部导航跳转
+      // 底部导航跳转
+      goPage (url, evt) {
+        if (this.verificationUserInfo()) {
+          return 
+        }
+        // 销毁当前页{跳转}
+        this.$redirect(url)
+      },
+      
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+      
+    }
+    
+
+    // 用户信息校验
+    verificationUserInfo() {
+      if (!this.userInfo.hasOwnProperty('id')) {
+        wx.showToast({
+          title: "用户信息加载中...",
+          icon: 'none',
+        });
+        return true
+      }
+    }
+  }
+</script>
+<style lang="less">
+  .item{
+    width: 690rpx;
+    height: auto;
+    padding: 20rpx 30rpx;
+    display: flex;
+    // align-items: center;
+    justify-content: space-between;
+    view{
+      width: 660rpx;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    label{
+      width: 120rpx;
+      padding-right: 20rpx;
+      font-size: 28rpx;
+      font-weight: 600;
+      color: #1F1F1F;
+    }
+    text{
+      width: 500rpx;
+      font-size: 30rpx;
+      color: #333;
+    }
+    icon{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30rpx;
+      height: 30rpx;
+      font-size: 30rpx;
+      color: #1F1F1F;
+    }
+    input{
+      width: 552rpx;
+    }
+    textarea{
+      width: 530rpx;
+      height: 160rpx;
+      padding: 10rpx;
+      border-radius: 10rpx;
+      border: 1rpx solid #DFDFDF;
+    }
+  }
+  .title{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #1F1F1F;
+    text{
+      font-size: 28rpx;
+      font-weight: 500;
+      color: #999999;
+    }
+  }
+  .imgList{
+    width: 690rpx;
+    height: auto;
+    padding: 20rpx 30rpx;
+    margin-bottom: 220rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .iconchuanzhaopian{
+      font-size: 216rpx;
+      height: 216rpx;
+      width: 216rpx;
+    }
+    image{
+      width: 216rpx;
+      height: 216rpx;
+      margin: 10rpx 0;
+      border-radius: 10rpx;
+    }
+  }
+  
+</style>

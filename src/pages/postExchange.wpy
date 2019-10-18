@@ -1,0 +1,136 @@
+<template>
+  <view>
+    <view class="item">
+      <label>标题</label>
+      <input type="text" placeholder="请输入标题">
+    </view>
+    <view class="item">
+      <label>描述</label>
+      <textarea placeholder="请输入服务描述"></textarea>
+    </view>
+    <view class="item">
+      <view>
+        <label>交换订单</label>
+        <text></text>
+      </view>
+      <icon class="iconfont iconjiantou"></icon>
+    </view>
+    <view class="item">
+      <view>
+        <label>互换日期</label>
+        <text>请选择</text>
+      </view>
+      <icon class="iconfont iconjiantou"></icon>
+    </view>
+    <view class="sub">
+      <view>发布</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import nav from '../components/nav' // 底部导航
+  export default class PostExchange extends wepy.page {
+    config = {
+      navigationBarTitleText: '发帖'
+    }
+    components = {
+      nav: nav
+    }
+
+    mixins = []
+
+    data = {
+      userInfo: null,
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      // 底部导航跳转
+      // 底部导航跳转
+      goPage (url, evt) {
+        if (this.verificationUserInfo()) {
+          return 
+        }
+        // 销毁当前页{跳转}
+        this.$redirect(url)
+      },
+      
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+      
+    }
+    
+
+    // 用户信息校验
+    verificationUserInfo() {
+      if (!this.userInfo.hasOwnProperty('id')) {
+        wx.showToast({
+          title: "用户信息加载中...",
+          icon: 'none',
+        });
+        return true
+      }
+    }
+  }
+</script>
+<style lang="less">
+  .item{
+    width: 690rpx;
+    height: auto;
+    padding: 20rpx 30rpx;
+    display: flex;
+    // align-items: center;
+    justify-content: space-between;
+    view{
+      width: 660rpx;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    label{
+      width: 120rpx;
+      padding-right: 20rpx;
+      font-size: 28rpx;
+      font-weight: 600;
+      color: #1F1F1F;
+    }
+    text{
+      width: 500rpx;
+      font-size: 30rpx;
+      color: #333;
+    }
+    icon{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30rpx;
+      height: 30rpx;
+      font-size: 30rpx;
+      color: #1F1F1F;
+    }
+    input{
+      width: 552rpx;
+    }
+    textarea{
+      width: 530rpx;
+      height: 160rpx;
+      padding: 10rpx;
+      border-radius: 10rpx;
+      border: 1rpx solid #DFDFDF;
+    }
+  }
+  
+</style>

@@ -69,7 +69,8 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      
+      'pages/postExchange', // 发帖--同行互换
+      'pages/postProvide', // 发帖--提供
       'pages/postNeed', // 发帖--需要
       'pages/selIndustry', // 选择行业
       'pages/releaseTypeSel', // 发帖类型选择
