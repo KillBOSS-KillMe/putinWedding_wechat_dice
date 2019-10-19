@@ -1,0 +1,323 @@
+<template>
+  <view class="me">
+    <image class="meBj" src='../image/meBj.png'>
+    <view class="header">
+      <view class="headLift">
+        <image src='{{img}}'>
+        <view>
+          <view>
+            <text class="name">{{user}}</text>
+            <text class="userId">ID：{{userid}}</text>
+          </view>
+          <text class="fontInfo">登录后获取更多服务信息</text>
+        </view>
+      </view>
+      <image class="seting" src='../image/seting.png'>
+    </view>
+    <view class="mony">
+      <view>
+        <text class="monyText">222</text>
+        <text>余额/提现</text>
+      </view>
+      <view>
+        <text class="monyText">222</text>
+        <text>分销返佣</text>
+      </view>
+      <view>
+        <text class="monyText">222</text>
+        <text>我的下级</text>
+      </view>
+    </view>
+    <view class="meOrder">
+      <text class="meOrderTitle">订单</text>
+      <view class="meOrderMore">
+        查看全部订单
+        <icon class="iconfont iconjiantou"></icon>
+      </view>
+    </view>
+    <view class="mony">
+      <view class="meOrderItem">
+        <image src='../image/meXy.png'>
+        <text>需要</text>
+      </view>
+      <view class="meOrderItem">
+        <image src='../image/meTg.png'>
+        <text>提供</text>
+      </view>
+      <view class="meOrderItem">
+        <image src='../image/meXyB.png'>
+        <text>需要(被)</text>
+      </view>
+      <view class="meOrderItem">
+        <image src='../image/meTgB.png'>
+        <text>提供(被)</text>
+      </view>
+    </view>
+    <view class="meList">
+      <view class="meListItem">
+        <view>
+          <image src='../image/meYhq.png'>
+          <text>我的优惠券</text>
+        </view>
+        <icon class="iconfont iconjiantou"></icon>
+      </view>
+      <view class="meListItem">
+        <view>
+          <image src='../image/meKf.png'>
+          <text>专属客服</text>
+        </view>
+        <icon class="iconfont iconjiantou"></icon>
+      </view>
+      <view class="meListItem">
+        <view>
+          <image src='../image/meZxzx.png'>
+          <text>在线咨询</text>
+        </view>
+        <icon class="iconfont iconjiantou"></icon>
+      </view>
+      <view class="meListItem">
+        <view>
+          <image src='../image/meFxm.png'>
+          <text>我的分享码</text>
+        </view>
+        <view class="erWeiMa">
+          <text>123465</text>
+          <text class="number">复制</text>
+        </view>
+      </view>
+    </view>
+    <nav @childFn.user="goPage" @childFnOrReturn.user="goModifyUserInfo" />
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import nav from '../components/nav' // 底部导航
+  export default class Me extends wepy.page {
+    config = {
+      navigationBarTitleText: '普京婚庆'
+    }
+    components = {
+      nav: nav
+    }
+
+    mixins = []
+
+    data = {
+        img:['../image/daw.jpg'],
+        user: ['张师傅'],
+        userid: ['1234565'],
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      // 底部导航跳转
+      // 底部导航跳转
+      goPage (url, evt) {
+        if (this.verificationUserInfo()) {
+          return 
+        }
+        // 销毁当前页{跳转}
+        this.$redirect(url)
+      },
+      // 页面中部导航点击事件
+      pageNavClick(e) {
+        let id = e.currentTarget.dataset.id
+      },
+      // 弹框显示
+      newItem() {
+        if (this.maskShow) {
+          this.maskShow = false
+        } else {
+          this.maskShow = true
+        }
+        this.$apply()
+      },
+      
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+      
+    }
+    
+
+    // 用户信息校验
+    verificationUserInfo() {
+      if (!this.userInfo.hasOwnProperty('id')) {
+        wx.showToast({
+          title: "用户信息加载中...",
+          icon: 'none',
+        });
+        return true
+      }
+    }
+  }
+</script>
+<style lang="less">
+.meBj{
+    width: 750rpx;
+    height: 270rpx;
+    position: absolute;
+    z-index: -1;
+}
+.header{
+    
+    display: flex;
+    justify-content: space-between;
+    padding:70rpx 30rpx;
+    margin: 0 auto;
+    .headLift{
+        height: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        image{
+            width: 124rpx;
+            height: 124rpx;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 30rpx;
+        }
+        .name{
+            color: #fff;
+            font-weight: 400;
+            font-size: 36rpx;
+            margin-right: 16rpx;
+        }
+        .userId{
+            color: #fff;
+            font-size: 26rpx;
+        }
+        .fontInfo{
+            color: #fff;
+            font-size: 26rpx;
+        }
+    }
+    .seting{
+        width: 48rpx;
+        height: 48rpx;
+    }
+}
+.mony{
+    display: flex;
+    justify-content:space-around;
+    margin: 50rpx 0;
+    text{
+        display: block;
+        text-align: center;
+        font-size: 28rpx;
+        color: #494949;
+    }
+    .monyText{
+        font-size: 34rpx;
+        color: #1f1f1f;
+        font-weight: 600;
+        margin-bottom: 8rpx;
+    }
+}
+.iconfont{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999999;
+    font-size: 48rpx;
+}
+.meOrder{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    width: 690rpx;
+    padding: 0 30rpx;
+    height: 83rpx;
+    line-height: 83rpx;
+    border-bottom: 1rpx solid #D8D8D8;
+    .meOrderTitle{
+        font-size: 30rpx;
+        color: #1f1f1f;
+        font-weight: 800;
+    }
+    .meOrderMore{
+      display: flex;
+      justify-content: space-between;
+      align-content: center;
+        font-size: 24rpx;
+        color: #999;
+        icon{
+            width: 20rpx;
+            width: 20rpx;
+            font-size: 20rpx;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #BFBFBF;
+            margin-left: 5rpx;
+        }
+    }
+}
+.meOrderItem{
+    width: 100rpx;
+    text-align: center;
+    image{
+        width: 48rpx;
+        height: 48rpx;
+    }
+    text{
+        font-size: 24rpx;
+        color: #494949;
+    }
+}
+.meList{
+    width: 690rpx;
+    padding: 0 30rpx;
+    .meListItem{
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        margin: 50rpx 0;
+        image{
+            width: 32rpx;
+            height: 32rpx;
+            margin-right: 30rpx;
+        }
+        text{
+            font-size: 32rpx;
+            color: #494949;
+        }
+        icon{
+            width: 20rpx;
+            width: 20rpx;
+            font-size: 20rpx;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color:#BFBFBF;
+        }
+    }
+    .erWeiMa{
+        display: flex;
+        text{
+            font-size: 28rpx;
+            color: #494949;
+            margin-right: 10rpx;
+        }
+        .number{
+            width: 58rpx;
+            height: 34rpx;
+            line-height: 34rpx;
+            text-align: center;
+            border-radius: 4rpx;
+            font-size: 22rpx;
+            color: #fff;
+            background: #F42652;
+            display: block;
+        }
+    }
+}
+</style>
