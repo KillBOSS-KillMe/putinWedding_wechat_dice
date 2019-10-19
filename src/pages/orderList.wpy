@@ -1,52 +1,52 @@
 <template>
-    <view class="container">
-        <view class="orderTitle">
-            <text class="{{0 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='0'>未支付</text>
-            <text class="{{1 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='1'>待接单</text>
-            <text class="{{2 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='2'>已接单</text>
-            <text class="{{3 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='3'>已完成</text>
-        </view>
-        <view class="orderList"  current='{{currentIndex}}'>
-            <repeat for="{{list}}" item="item">
-                <view>
-                    <view class="flex orderListTitle">
-                        <text>下单时间 {{item.time}}</text>
-                        <text wx:if="{{item.state=='1'}}">未支付定金</text>
-                        <text wx:if="{{item.state=='2'}}">未支付尾款</text>
-                        <text wx:if="{{item.state=='3'}}">待接单</text>
-                        <text wx:if="{{item.state=='4'}}">已接单</text>
-                        <text wx:if="{{item.state=='5'}}">已完成</text>
-                    </view>
-                    <view class="orderContent display">
-                        <image src="{{item.img}}">
-                        <view class="orderCount">
-                            <view style="margin-bottom: 16rpx">
-                                <text class="type" wx:if="{{item.type == '1'}}">婚车</text>
-                                <text class="type" wx:if="{{item.type == '2'}}">主持</text>
-                                <text class="type" wx:if="{{item.type == '3'}}">化妆</text>
-                                <text class="name">{{item.name}}</text>
-                            </view>
-                            <text class="performance">{{item.performance}}</text>
-                            <view class="totaol">共计：<text>￥{{item.total}}</text></view>
-                        </view>
-                    </view>
-                    <view class="display orderListBottom">
-                        <text class="arrears">尾款{{item.arrears}}元/订金{{item.dj}}元</text>
-                        <view class="del">
-                            <text wx:if="{{item.state=='1'}}">删除</text>
-                            <text wx:else hidden>删除</text>
-                        </view>
-                        <view class="orderType">
-                            <text wx:if="{{item.orderType=='1'}}">支付定金</text>
-                            <text wx:if="{{item.orderType=='2'}}">支付尾款</text>
-                            <text wx:if="{{item.orderType=='3'}}">订单评价</text>
-                            <text wx:else style="display:none"></text>
-                        </view>
-                    </view>
-                </view>
-            </repeat>
-        </view>
+  <view class="container">
+    <view class="orderTitle">
+      <text class="{{0 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='0'>未支付</text>
+      <text class="{{1 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='1'>待接单</text>
+      <text class="{{2 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='2'>已接单</text>
+      <text class="{{3 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='3'>已完成</text>
     </view>
+    <view class="orderList"  current='{{currentIndex}}'>
+      <repeat for="{{list}}" item="item">
+        <view>
+          <view class="flex orderListTitle">
+            <text>下单时间 {{item.time}}</text>
+            <text wx:if="{{item.state=='1'}}">未支付定金</text>
+            <text wx:if="{{item.state=='2'}}">未支付尾款</text>
+            <text wx:if="{{item.state=='3'}}">待接单</text>
+            <text wx:if="{{item.state=='4'}}">已接单</text>
+            <text wx:if="{{item.state=='5'}}">已完成</text>
+          </view>
+          <view class="orderContent display">
+            <image src="{{item.img}}">
+            <view class="orderCount">
+              <view style="margin-bottom: 16rpx">
+                <text class="type" wx:if="{{item.type == '1'}}">婚车</text>
+                <text class="type" wx:if="{{item.type == '2'}}">主持</text>
+                <text class="type" wx:if="{{item.type == '3'}}">化妆</text>
+                <text class="name">{{item.name}}</text>
+              </view>
+              <text class="performance">{{item.performance}}</text>
+              <view class="totaol">共计：<text>￥{{item.total}}</text></view>
+            </view>
+          </view>
+          <view class="display orderListBottom">
+            <text class="arrears">尾款{{item.arrears}}元/订金{{item.dj}}元</text>
+            <view class="del">
+              <text wx:if="{{item.state=='1'}}">删除</text>
+              <text wx:else hidden>删除</text>
+            </view>
+            <view class="orderType">
+              <text wx:if="{{item.orderType=='1'}}">支付定金</text>
+              <text wx:if="{{item.orderType=='2'}}">支付尾款</text>
+              <text wx:if="{{item.orderType=='3'}}">订单评价</text>
+              <text wx:else style="display:none"></text>
+            </view>
+          </view>
+        </view>
+      </repeat>
+    </view>
+  </view>
 </template>
 
 <script>

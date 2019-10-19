@@ -1,0 +1,182 @@
+<template>
+  <view class="container">
+    <view class="orderTitle">
+      <text class="{{1 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='1'>待接单</text>
+      <text class="{{2 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='2'>已接单</text>
+      <text class="{{3 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='3'>已完成</text>
+    </view>
+    <view class="orderList"  current='{{currentIndex}}'>
+      <repeat for="{{list}}" item="item">
+        <view class='orderListCount'> 
+          <view class="orderContent">
+            <text class="type" wx:if="{{item.type == '1'}}">婚车</text>
+            <text class="type" wx:if="{{item.type == '2'}}">主持</text>
+            <text class="type" wx:if="{{item.type == '3'}}">化妆</text>
+            <text class="name">{{item.name}}</text>
+          </view>
+          <view class="display orderPrice">
+            <view class="price">共计：<text>￥{{item.price}}</text></view>
+            <text class="userInfo">{{item.username}}/{{item.adders}}</text>
+          </view>
+          <text class="time">发布于{{item.time}}</text>
+          <view class="display orderType">
+            <view class="orderTypeItem">
+              <text wx:if="{{item.orderType=='1'}}">待接单</text>
+              <text wx:if="{{item.orderType=='2'}}">已接单</text>
+              <text wx:if="{{item.orderType=='3'}}">已完成</text>
+            </view>
+            <view class="orderListType">
+              <text class="del" wx:if="{{item.orderType=='1' || item.orderType=='3'}}">删除</text>
+              <text class="receivedOrder" wx:if="{{item.orderType=='2'}}">已接单</text>
+              <text wx:else hidden></text>
+            </view>
+          </view>
+        </view>
+      </repeat>
+    </view>    
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class OrderListExchange extends wepy.page {
+  config = {
+    navigationBarTitleText: '同行互换'
+  };
+  components = {};
+
+  mixins = [];
+
+  data = {
+    currentIndex: 1,
+    list: [
+      {id: '1',name:'本人19年9-21-08:00需要十辆奔驰x6',type:'1',price:'6666',username:'王先生',adders:'西安市',time:'2019-10-19 12:30:48',orderType:'1'},
+      {id: '1',name:'本人19年9-21-08:00需要十辆奔驰x6',type:'1',price:'6666',username:'王先生',adders:'西安市',time:'2019-10-19 12:30:48',orderType:'2'},
+      {id: '1',name:'本人19年9-21-08:00需要十辆奔驰x6',type:'1',price:'9999',username:'刘先生',adders:'西安市',time:'2019-10-19 12:30:48',orderType:'3'},
+    ],
+    
+  };
+
+  computed = {};
+
+  methods = {
+     titleClick: function (e) {
+        console.log(e.currentTarget.dataset.idx)
+        this.currentIndex = e.currentTarget.dataset.idx
+        this.$apply()
+    }
+  };
+
+  events = {};
+
+  onLoad() {}
+}
+</script>
+<style lang="less">
+.container {
+  border-top: 1rpx solid #eeeeee;
+  width: 750rpx;
+  height: auto;
+}
+.orderTitle {
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  justify-content: space-around;
+  line-height: 88rpx;
+  .title-sel{
+    font-size: 28rpx;
+    color: #1f1f1f;
+    border-bottom: 5rpx solid transparent;
+  }
+  .cur {
+      font-size: 28rpx;
+    color: #f42652;
+    border-bottom: 5rpx solid #f42652;
+  }
+}
+.flex{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.display{
+    display: flex;
+}
+.orderListCount{
+    padding: 20rpx 0 24rpx;
+}
+.orderList{
+    margin: 20rpx auto;
+    width: 630rpx;
+    padding: 0 30rpx;
+    .orderContent{
+        .type{
+            color: #F42652;
+            font-size: 20rpx;
+            padding: 5rpx 10rpx;
+            border: 1rpx solid #F42652;
+            border-radius: 5rpx;
+            margin-right: 18rpx;
+        }
+        .name{
+            font-size: 30rpx;
+            color: #1F1F1F;
+        }  
+        
+    }
+    .price{
+        font-size: 28rpx;
+        color: #1F1F1F;
+        text{
+            font-size: 32rpx;
+            font-weight: bold;
+            color: #F42652;
+        }  
+    } 
+    .userInfo{
+        font-size: 24rpx;
+        color: #494949;
+        text-align:center;
+        margin-left: 20rpx;
+    }
+    .orderPrice{
+        padding: 10rpx 0 8rpx;
+        align-items: baseline;
+    }   
+    .time{
+        font-size: 24rpx;
+        color: #494949;
+        margin: 20rpx 0;
+    }
+    .orderType{
+        justify-content: space-between;
+        margin-top: 20rpx;
+        .orderTypeItem{
+            text{
+                font-size: 28rpx;
+                color: #F42652;
+            }
+        }
+        .del{
+            color: #999999;
+            font-size: 30rpx;
+        }
+        .receivedOrder{
+            font-size: 28rpx;
+            border-radius: 10rpx;
+            background: #F42652;
+            color: #fff;
+            height: 60rpx;
+            display: block;
+            line-height: 60rpx;
+            width: 102rpx;
+            text-align: center;
+        }
+    }
+    // .orderListType{
+        
+    // }
+}
+
+</style>
