@@ -69,6 +69,7 @@ setStore(store);
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/productDetails', // 产品详情
       'pages/fillOrder', // 填写订单
       'pages/meSubordinate', // 个人中心--下级
       'pages/meSettingPhone', // 个人中心--设置--电话
@@ -89,7 +90,7 @@ export default class extends wepy.app {
       'pages/postNeed', // 发帖--需要
       'pages/selIndustry', // 选择行业
 
-      'pages/productDetails', // 产品详情
+      
       'pages/grabOrder', // 抢单
       'pages/service', // 服务
       'pages/interactiveInfo', // 同行互动-详情

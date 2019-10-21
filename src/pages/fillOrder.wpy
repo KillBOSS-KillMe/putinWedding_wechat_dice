@@ -1,79 +1,77 @@
 <template>
-  <view>
-    <scroll-view scroll-y="true" style="height:1400rpx;">
-      <view class="cityList">
-        <view class="orderInfo">
-          <text>订单信息</text>
-          <view class="flex orderData" style="justify-content: space-between;">
-            <text class="text">接亲日期</text>
-            <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
-              <view class="picker">
-                {{date}}
-              </view>
-            </picker>
-            <icon class="iconfont iconjiantou"></icon>
-          </view>
-          <view class="flex orderData">
-            <text class="text">用车要求</text>
-            <view>
-              <text class="orderDataTime">{{message.carTime}}</text>
-              <text class="orderDataInfo">超时、超公里另算</text>
+  <view class="concontainer">
+    <view class="cityList">
+      <view class="orderInfo">
+        <text>订单信息</text>
+        <view class="flex orderData" style="justify-content: space-between;">
+          <text class="text">接亲日期</text>
+          <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+            <view class="picker">
+              {{date}}
             </view>
-          </view>
-          <text class="money">09-05 00:00之前付清尾款</text>
-          <text class="money">提醒我支付尾款  1800000000</text>
-          <view class="flex contract">
-            <text class="text">合同(婚车)</text>
-            <view>
-              <text wx:if="{{message.contract=='1'}}" style="color:#999">已签</text>
-              <text wx:else style="color:#999">未签</text>
-            </view>
+          </picker>
+          <icon class="iconfont iconjiantou"></icon>
+        </view>
+        <view class="flex orderData">
+          <text class="text">用车要求</text>
+          <view>
+            <text class="orderDataTime">{{message.carTime}}</text>
+            <text class="orderDataInfo">超时、超公里另算</text>
           </view>
         </view>
-        <view class="orderInfo">
-          <text>联系信息</text>
-          <view class="flex orderData">
-            <text class="text">联系电话</text>
-            <text class="orderDataTime">{{message.tel}}</text>
-          </view>
-          <view class="flex orderData">
-            <text class="text">联系人</text>
-            <text class="orderDataTime">{{message.userName}}</text>
-          </view>
-          <view style="margin-bottom:0">
-            <text class="bz">备注</text>
-            <textarea bindblur="bindTextAreaBlur" placeholder="请输入备注，如包伙食等" placeholder-style="color:#999;font-size:28rpx;"/>
-          </view>
-        </view>
-        <view class="orderInfo">
-          <text>商品信息</text>
-          <view class="carInfo flex">
-            <image src='{{message.shopImg}}'>
-            <view>
-              <view style="margin-bottom: 16rpx">
-                  <text class="type" wx:if="{{message.type == '1'}}">头车</text>
-                  <text class="type" wx:if="{{message.type == '2'}}">尾车</text>
-                  <text class="name">{{message.carName}}</text>
-              </view>
-              <text class="travel">{{message.travel}}</text>
-              <view class="flex" style="align-content: center;">
-                <text class="price">￥{{message.price}}</text>
-                <text class="userInfo">{{message.userName}}/{{message.adders}}</text>
-              </view>
-            </view>
-          </view>
-          <view class="flex earnest">
-            <text>定金</text>
-            <text class="money">￥{{message.earnest}}</text>
+        <text class="money">09-05 00:00之前付清尾款</text>
+        <text class="money">提醒我支付尾款  1800000000</text>
+        <view class="flex contract">
+          <text class="text">合同(婚车)</text>
+          <view>
+            <text wx:if="{{message.contract=='1'}}" style="color:#999">已签</text>
+            <text wx:else style="color:#999">未签</text>
           </view>
         </view>
       </view>
-      <view class="bottom flex">
-        <text class="text0">合计￥{{message.earnest}}</text>
-        <text class="text1">付全款</text>
-        <text class="text2">支付定金</text>
+      <view class="orderInfo">
+        <text>联系信息</text>
+        <view class="flex orderData">
+          <text class="text">联系电话</text>
+          <text class="orderDataTime">{{message.tel}}</text>
+        </view>
+        <view class="flex orderData">
+          <text class="text">联系人</text>
+          <text class="orderDataTime">{{message.userName}}</text>
+        </view>
+        <view style="margin-bottom:0">
+          <text class="bz">备注</text>
+          <textarea bindblur="bindTextAreaBlur" placeholder="请输入备注，如包伙食等" placeholder-style="color:#999;font-size:28rpx;"/>
+        </view>
       </view>
-    </scroll-view>
+      <view class="orderInfo">
+        <text>商品信息</text>
+        <view class="carInfo flex">
+          <image src='{{message.shopImg}}'>
+          <view>
+            <view style="margin-bottom: 16rpx">
+                <text class="type" wx:if="{{message.type == '1'}}">头车</text>
+                <text class="type" wx:if="{{message.type == '2'}}">尾车</text>
+                <text class="name">{{message.carName}}</text>
+            </view>
+            <text class="travel">{{message.travel}}</text>
+            <view class="flex" style="align-content: center;">
+              <text class="price">￥{{message.price}}</text>
+              <text class="userInfo">{{message.userName}}/{{message.adders}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="flex earnest">
+          <text>定金</text>
+          <text class="money">￥{{message.earnest}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="bottom flex">
+      <text class="text0">合计￥{{message.earnest}}</text>
+      <text class="text1">付全款</text>
+      <text class="text2">支付定金</text>
+    </view>
   </view>
 </template>
 
@@ -115,6 +113,9 @@ export default class FillOrder extends wepy.page {
 }
 </script>
 <style lang="less">
+.container {
+  box-sizing: border-box;
+}
 .cityList {
   width: 690rpx;
   padding: 0 30rpx 98rpx 30rpx;
