@@ -1,0 +1,118 @@
+<style lang="less">
+.label{
+  width: 690rpx;
+  height: 240rpx;
+  padding: 0 30rpx;
+  border: solid #E9E9E9;
+  border-width: 1rpx 0 1rpx 0;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #222222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .length{
+    // font-weight: 500;
+    font-size: 42rpx;
+    color: #F42652;
+  }
+}
+.title{
+  width: 690rpx;
+  padding: 30rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #222222;
+}
+.item{
+  width: 690rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20rpx;
+  color: #898989;
+  image{
+    width: 44rpx;
+    height: 44rpx;
+    border-radius: 44rpx;
+    margin-right: 15rpx;
+  }
+  .name{
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #222222;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}
+</style>
+<template>
+  <view>
+    <view class="label">
+      <text class="length">{{list.length}}</text>
+      <text>我的好友</text>
+    </view>
+    <view class="list">
+      <view class="title">好友列表</view>
+      <repeat for="{{list}}" item="item">
+        <view class="item" data-id="{{item.id}}">
+          <view class="name">
+            <image src="{{item.img}}" />
+            {{item.name}}
+          </view>
+          <text>{{item.time}}</text>
+        </view>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import check from '../mixins/check'
+  export default class MeSettingPhone extends wepy.page {
+    config = {
+      navigationBarTitleText: '更改手机号'
+    }
+    components = {}
+
+    mixins = [check]
+
+    data = {
+      userInfo: {},
+      list: [],
+    }
+
+    computed = {}
+
+    methods = {
+    }
+
+    events = {
+      
+    }
+    onLoad() {
+      this.userInfo = this.$parent.globalData.userInfo
+      this.$apply()
+      this.getListData()
+    }
+    getListData() {
+      let list = [
+        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
+        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
+        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
+        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
+        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
+        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
+        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
+        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
+        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'}
+      ]
+      this.list = list
+      this.$apply()
+    }
+  }
+</script>
