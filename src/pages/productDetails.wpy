@@ -153,6 +153,7 @@
 <style lang="less">
   .container{
     padding-bottom: 100rpx;
+    box-sizing: border-box;
   }
   .swiperCon{
     width: 750rpx;
