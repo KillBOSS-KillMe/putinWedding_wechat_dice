@@ -4,9 +4,14 @@
       <view class="cityList">
         <view class="orderInfo">
           <text>订单信息</text>
-          <view class="flex orderData">
+          <view class="flex orderData" style="justify-content: space-between;">
             <text class="text">接亲日期</text>
-            <text class="orderDataTime">{{message.data}}</text>
+            <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+              <view class="picker">
+                {{date}}
+              </view>
+            </picker>
+            <icon class="iconfont iconjiantou"></icon>
           </view>
           <view class="flex orderData">
             <text class="text">用车要求</text>
@@ -15,6 +20,8 @@
               <text class="orderDataInfo">超时、超公里另算</text>
             </view>
           </view>
+          <text class="money">09-05 00:00之前付清尾款</text>
+          <text class="money">提醒我支付尾款  1800000000</text>
           <view class="flex contract">
             <text class="text">合同(婚车)</text>
             <view>
@@ -33,9 +40,9 @@
             <text class="text">联系人</text>
             <text class="orderDataTime">{{message.userName}}</text>
           </view>
-          <view class="flex orderData" style="margin-bottom:0">
-            <text class="text">备注</text>
-            <text class="orderDataTime">{{message.remarks}}</text>
+          <view style="margin-bottom:0">
+            <text class="bz">备注</text>
+            <textarea bindblur="bindTextAreaBlur" placeholder="请输入备注，如包伙食等" placeholder-style="color:#999;font-size:28rpx;"/>
           </view>
         </view>
         <view class="orderInfo">
@@ -59,18 +66,12 @@
             <text>定金</text>
             <text class="money">￥{{message.earnest}}</text>
           </view>
-          <view class="flex earnest">
-            <text>尾款</text>
-            <text class="money">￥{{message.balance}}</text>
-            <view>
-              <text class="moneyType" wx:if="{{message.moneyType=='1'}}">(未支付)</text>
-              <text class="moneyType" wx:if="{{message.moneyType=='2'}}">(已支付)</text>
-            </view>
-          </view>
         </view>
       </view>
       <view class="bottom flex">
-        <text>确认订单</text>
+        <text class="text0">合计￥{{message.earnest}}</text>
+        <text class="text1">付全款</text>
+        <text class="text2">支付定金</text>
       </view>
     </scroll-view>
   </view>
@@ -103,7 +104,8 @@ export default class FillOrder extends wepy.page {
       earnest:'1230',
       balance:'12301',
       moneyType:'1'
-      }
+      },
+    date: '2016-09-01',
   };
 
   computed = {};
@@ -115,7 +117,7 @@ export default class FillOrder extends wepy.page {
 <style lang="less">
 .cityList {
   width: 690rpx;
-  padding: 0 30rpx;
+  padding: 0 30rpx 98rpx 30rpx;
   .orderInfo{
     padding: 20rpx 0;
     .type{
@@ -157,9 +159,28 @@ export default class FillOrder extends wepy.page {
         color: #494949;
         font-size: 24rpx;
         height: 36rpx;
-line-height: 47rpx;
-
+        line-height: 47rpx;
       }
+    }
+    .money{
+      font-size: 28rpx;
+      color: #1F1F1F;
+      font-weight: 600;
+    }
+    .bz{
+      color: #999;
+      font-size: 28rpx;
+      width: 120rpx;
+      overflow: hidden;
+      margin-right: 25rpx;
+    }
+    textarea{
+      width: 650rpx;
+      height: 256rpx;
+      border: 1rpx solid #ddd;
+      border-radius: 10rpx;
+      padding: 20rpx;
+      margin-top: 20rpx;
     }
   }
   .orderInfo > text {
@@ -171,18 +192,36 @@ line-height: 47rpx;
   }
   .orderData {
     margin-bottom: 30rpx;
+    display: flex;
+    align-content: center;
+    icon{
+      width: 20rpx;
+      height: 30rpx;
+      line-height: 30rpx;
+      color: #9a9a9a;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+    }
+    picker{
+      width: 560rpx;
+      color: #1F1F1F;
+      font-size: 30rpx;
+      font-weight: 600;
+    }
     .text {
       display: block;
       color: #999;
       font-size: 28rpx;
       width: 120rpx;
       overflow: hidden;
+      margin-right: 25rpx;
     }
     .orderDataTime {
       color: #1f1f1f;
       font-size: 30rpx;
       font-weight: bold;
-      margin-left: 25rpx;
+      
     }
     .orderDataInfo{
       color: #999;
@@ -200,6 +239,7 @@ line-height: 47rpx;
   }
   .earnest{
     margin-top: 35rpx;
+    justify-content: space-between;
     text{
       font-size: 30rpx;
       color: #1f1f1f;
@@ -230,9 +270,27 @@ line-height: 47rpx;
     width: 250rpx;
     height: 98rpx;
     line-height: 98rpx;
+    text-align: center;
+    font-size: 30rpx;
+    font-weight: 600;
+    display: block;
+  }
+  .text0{
+    color: #1F1F1F;
+    background: #fff;
+    text{
+      color: #F42652;
+      font-size: 32rpx;
+      font-weight: 600;
+    }
+  }
+  .text1{
+    color: #fff;
+    background: #3E3A39;
+  }
+  .text2{
     color: #fff;
     background: #F42652;
-    text-align: center;
   }
 }
 .flex{
