@@ -1,13 +1,16 @@
 <template>
   <view class="container">
-    <swiper bindchange="swiperChange" wx:if="{{infoNode.swiperList.length > 0}}" class='swiper' indicator-dots="true" autoplay='true' interval='5000' duration='2000'>
-      <repeat for="{{infoNode.swiperList}}" item="item">
-        <swiper-item data-id="{{ item.id }}">
-          <image src="{{ item.image_url }}" bindtap='shareQRCodeImg' data-imgurl="{{requestImgUrl + item.image_url}}" />
-        </swiper-item>
-      </repeat>
-    </swiper>
-    <view class="swiperNum">{{current+1}}/{{infoNode.swiperList.length}}</view>
+    <view class="swiperCon">
+      <swiper bindchange="swiperChange" wx:if="{{infoNode.swiperList.length > 0}}" class='swiper' indicator-dots="true" autoplay='true' interval='5000' duration='2000'>
+        <repeat for="{{infoNode.swiperList}}" item="item">
+          <swiper-item data-id="{{ item.id }}">
+            <image src="{{ item.image_url }}" bindtap='shareQRCodeImg' data-imgurl="{{requestImgUrl + item.image_url}}" />
+          </swiper-item>
+        </repeat>
+      </swiper>
+      <view class="swiperNum">{{current+1}}/{{infoNode.swiperList.length}}</view>
+    </view>
+    
     <view class="info">
       <view class="item">
         <view>
@@ -33,8 +36,15 @@
     <view class="info">
       <view class="item">
         <view>
-          <text class="user">需要日期</text>
-          <text class="user">{{infoNode.info.time}}</text>
+          <text class="user">接亲日期</text>
+          <text class="user itemUser">{{infoNode.info.time}}</text>
+        </view>
+        <icon class="iconfont iconjiantou"></icon>
+      </view>
+      <view class="item">
+        <view>
+          <text class="user">用车要求</text>
+          <text class="user itemUser">{{infoNode.info.km}}</text>
         </view>
         <icon class="iconfont iconjiantou"></icon>
       </view>
@@ -44,6 +54,26 @@
           <text class="price">{{infoNode.info.price}}</text>
         </view>
       </view>
+      <view class="item">
+        <text class="user">合同</text>
+        <icon class="iconfont iconjiantou"></icon>
+      </view>
+      <view class="imgDetail">
+        <text class="h2">图文详情</text>
+        <repeat for="{{infoNode.info.details}}" item="item">
+          <view class="infoItem">
+            <label>【{{item.name}}】</label>
+            <view>{{item.con}}</view>
+          </view>
+        </repeat>
+        
+        <view></view>
+      </view>
+    </view>
+    <view class="imgList">
+      <repeat for="{{infoNode.info.imgList}}" item="item">
+        <image src="{{ item }}" />
+      </repeat>
     </view>
     <view class="operating">
       <view class="service">
@@ -83,6 +113,18 @@
           phone: '18888888888',
           time: '2019.12.22.05.11',
           price: '1200',
+          km:'5小时30公里',
+          details: [
+            {name: '名称名称1', con: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容'},
+            {name: '名称名称2', con: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容'},
+            {name: '名称名称3', con: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容'},
+            {name: '名称名称4', con: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容'},
+            {name: '名称名称5', con: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容'},
+            {name: '名称名称6', con: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容'},
+          ],
+          imgList: [
+            '../image/daw.jpg','../image/daw.jpg','../image/daw.jpg', '../image/daw.jpg', '../image/daw.jpg'
+          ]
         }
       }
     }
@@ -109,6 +151,14 @@
   }
 </script>
 <style lang="less">
+  .container{
+    padding-bottom: 100rpx;
+  }
+  .swiperCon{
+    width: 750rpx;
+    height: auto;
+    position: relative;
+  }
   .swiper {
     width: 750rpx;
     height: 500rpx;
@@ -119,7 +169,7 @@
     }
   }
   .swiperNum{
-    position: fixed;
+    position: absolute;
     top: 400rpx;
     right: 30rpx;
     width: 96rpx;
@@ -131,6 +181,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
   }
   .info{
     width: 690rpx;
@@ -147,6 +198,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 30rpx;
     }
     .shere{
       font-size: 32rpx;
@@ -179,7 +231,7 @@
       color: #1F1F1F;
       font-size: 30rpx;
       font-weight: 600;
-      margin-right: 10rpx;
+      margin-right: 20rpx;
     }
     .price{
       color: #F42652;
@@ -188,8 +240,12 @@
       margin-right: 10rpx;
     }
     .user{
-      font-size: 24rpx;
+      font-size: 28rpx;
       color: #999999;
+    }
+    .itemUser{
+      margin-left: 20rpx;
+      color: #1F1F1F;
     }
   }
   .operating{
@@ -210,6 +266,7 @@
       flex-direction: column;
       color: #1F1F1F;
       font-size: 20rpx;
+      background-color: #fff;
       icon{
         width: 42rpx;
         height: 42rpx;
@@ -230,4 +287,31 @@
       justify-content: center;
     }
   }
+  .imgDetail{
+    width: 690rpx;
+    padding: 0 60rpx;
+    .h2{
+      color: #282828;
+      font-size: 32rpx;
+      font-weight: 600;
+      text-align: center;
+      margin: 30rpx 0;
+      display: block;
+    }
+    .infoItem{
+      display: flex;
+      justify-content: space-between;
+      label{white-space:nowrap}
+      view{word-break:break-all;}
+    }
+  }
+  .imgList{
+    width: 750rpx;
+    height: auto;
+    margin-bottom: 130rpx;
+    image{
+      width: 100%;
+      display: block;
+    }
+  } 
 </style>
