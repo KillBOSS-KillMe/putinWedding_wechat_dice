@@ -80,6 +80,7 @@ export default class extends wepy.app {
       'pages/allCommodity', // 所有商品
 
       // 发布
+      'pages/releaseTypeSel', // 发帖--类型选择
       'pages/postExchange', // 发帖--同行互换
       'pages/postProvide', // 发帖--提供
       'pages/postNeed', // 发帖--需要
