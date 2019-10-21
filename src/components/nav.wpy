@@ -53,7 +53,7 @@ export default class Nav extends wepy.component {
       this.$parent.$parent.globalData.navAction = ['noAction', 'action', 'noAction', 'noAction']
       this.$emit('childFn', '/pages/orderList')
     },
-    // 消息
+    // 订单
     goMessage() {
       // 顶部导航状态初始化
       this.$parent.$parent.globalData.navAction = ['noAction','noAction', 'action', 'noAction']
@@ -62,7 +62,7 @@ export default class Nav extends wepy.component {
     // 我的
     goUser() {
       this.$parent.$parent.globalData.navAction = ['noAction', 'noAction', 'noAction', 'action']
-      this.$emit('childFn', '/pages/user')
+      this.$emit('childFn', '/pages/me')
     }
   };
   onLoad() {

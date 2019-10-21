@@ -69,26 +69,8 @@ setStore(store);
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/fillOrder', // 填写订单
-      'pages/meSubordinate', // 个人中心--下级
-      'pages/meSettingPhone', // 个人中心--设置--电话
-      'pages/meSetting', // 个人中心--设置
-      'pages/meBalance', // 个人中心--账号余额
-      'pages/meCashBack', // 个人中心--分销反佣
-      'pages/meRecharge', // 个人中心--充值
-      'pages/me', // 个人中心
-
-      'pages/orderListExchange', // 订单列表--同行互换
-      'pages/orderPost', // 发布评价
-      'pages/orderDetailBail', // 订单详情--保证金
-      'pages/orderListDetail', // 订单详情
-      'pages/orderList', // 订单列表
-
-      'pages/postExchange', // 发帖--同行互换
-      'pages/postProvide', // 发帖--提供
-      'pages/postNeed', // 发帖--需要
-      'pages/selIndustry', // 选择行业
-
+      // 首页模块
+      'pages/index', // 首页
       'pages/productDetails', // 产品详情
       'pages/grabOrder', // 抢单
       'pages/service', // 服务
@@ -96,8 +78,30 @@ export default class extends wepy.app {
       'pages/interactive', // 同行互动
       'pages/allCommodity', // 所有商品
 
-      'pages/index', // 首页
+      // 个人中心
+      'pages/me', // 个人中心
+      'pages/meSubordinate', // 个人中心--下级
+      'pages/meSettingPhone', // 个人中心--设置--电话
+      'pages/meSetting', // 个人中心--设置
+      'pages/meBalance', // 个人中心--账号余额
+      'pages/meCashBack', // 个人中心--分销反佣
+      'pages/meRecharge', // 个人中心--充值
+      
+      // 订单模块
+      'pages/orderList', // 订单列表
+      'pages/orderListExchange', // 订单列表--同行互换
+      'pages/orderPost', // 发布评价
+      'pages/orderDetailBail', // 订单详情--保证金
+      'pages/orderListDetail', // 订单详情
+      
+      // 发布
+      'pages/postExchange', // 发帖--同行互换
+      'pages/postProvide', // 发帖--提供
+      'pages/postNeed', // 发帖--需要
+      'pages/selIndustry', // 选择行业
+      'pages/fillOrder', // 填写订单
 
+      // 注册部分
       'pages/citySel', // 选择城市
       'pages/registeredSelIndustry', // 选择行业--注册
       'pages/registeredClient', // 客户注册
