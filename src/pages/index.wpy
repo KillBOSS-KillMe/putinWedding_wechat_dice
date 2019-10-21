@@ -137,9 +137,9 @@
       // 底部导航跳转
       // 底部导航跳转
       goPage (url, evt) {
-        if (this.verificationUserInfo()) {
-          return 
-        }
+        // if (this.verificationUserInfo()) {
+        //   return 
+        // }
         // 销毁当前页{跳转}
         this.$redirect(url)
       },
