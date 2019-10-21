@@ -1,0 +1,52 @@
+<template>
+  <view>
+    <view class="list">
+      <repeat for="{{list}}" item="item">
+        <view class="item" data-id="{{item.id}}">
+          <view>
+          </view>
+          <view>
+          </view>
+        </view>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class MeSetting extends wepy.page {
+    config = {
+      navigationBarTitleText: '设置'
+    }
+    components = {}
+
+    mixins = []
+
+    data = {
+      list: []
+    }
+
+    computed = {}
+
+    methods = {
+      recharge(e) {
+        // 进入充值页
+        let url = `/pages/userRecharge`
+        this.$navigate(url)
+      }
+    }
+
+    events = {
+      
+    }
+
+    onLoad() {
+    }
+    onShow() {
+    }
+  }
+</script>
+<style lang="less">
+
+</style>
