@@ -69,6 +69,7 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/meSettingPhone', // 个人中心--设置--电话
       'pages/meSetting', // 个人中心--设置
       'pages/meBalance', // 个人中心--账号余额
       'pages/meCashBack', // 个人中心--分销反佣
