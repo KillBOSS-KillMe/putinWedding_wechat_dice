@@ -69,14 +69,17 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/me', // 我的
-      'pages/orderListExchange', // 订单列表--同行互换
+      'pages/orderPost', // 发布评价
+      'pages/orderDetailBail',// 订单详情--保证金
+      'pages/orderListDetail', // 订单详情
       'pages/orderList', // 订单列表
+      'pages/orderListExchange', // 订单列表--同行互换
+      
       'pages/postExchange', // 发帖--同行互换
       'pages/postProvide', // 发帖--提供
       'pages/postNeed', // 发帖--需要
       'pages/selIndustry', // 选择行业
-      
+      'pages/me', // 我的
       
       'pages/productDetails', // 产品详情
       'pages/grabOrder', // 抢单

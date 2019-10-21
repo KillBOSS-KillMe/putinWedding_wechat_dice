@@ -1,0 +1,191 @@
+<template>
+  <view>
+    <view class="item">
+      <view class="flex postShop">
+        <text class="postTitle">商品评价</text>
+        <view class="postIcon">
+          <icon class="iconfont iconxin"></icon>
+          <icon class="iconfont iconxin"></icon>
+          <icon class="iconfont iconxin"></icon>
+          <icon class="iconfont iconxin"></icon>
+          <icon class="iconfont iconxin"></icon>
+        </view>
+        <text class="pf">请选择评分</text>
+      </view>
+      <view class="textarea">
+        <textarea maxlength="100" bindblur="bindTextAreaBlur" placeholder-style='font-size:28rpx;color:#B2B2B2' placeholder="宝贝是否满足了你的期待？说说你的使用心得分享给其它想购买的朋友吧。" />
+        <text class="number">0/100</text>
+      </view>
+    </view>
+    <view class="title">
+      上传图片
+      <text>(最多上传6张)</text>
+    </view>
+    <view class="imgList button">
+      <repeat for="{{imgList}}" item="item">
+        <image src="{{item.img}}" />
+      </repeat>
+      <icon class="iconfont iconchuanzhaopian" wx:if="{{imgList.length < 9}}"></icon>
+    </view>
+    <view class="sub">
+      <view>发布</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import nav from '../components/nav' // 底部导航
+  export default class OrderPost extends wepy.page {
+    config = {
+      navigationBarTitleText: '发布评价'
+    }
+    components = {
+      nav: nav
+    }
+
+    mixins = []
+
+    data = {
+      userInfo: null,
+      imgList: [
+        {id: '', img: '../image/daw.jpg'},
+        {id: '', img: '../image/daw.jpg'},
+        {id: '', img: '../image/daw.jpg'},
+        {id: '', img: '../image/daw.jpg'},
+        {id: '', img: '../image/daw.jpg'},
+      ]
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      // 底部导航跳转
+      // 底部导航跳转
+      goPage (url, evt) {
+        if (this.verificationUserInfo()) {
+          return 
+        }
+        // 销毁当前页{跳转}
+        this.$redirect(url)
+      },
+      
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+      
+    }
+    
+
+    // 用户信息校验
+    verificationUserInfo() {
+      if (!this.userInfo.hasOwnProperty('id')) {
+        wx.showToast({
+          title: "用户信息加载中...",
+          icon: 'none',
+        });
+        return true
+      }
+    }
+  }
+</script>
+<style lang="less">
+.flex{
+  display: flex;
+}
+  .item{
+    width: 690rpx;
+    height: auto;
+    padding: 20rpx 30rpx;
+    display: flex;
+    // align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    .textarea{
+      width: 630rpx;
+      height: 370rpx;
+      padding: 10rpx;
+      border-radius: 10rpx;
+      border: 1rpx solid #DFDFDF;
+      padding: 28rpx;
+      overflow: hidden;
+      position: relative;
+      .number{
+        font-size: 24rpx;
+        color: #282828;
+        position: absolute;
+        right: 30rpx;
+        bottom: 30rpx;
+      }
+    }
+  }
+  .postShop{
+    height: 60rpx;
+    line-height: 60rpx;
+    padding: 10rpx 0;
+    display: flex;
+    align-content: center;
+    .postTitle{
+      color: #222222;
+      font-size: 30rpx;
+    font-weight: 600;
+    }
+    .postIcon{
+      margin: 0 20rpx;
+      icon{
+        width: 38rpx;
+        height: 34rpx;
+        margin-left: 3rpx;
+      }
+    }
+    .pf{
+      font-size: 28rpx;
+      color: #282828;
+    }
+  }
+  .title{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #1F1F1F;
+    text{
+      font-size: 28rpx;
+      font-weight: 500;
+      color: #999999;
+    }
+  }
+  .imgList{
+    width: 690rpx;
+    height: auto;
+    padding: 20rpx 30rpx;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .iconchuanzhaopian{
+      font-size: 216rpx;
+      height: 216rpx;
+      width: 216rpx;
+    }
+    image{
+      width: 216rpx;
+      height: 216rpx;
+      margin: 10rpx 0;
+      border-radius: 10rpx;
+    }
+  }
+  .button{
+    margin-bottom: 220rpx;
+  }
+  
+</style>
