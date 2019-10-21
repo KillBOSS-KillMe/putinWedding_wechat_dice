@@ -69,8 +69,7 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/orderPost', // 发布评价
-
+      'pages/fillOrder',// 填写订单
       'pages/meSetting', // 个人中心--设置
       'pages/meBalance', // 个人中心--账号余额
       'pages/meCashBack', // 个人中心--分销反佣
@@ -79,7 +78,7 @@ export default class extends wepy.app {
       
       
       'pages/orderListExchange', // 订单列表--同行互换
-      
+      'pages/orderPost', // 发布评价
       'pages/orderDetailBail',// 订单详情--保证金
       'pages/orderListDetail', // 订单详情
       'pages/orderList', // 订单列表

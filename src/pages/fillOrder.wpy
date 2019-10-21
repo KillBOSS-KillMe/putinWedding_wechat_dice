@@ -1,0 +1,241 @@
+<template>
+  <view>
+    <scroll-view scroll-y="true" style="height:1400rpx;">
+      <view class="cityList">
+        <view class="orderInfo">
+          <text>订单信息</text>
+          <view class="flex orderData">
+            <text class="text">接亲日期</text>
+            <text class="orderDataTime">{{message.data}}</text>
+          </view>
+          <view class="flex orderData">
+            <text class="text">用车要求</text>
+            <view>
+              <text class="orderDataTime">{{message.carTime}}</text>
+              <text class="orderDataInfo">超时、超公里另算</text>
+            </view>
+          </view>
+          <view class="flex contract">
+            <text class="text">合同(婚车)</text>
+            <view>
+              <text wx:if="{{message.contract=='1'}}" style="color:#999">已签</text>
+              <text wx:else style="color:#999">未签</text>
+            </view>
+          </view>
+        </view>
+        <view class="orderInfo">
+          <text>联系信息</text>
+          <view class="flex orderData">
+            <text class="text">联系电话</text>
+            <text class="orderDataTime">{{message.tel}}</text>
+          </view>
+          <view class="flex orderData">
+            <text class="text">联系人</text>
+            <text class="orderDataTime">{{message.userName}}</text>
+          </view>
+          <view class="flex orderData" style="margin-bottom:0">
+            <text class="text">备注</text>
+            <text class="orderDataTime">{{message.remarks}}</text>
+          </view>
+        </view>
+        <view class="orderInfo">
+          <text>商品信息</text>
+          <view class="carInfo flex">
+            <image src='{{message.shopImg}}'>
+            <view>
+              <view style="margin-bottom: 16rpx">
+                  <text class="type" wx:if="{{message.type == '1'}}">头车</text>
+                  <text class="type" wx:if="{{message.type == '2'}}">尾车</text>
+                  <text class="name">{{message.carName}}</text>
+              </view>
+              <text class="travel">{{message.travel}}</text>
+              <view class="flex" style="align-content: center;">
+                <text class="price">￥{{message.price}}</text>
+                <text class="userInfo">{{message.userName}}/{{message.adders}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="flex earnest">
+            <text>定金</text>
+            <text class="money">￥{{message.earnest}}</text>
+          </view>
+          <view class="flex earnest">
+            <text>尾款</text>
+            <text class="money">￥{{message.balance}}</text>
+            <view>
+              <text class="moneyType" wx:if="{{message.moneyType=='1'}}">(未支付)</text>
+              <text class="moneyType" wx:if="{{message.moneyType=='2'}}">(已支付)</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="bottom flex">
+        <text>确认订单</text>
+      </view>
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class FillOrder extends wepy.page {
+  config = {
+    navigationBarTitleText: '填写订单'
+  };
+  components = {};
+
+  mixins = [];
+
+  data = {
+    message:{
+      data:'2019-10-21 12:30:01',
+      carTime:'5小时30公里',
+      contract:'1'  ,//合同状态
+      userName:'王先生',
+      tel:'1310000000',
+      remarks:'12345',
+      shopImg:'../image/daw.jpg',
+      type:'1',  //车顺序
+      carName:'宝马X6', 
+      travel:'5小时30公里',
+      adders:'西安市',
+      price:'1300',
+      earnest:'1230',
+      balance:'12301',
+      moneyType:'1'
+      }
+  };
+
+  computed = {};
+  methods = {};
+  events = {};
+  onLoad() {}
+}
+</script>
+<style lang="less">
+.cityList {
+  width: 690rpx;
+  padding: 0 30rpx;
+  .orderInfo{
+    padding: 20rpx 0;
+    .type{
+      color: #F42652;
+      font-size: 20rpx;
+      padding: 5rpx 10rpx;
+      border: 1rpx solid #F42652;
+      border-radius: 5rpx;
+      margin-right: 10rpx;
+    }
+    .name{
+        font-size: 32rpx;
+        color: #1F1F1F;
+        vertical-align: middle;
+    }
+    .carInfo{
+      align-content: center;
+      image{
+        width: 200rpx;
+        height: 156rpx;
+        overflow: hidden;
+        border-radius: 10rpx;
+        margin-right: 17rpx;
+      }
+      .travel{
+        font-size: 32rpx;
+        color: #1F1F1F;
+        margin-bottom: 20rpx;
+        display: block;
+      }
+      .price{
+        color: #F42652;
+        font-size: 32rpx;
+        font-weight: bold;
+        margin-right: 27rpx;
+        height: 36rpx;
+      }
+      .userInfo{
+        color: #494949;
+        font-size: 24rpx;
+        height: 36rpx;
+line-height: 47rpx;
+
+      }
+    }
+  }
+  .orderInfo > text {
+    color: #1f1f1f;
+    font-size: 30rpx;
+    font-weight: bold;
+    margin: 40rpx 0;
+    display: block;
+  }
+  .orderData {
+    margin-bottom: 30rpx;
+    .text {
+      display: block;
+      color: #999;
+      font-size: 28rpx;
+      width: 120rpx;
+      overflow: hidden;
+    }
+    .orderDataTime {
+      color: #1f1f1f;
+      font-size: 30rpx;
+      font-weight: bold;
+      margin-left: 25rpx;
+    }
+    .orderDataInfo{
+      color: #999;
+      font-size: 30rpx;
+      margin-left: 15rpx;
+    }
+  }
+  .contract{
+    justify-content: space-between;
+    text{
+      font-size: 28rpx;
+      color: #1f1f1f;
+      font-weight: bold;
+    }
+  }
+  .earnest{
+    margin-top: 35rpx;
+    text{
+      font-size: 30rpx;
+      color: #1f1f1f;
+      font-weight: bold;
+    }
+    .money{
+      color: #F42652;
+      margin-left: 20rpx;
+      display: block;
+    }
+    .moneyType{
+      font-size: 26rpx;
+      color: #1f1f1f;
+     font-weight: initial;
+     vertical-align: super;
+     margin-left: 10rpx;
+    }
+  }
+}
+.bottom{
+  width: 750rpx;
+  position: fixed;
+  bottom: 0;
+  height: 98rpx;
+  background: #fff;
+  justify-content: flex-end;
+  text{
+    width: 250rpx;
+    height: 98rpx;
+    line-height: 98rpx;
+    color: #fff;
+    background: #F42652;
+    text-align: center;
+  }
+}
+.flex{
+  display: flex;
+}
+</style>
