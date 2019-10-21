@@ -2,13 +2,14 @@
   <view>
     <view class="list">
       <repeat for="{{list}}" item="item">
-        <view class="item" data-id="{{item.id}}">
-          <view>
-          </view>
-          <view>
-          </view>
+        <view class="item" data-type="{{item.type}}" @tap="selSetting">
+          <text>{{item.name}}</text>
+          <icon class="iconfont iconjiantou"></icon>
         </view>
       </repeat>
+    </view>
+    <view class="sub">
+      <view>退出登录</view>
     </view>
   </view>
 </template>
@@ -24,16 +25,17 @@
     mixins = []
 
     data = {
-      list: []
+      list: [
+        {name: '更改手机号', type: '1'}
+      ]
     }
 
     computed = {}
 
     methods = {
-      recharge(e) {
-        // 进入充值页
-        let url = `/pages/userRecharge`
-        this.$navigate(url)
+      selSetting(e) {
+        // console.log(e.currentTarget.dataset.type)
+        
       }
     }
 
@@ -48,5 +50,23 @@
   }
 </script>
 <style lang="less">
-
+  .item{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text{
+      font-size: 30rpx;
+      font-weight: 600;
+      color: #1F1F1F;
+    }
+    icon{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+    }
+  }
 </style>
