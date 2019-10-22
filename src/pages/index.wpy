@@ -68,21 +68,12 @@
           </repeat>
         </view>
       </view>
-<<<<<<< HEAD
     </view>
     <view class="maskCon" wx:if="{{collectionStr}}">
       <view class="mask" @tap="hideMask"></view>
       <view class="showCon">
         <view class="name">为了方便您使用此产品，点击</view>
         <view class="name">右上角按钮，选择“添加到桌面”</view>
-=======
-      <view class="maskCon" wx:if="{{maskShow}}">
-        <view class="mask" @tap="newItem"></view>
-        <view class="showCon">
-          <view class="name">为了方便您使用此产品，点击</view>
-          <view class="name">右上角按钮，选择“添加到桌面”</view>
-        </view>
->>>>>>> 446eeb140b3f026cb268a0d69212219d3307ec5c
       </view>
     </view>
     <nav @childFn.user="goPage" @childFnOrReturn.user="goModifyUserInfo" />
