@@ -15,7 +15,7 @@
       <view>点击进入</view>
     </view>
     <view class="sub">
-      <view>下一步</view>
+      <view @tap="sub">下一步</view>
     </view>
   </view>
 </template>
@@ -44,7 +44,7 @@
           img: 'Registered2.png'
         },
         {
-          name: '客服',
+          name: '代理',
           type: '3',
           img: 'Registered3.png'
         },
@@ -58,7 +58,6 @@
     methods = {
       // 类别选择
       selUserType(e) {
-        // let type = e.currentTarget.dataset.type
         this.active = e.currentTarget.dataset.type
         this.$apply()
       },
@@ -69,7 +68,16 @@
       },
       // 下一步
       sub() {
-
+        let url = ''
+        let active = this.active
+        if (active == '1') {
+          url = '/pages/registeredClient'
+        } else if (active == '2') {
+          url = '/pages/registeredMerchant'
+        } else if (active == '3') {
+          url = '/pages/registeredService'
+        }
+        this.$navigate(url)
       }
     }
 

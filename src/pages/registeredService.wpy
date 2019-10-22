@@ -11,7 +11,7 @@
       <input type="text" data-name="name" @input="getSetData" placeholder="请输入邀请码(必填)" />
     </view>
     <view class="item">
-      <input type="text" data-name="phone" @input="getSetData" placeholder="区域选择" />
+      <input type="text" data-name="phone" @tap="selcity" placeholder="区域选择" />
     </view>
     
     <view class="submit">
@@ -24,7 +24,7 @@
   import wepy from 'wepy'
   export default class RegisteredService extends wepy.page {
     config = {
-      navigationBarTitleText: '客服注册'
+      navigationBarTitleText: '代理注册'
     }
     components = {}
 
@@ -57,6 +57,11 @@
       getCode() {
         // 获取验证码
         this.runGetCode()
+      },
+      // 进入城市选择
+      selcity() {
+        let url = `/pages/citySel`
+        this.$navigate(url)
       },
       // 下一步
       sub() {

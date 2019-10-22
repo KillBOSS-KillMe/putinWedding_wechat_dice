@@ -69,6 +69,7 @@ setStore(store);
 export default class extends wepy.app {
   config = {
     pages: [
+      
       // 首页模块
       'pages/index', // 首页
       'pages/productDetails', // 产品详情
@@ -110,12 +111,13 @@ export default class extends wepy.app {
       
 
       // 注册部分
+      'pages/registeredSel', // 注册选择
       'pages/citySel', // 选择城市
       'pages/registeredSelIndustry', // 选择行业--注册
       'pages/registeredClient', // 客户注册
-      'pages/registeredService', // 客服注册
+      'pages/registeredService', // 代理注册
       'pages/registeredMerchant', // 商户注册
-      'pages/registeredSel' // 注册选择
+      
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -126,7 +128,14 @@ export default class extends wepy.app {
   };
 
   globalData = {
-    userInfo: null
+    userInfo: {},
+    // 接口请求路径
+    requestUrl: 'https://192.168.0.101/api/v1/wedding_api',
+    // 图片路径
+    requestImgUrl: 'https://192.168.0.101/api/v1/wedding_api',
+    mapKey: 'JPZBZ-TD6K6-AWES2-EL4ZX-5OBLJ-HDFG5',
+    apikey: '123456',
+    token: '',
   };
 
   constructor() {
@@ -137,7 +146,39 @@ export default class extends wepy.app {
   onLaunch() {
     this.testAsync();
   }
-
+  // 获取Token
+  getToken() {
+    wx.login({
+      success: res => {
+        if (res.code) {
+          console.log(res.code)
+          wx.request({
+            url: `${this.globalData.requestUrl}/auth/get_token`,
+            method: 'POST',
+            header: {
+              apikey: this.globalData.apikey
+            },
+            data: {
+              code: res.code
+            },
+            success: data => {
+              data = this.null2str(data)
+              console.log(data)
+              let token = `${data.data.token_type} ${data.data.token}`
+              console.log(token)
+              return token
+            }
+          })
+        }
+      }
+    })
+  }
+  // 拨打电话
+  runCall(phone) {
+    wx.makePhoneCall({
+      phoneNumber: phone
+    })
+  }
   sleep(s) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -145,7 +186,101 @@ export default class extends wepy.app {
       }, s * 1000);
     });
   }
-
+  // 点击图片放大，长按后可操作
+  shareQRCodeImg(e) {
+    let url =  e.currentTarget.dataset.imgurl
+    wx.previewImage({
+      current: [url], // 当前显示图片的http链接   
+      urls: [url] // 需要预览的图片http链接列表   
+    })
+  }
+  // 删除照片
+  deleImg(that, e) {
+    var idx = e.currentTarget.dataset.idx
+    var imgArr = that.data.imgArr || []
+    imgArr.splice(idx, 1)
+    that.setData({
+      imgArr
+    })
+  }
+  // 上传图片
+  uploadImg(that) {
+    var self = this
+    wx.chooseImage({
+      success: function (res) {
+        wx.showToast({
+          title: '图片上传中',
+          icon: 'loading'
+        });
+        var imgArr = that.data.imgArr || [] // 放图片的数组
+        var imgLength = that.data.imgLength || 9 //默认上传9张图片
+        if (imgArr.length + res.tempFiles.length > imgLength) {
+          wx.showToast({
+            title: `最多上传${imgLength}张图片`,
+            icon: 'none'
+          })
+          return false
+        }
+        Promise.all(res.tempFiles.map(item => {
+          return new Promise((resolve, reject) => {
+            wx.uploadFile({
+              url: `${self.globalData.requestUrl}/work/upload_file`,
+              filePath: item.path,
+              name: 'photo',
+              success(res) {
+                resolve({
+                  path: JSON.parse(res.data).data
+                })
+              }
+            })
+          })
+        })).then(e => {
+          wx.hideToast();
+          that.setData({
+            imgArr: imgArr.concat(e)
+          })
+        }).catch(err => console.log(err))
+      },
+    })
+  }
+  /**
+  * 时间戳转时间
+  */
+  transformTime(timestamp = +new Date()) {
+    if (timestamp) {
+      var time = new Date(timestamp);
+      var y = time.getFullYear(); //getFullYear方法以四位数字返回年份
+      var M = time.getMonth() + 1; // getMonth方法从 Date 对象返回月份 (0 ~ 11)，返回结果需要手动加一
+      var d = time.getDate(); // getDate方法从 Date 对象返回一个月中的某一天 (1 ~ 31)
+      var h = time.getHours(); // getHours方法返回 Date 对象的小时 (0 ~ 23)
+      var m = time.getMinutes(); // getMinutes方法返回 Date 对象的分钟 (0 ~ 59)
+      var s = time.getSeconds(); // getSeconds方法返回 Date 对象的秒数 (0 ~ 59)
+      return y + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s;
+    } else {
+      return '';
+    }
+  }
+  /**
+  * null => ''
+  * @param {*} data 要处理的数据
+  */
+  null2str(data) {
+    for (let x in data) {
+      if (data[x] === null) { // 如果是null 把直接内容转为 ''
+        data[x] = ''
+      } else {
+        if (Array.isArray(data[x])) { // 是数组遍历数组 递归继续处理
+          data[x] = data[x].map(z => {
+            return this.null2str(z)
+          })
+        }
+        if(typeof(data[x]) === 'object'){ // 是json 递归继续处理
+          data[x] = this.null2str(data[x])
+        }
+      }
+    }
+    return data
+  }
   async testAsync() {
     const data = await this.sleep(3);
     console.log(data);
