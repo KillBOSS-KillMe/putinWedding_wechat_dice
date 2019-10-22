@@ -97,12 +97,7 @@
     data = {
       userInfo: {},
       userInfoButtonShow: true,
-      swiperList: [
-        {image_url: '../image/daw.jpg'},
-        {image_url: '../image/daw.jpg'},
-        {image_url: '../image/daw.jpg'},
-        {image_url: '../image/daw.jpg'}
-      ],
+      swiperList: [],
       pageNav: [
         {id: '1', name: '全部商家', img: '../image/allMerchant.png'},
         {id: '2', name: '抢单', img: '../image/grabOrder.png' },
@@ -216,7 +211,7 @@
         icon: 'loading',
         duration: 1000000
       });
-      // 提交用户信息
+      // 获取Token
       this.getToken()
       // 获取用户信息
       this.onGetUserInfo()
@@ -273,8 +268,6 @@
                 this.$apply()
               }
             })
-          } else {
-            // this.clickWeekBangs()
           }
         }
       })
@@ -295,18 +288,21 @@
                 code: res.code
               },
               success: data => {
-                console.log(data)
                 wx.hideToast()
                 data = this.$parent.null2str(data)
-                let token = `${data.data.token_type} ${data.data.token}`
-                this.$parent.globalData.token = token
-                // 轮播图加载
-                this.getSwiperList()
-                // 获取定位及地址
-                this.getLocation()
+                if (data.data.code == '8888') {
+                  
+                  let token = `${data.data.msg.token_type} ${data.data.msg.token}`
+                  this.$parent.globalData.token = token
+                  // 轮播图加载
+                  this.getSwiperList()
+                  // 获取定位及地址
+                  this.getLocation()
+                  
+                  // 用户信息获取
+                  this.setUserInfo()
+                }
                 
-                // 用户信息获取
-                this.setUserInfo()
               }
             })
             
