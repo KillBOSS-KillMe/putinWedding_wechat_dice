@@ -10,7 +10,7 @@
         </view>
       </repeat>
     </view>
-    <view class="tourist" @tap="selUserType">
+    <view class="tourist" @tap="tourist">
       <view class="name">游客模式</view>
       <view>点击进入</view>
     </view>
@@ -63,8 +63,9 @@
       },
       // 游客模式
       tourist() {
-        let url = `/pages/cleaningInfo?id=${id}`
-        this.$navigate(url)
+        this.$parent.globalData.isTourist = true
+        let url = `/pages/index?`
+        this.$redirect(url)
       },
       // 下一步
       sub() {

@@ -215,7 +215,15 @@
       this.getToken()
       // 获取用户信息
       this.onGetUserInfo()
+      // 服务推荐
+      this.getServiceList()
+      // 人气推荐
+      this.getPopularityList()
     }
+    // 服务推荐
+    getServiceList() {}
+    // 人气推荐
+    getPopularityList() {}
     // 下拉刷新
     onPullDownRefresh() {
       wx.showToast({
@@ -329,16 +337,12 @@
             this.$parent.globalData.userInfo = this.userInfo
             this.$apply()
             // 判断是否进入注册页
-            if (this.userInfo.status == 2) {
+            // isTourist判断是否为游客
+            let isTourist = this.$parent.globalData.isTourist
+            if (this.userInfo.phone == '' && !isTourist) {
               // 提示注册
               this.goRegistered()
-            } else {
-
             }
-            // status: 2    户状态：0=未认证，1=已认证，2=用户未注册，3=审核中
-            // type: null   用户类型1-保洁   2-酒店
-            // admin_id: 0        上级用户ID
-            // amount: "0.00"     余额
           } else {
             wx.showModal({
               title: '',
@@ -356,7 +360,7 @@
         duration: 2000
       });
       setTimeout(() => {
-        this.$redirect('/pages/selRegisteredType')
+        this.$redirect('/pages/registeredSel')
       }, 2000)
     }
 
