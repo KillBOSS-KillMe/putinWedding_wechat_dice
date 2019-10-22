@@ -72,7 +72,9 @@ export default class extends wepy.app {
       // 首页模块
       'pages/index', // 首页
       'pages/productDetails', // 产品详情
+      'pages/productSelIndustry', // 选择行业
       'pages/grabOrder', // 抢单
+      'pages/grabOrderDetails', // 抢单-产品详情
       'pages/service', // 服务
       'pages/interactiveInfo', // 同行互动-详情
       'pages/interactive', // 同行互动

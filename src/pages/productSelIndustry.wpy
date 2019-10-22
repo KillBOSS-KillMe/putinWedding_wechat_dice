@@ -1,0 +1,145 @@
+<template>
+  <view>
+    <view class="title">选择行业</view>
+    <view class="list">
+      <repeat for="{{list}}" item="item">
+        <view class="{{item.id == active?'active':''}}" data-index="{{index}}" @tap="sel">
+          {{item.name}}
+        </view>
+      </repeat>
+      <view class="{{item.id == active?'active':''}}" @tap="newItem">全部</view>
+    </view>
+    <view class="sub">
+      <view @tap="sub">确认</view>
+    </view>
+    <view class="maskCon" wx:if="{{maskShow}}">
+      <view class="mask" @tap="newItem"></view>
+      <view class="showCon">
+        <view class="name">添加行业</view>
+        <input type="text" placeholder="请输入添加名称" @input="getVal" />
+        <view class="maskSub" @tap="addItem">确定</view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class ProductSelIndustry extends wepy.page {
+    config = {
+      navigationBarTitleText: '选择行业'
+    }
+    components = {}
+
+    mixins = []
+
+    data = {
+      maskShow: false,
+      active: '',
+      list: [
+        {name: '车队', id: '1'},
+        {name: '车队', id: '1'},
+        {name: '车队', id: '1'},
+        {name: '车队', id: '1'},
+        {name: '车队', id: '1'},
+        {name: '车队车队', id: '1'},
+        {name: '车队', id: '1'},
+        {name: '车队', id: '1'},
+        {name: '车队', id: '1'},
+        {name: '车队', id: '1'},
+        {name: '车队', id: '1'},
+        {name: '车队车队', id: '1'},
+        {name: '车队', id: '1'}
+      ],
+      disabled: false,
+      currentTime: 60,   // 倒计时初始值
+      time: '发送验证码'
+    }
+
+    computed = {
+      
+    }
+
+    methods = {
+      // 获取输入框值
+      getVal() {
+
+      },
+      // 提交值
+      addItem() {
+
+      },
+      // 弹框显示
+      newItem() {
+        if (this.maskShow) {
+          this.maskShow = false
+        } else {
+          this.maskShow = true
+        }
+        this.$apply()
+      },
+      // 选择行业
+      sel(e) {
+        let index = e.currentTarget.dataset.index
+        this.active = this.list[index].id
+        this.$apply()
+      },
+      // 下一步
+      sub(e) {
+        let index = e.currentTarget.dataset.index
+        let url = `/pages/allCommodity?id=${index}`
+        this.$navigate(url)
+        this.$apply()
+      }
+    }
+
+    events = {
+      
+    }
+
+    onLoad() {
+      this.getIndustry()
+    }
+    // 获取分类
+    getIndustry() {
+
+    }
+  }
+</script>
+<style lang="less">
+.title{
+  width: 690rpx;
+  height: auto;
+  padding: 30rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1F1F1F;
+}
+.list{
+  width: 690rpx;
+  height: auto;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  view{
+    margin: 10rpx;
+    color: #1F1F1F;
+    font-size: 30rpx;
+    // font-weight: 600;
+    padding: 20rpx 30rpx;
+    background-color: #F7F7F7;
+    border-radius: 100rpx;
+  }
+  .active{
+    color: #fff;
+    background-color: #F42652;
+  }
+}
+.showCon{
+  width: 580rpx;
+  height: 445rpx;
+}
+</style>
