@@ -149,14 +149,13 @@
             data = this.$parent.null2str(data)
             if (data.data.code == 8888) {
               wx.showToast({
-                title: "注册成功，开始选择行业",
+                title: "注册成功，进入首页",
                 icon: 'none',
                 duration: 2000
               });
               setTimeout(() => {
-                formNode = JSON.stringify(formNode)
-                let url = `/pages/registeredSelIndustry?formdata=${formNode}`
-                this.$navigate(url)
+                let url = `/pages/index`
+                this.$redirect(url)
               }, 2000)
             }
           }
