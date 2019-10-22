@@ -142,6 +142,7 @@ export default class extends wepy.app {
     mapKey: 'GCABZ-J4G64-2WKUX-DNQMK-MVCGK-OSFD4',
     apikey: '123456',
     token: '',
+    isTourist: false, // 是否是游客
   };
 
   constructor() {
