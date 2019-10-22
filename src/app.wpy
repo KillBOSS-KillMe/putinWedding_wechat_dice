@@ -143,6 +143,7 @@ export default class extends wepy.app {
     apikey: '123456',
     token: '',
     isTourist: false, // 是否是游客
+    cityGather: '',  // 城市集合
   };
 
   constructor() {
