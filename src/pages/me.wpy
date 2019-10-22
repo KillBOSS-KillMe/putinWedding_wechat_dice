@@ -36,19 +36,19 @@
       </view>
     </view>
     <view class="mony">
-      <view class="meOrderItem">
+      <view class="meOrderItem" @tap='meXy'>
         <image src='../image/meXy.png'>
         <text>需要</text>
       </view>
-      <view class="meOrderItem">
+      <view class="meOrderItem" @tap='meTg'>
         <image src='../image/meTg.png'>
         <text>提供</text>
       </view>
-      <view class="meOrderItem">
+      <view class="meOrderItem" @tap='meXyB'>
         <image src='../image/meXyB.png'>
         <text>需要(被)</text>
       </view>
-      <view class="meOrderItem">
+      <view class="meOrderItem" @tap='meTgB'>
         <image src='../image/meTgB.png'>
         <text>提供(被)</text>
       </view>
@@ -159,7 +159,31 @@
         let url = `/pages/meSubordinate`
         this.$navigate(url)
         this.$apply()
-      }
+      },
+      //需要
+      meXy(e){
+        // let url = `/pages/meSubordinate`
+        // this.$navigate(url)
+        this.$apply()
+      },
+      //提供
+      meTg(e){
+        // let url = `/pages/meSubordinate`
+        // this.$navigate(url)
+        this.$apply()
+      },
+      //需要被
+      meXyB(e){
+        // let url = `/pages/meSubordinate`
+        // this.$navigate(url)
+        this.$apply()
+      },
+      //提供被
+      meTgB(e){
+        // let url = `/pages/meSubordinate`
+        // this.$navigate(url)
+        this.$apply()
+      },
     }
 
     events = {

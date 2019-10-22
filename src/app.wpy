@@ -84,7 +84,7 @@ export default class extends wepy.app {
       // 发布
       'pages/releaseTypeSel', // 发帖--类型选择
       'pages/postExchange', // 发帖--同行互换
-      'pages/postProvide', // 发帖--提供
+      'pages/postProvide', // 发帖--提供 
       'pages/postNeed', // 发帖--需要
       'pages/selIndustry', // 选择行业
       'pages/fillOrder', // 填写订单
@@ -93,8 +93,7 @@ export default class extends wepy.app {
       'pages/messageList', // 消息列表
 
       // 个人中心
-      'pages/me', // 个人中心
-      'pages/meSubordinate', // 个人中心--下级
+      'pages/me', // 个人中心  
       'pages/meSettingPhone', // 个人中心--设置--电话
       'pages/meSetting', // 个人中心--设置
       'pages/meBalance', // 个人中心--账号余额
