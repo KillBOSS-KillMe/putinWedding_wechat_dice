@@ -1,5 +1,5 @@
 <template>
-  <view class="containe">
+  <view class="containe  {{ col == 1 ? 'noscroll':'' }}">
     <view class="messageList">
       <repeat for="{{messageList}}" item="item">
         <view class="carList">
@@ -19,9 +19,41 @@
             <text class="type" wx:if="{{item.type == '2'}}">尾车</text>
             <text class="name">{{item.content}}</text>
           </view>
-          <view class="confirm"><text>确认互换</text></view>
+          <view class="confirm" @tap="exchange"><text>确认互换</text></view>
         </view>
       </repeat>
+    </view>
+    <view class="maskCon" wx:if='{{collectionStr}}'>
+      <view class="mask"></view>
+      <view class="showCon">
+        <view>
+          <view class="showCon1">
+            <text class="messageInfo">互换信息</text>
+            <view class="infoItem">
+              <label>姓名：</label>
+              <text>{{info.name}}</text>
+            </view>
+            <view class="infoItem">
+              <label>地址:</label>
+              <text>{{info.adder}}</text>
+            </view>
+            <view class="infoItem">
+              <label>电话:</label>
+              <text>{{info.tel}}</text>
+            </view>
+            <view class="infoItem">
+              <label>时间:</label>
+              <text>{{info.time}}</text>
+            </view>
+          </view>
+          <icon @tap="hideMask" class="iconfont iconguanbi"></icon>
+        </view>
+      </view>
+      <!-- <view class="showCon">
+        <view class="name">为了方便您使用此产品，点击</view>
+        <view class="name">右上角按钮，选择“添加到桌面”</view>
+        <icon class="iconfont iconguanbi"></icon>
+      </view> -->
     </view>
     <nav @childFn.user="goPage" @childFnOrReturn.user="goModifyUserInfo" />
   </view>
@@ -30,7 +62,7 @@
 <script>
   import wepy from 'wepy'
   import nav from '../components/nav' // 底部导航
-  export default class messageList extends wepy.page {
+  export default class MessageList extends wepy.page {
     config = {
       navigationBarTitleText: '消息'
     }
@@ -43,9 +75,17 @@
     data = {
       messageList:[
         {id:'1',type:'1',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'},
-        {id:'1',type:'1',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'},
-        {id:'1',type:'1',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'}
-      ]
+        {id:'2',type:'1',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'},
+        {id:'3',type:'1',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'}
+      ],
+      collectionStr:false,
+      col:2,
+      info:{
+        name:'王菲',
+        tel:'13100000000',
+        adder:'西安市高新区高新六路21号高新小区',
+        time:'2019-10-20 12:30:00'
+      }
     }
 
     computed = {
@@ -62,7 +102,28 @@
         // 销毁当前页{跳转}
         this.$redirect(url)
       },
-      
+      // 互换弹框
+      exchange(){
+        if (this.collectionStr) {
+          this.collectionStr = false
+          this.col=2
+        } else {
+          this.collectionStr = true
+           this.col=1
+        }
+        this.$apply()
+      },
+      //弹框关闭
+      hideMask(){
+        if (this.collectionStr) {
+          this.collectionStr = false
+          this.col=2
+        } else {
+          this.collectionStr = true
+          this.col=1
+        }
+        this.$apply()
+      },
     }
 
     events = {
@@ -87,92 +148,138 @@
   }
 </script>
 <style lang="less">
-.containe{
-  width: 750rpx;
-  padding-bottom: 100rpx;
-  box-sizing: border-box;
-  .carList{
-    margin: 60rpx 0;
-  }
-  .messageList{
-    width: 630rpx;
-    padding: 0 60rpx;
-    .item{
-      display: flex;
-      justify-content: space-between;
-      align-content: center;
-      .top{
+  .containe{
+    width: 750rpx;
+    padding-bottom: 100rpx;
+    box-sizing: border-box;
+    .carList{
+      margin: 60rpx 0;
+    }
+    .messageList{
+      width: 630rpx;
+      padding: 0 60rpx;
+      .item{
         display: flex;
-        image{
-          width: 64rpx;
-          height: 64rpx;
-          border-radius: 50%;
-          overflow: hidden;
-          margin-right: 20rpx;
-        }
-        view{
+        justify-content: space-between;
+        align-content: center;
+        .top{
           display: flex;
-          flex-direction: column;
-          .userName{
-            color: #1F1F1F;
-            font-size: 32rpx;
-            font-weight: 600;
+          image{
+            width: 64rpx;
+            height: 64rpx;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 20rpx;
           }
-          .time{
-            font-size: 24rpx;
-            color: #999;
+          view{
+            display: flex;
+            flex-direction: column;
+            .userName{
+              color: #1F1F1F;
+              font-size: 32rpx;
+              font-weight: 600;
+            }
+            .time{
+              font-size: 24rpx;
+              color: #999;
+            }
           }
         }
+        .hf{
+          display: block;
+          width: 98rpx;
+          height: 54rpx;
+          border-radius: 10rpx;
+          text-align: center;
+          line-height: 54rpx;
+          border:1rpx solid #b6b6b6;
+          font-size: 28rpx;
+          color: #1F1F1F;
+        }
       }
-      .hf{
-        display: block;
-        width: 98rpx;
-        height: 54rpx;
-        border-radius: 10rpx;
+    }
+    .confirm{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      text{
+        width: 160rpx;
+        height: 56rpx;
+        background: #F42652;
+        color: #fff;
         text-align: center;
-        line-height: 54rpx;
-        border:1rpx solid #b6b6b6;
+        line-height: 56rpx;
+        border-radius: 10rpx;
         font-size: 28rpx;
-        color: #1F1F1F;
+        text-align: center;
       }
+      margin-top: 50rpx;
     }
-  }
-  .confirm{
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    text{
-      width: 160rpx;
-      height: 56rpx;
-      background: #F42652;
-      color: #fff;
-      text-align: center;
-      line-height: 56rpx;
-      border-radius: 10rpx;
+    .type{
+      color: #F42652;
+      font-size: 20rpx;
+      padding: 5rpx 10rpx;
+      border: 1rpx solid #F42652;
+      border-radius: 5rpx;
+      margin-right: 10rpx;
+    }
+    .name{
+        font-size: 32rpx;
+        color: #1F1F1F;
+        vertical-align: middle;
+    }
+    .carName{
       font-size: 28rpx;
-      text-align: center;
+      color: #1F1F1F;
+      font-weight: 600;
+      margin: 20rpx 0;
+      display: block;
     }
-    margin-top: 50rpx;
   }
-  .type{
-    color: #F42652;
-    font-size: 20rpx;
-    padding: 5rpx 10rpx;
-    border: 1rpx solid #F42652;
-    border-radius: 5rpx;
-    margin-right: 10rpx;
-  }
-  .name{
+  .maskCon .showCon1{
+    width: 460rpx;
+    height: 445rpx;
+    justify-content: center;
+    background: #fff;
+    border-radius: 16rpx;
+    padding: 50rpx 100rpx;
+    .messageInfo{
+      font-weight: 600;
       font-size: 32rpx;
       color: #1F1F1F;
-      vertical-align: middle;
+      text-align: center;
+      margin-bottom: 30rpx;
+      display: flex;
+      justify-content: center;
+    }
+    .infoItem{
+      display: flex;
+      justify-content: flex-start;
+      font-weight: 600;
+      color: #1F1F1F;
+      font-size: 30rpx;
+      margin-bottom: 20rpx;
+      label{
+        white-space:nowrap;
+      }
+      text{
+        word-break:break-all;
+        margin-left: 16rpx;
+      }
+    }
   }
-  .carName{
-    font-size: 28rpx;
-    color: #1F1F1F;
-    font-weight: 600;
-    margin: 20rpx 0;
-    display: block;
+  .maskCon .showCon{
+    background: transparent;
+    icon{
+      color: #fff;
+      font-size: 58rpx;
+      text-align: center;
+      margin: 60rpx auto 0;
+      width: 100%;
+    }
   }
-}
+  .noscroll {
+    height: 100vh;
+    overflow: hidden;
+  } 
 </style>
