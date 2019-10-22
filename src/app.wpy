@@ -117,6 +117,11 @@ export default class extends wepy.app {
       'pages/registeredMerchant', // 商户注册
       
     ],
+    permission: {
+      'scope.userLocation': {
+        desc: '你的位置信息将用于小程序位置接口的效果展示'
+      }
+    },
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
@@ -128,7 +133,7 @@ export default class extends wepy.app {
   globalData = {
     userInfo: {},
     // 接口请求路径
-    requestUrl: 'https://192.168.0.101/api/v1/wedding_api',
+    requestUrl: 'http://192.168.0.101:8083/api/v1/wedding_api',
     // 图片路径
     requestImgUrl: 'https://192.168.0.101/api/v1/wedding_api',
     mapKey: 'JPZBZ-TD6K6-AWES2-EL4ZX-5OBLJ-HDFG5',
