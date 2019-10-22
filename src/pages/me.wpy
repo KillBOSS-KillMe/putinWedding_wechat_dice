@@ -143,20 +143,20 @@
         this.$apply()
       },
        //余额中心
-      setting(e){
-        let url = `/pages/meSetting`
+      meBalance(e){
+        let url = `/pages/meBalance`
         this.$navigate(url)
         this.$apply()
       },
        //分销返佣
-      setting(e){
-        let url = `/pages/meSetting`
+      meCashBack(e){
+        let url = `/pages/meCashBack`
         this.$navigate(url)
         this.$apply()
       },
        //我的下级
-      setting(e){
-        let url = `/pages/meSetting`
+      meSubordinate(e){
+        let url = `/pages/meSubordinate`
         this.$navigate(url)
         this.$apply()
       }

@@ -3,8 +3,9 @@
     <view class="allMoney">
       <view class="money">￥{{userInfo.amount}}</view>
       <view>总金额</view>
-      <view class="button" @tap="recharge" wx:if="{{userInfo.type == 2}}">立即充值</view>
-      <view class="button" @tap="recharge" wx:if="{{userInfo.type == 1}}">立即提现</view>
+      <view class="button" @tap="recharge">立即充值</view>
+      <!-- <view class="button" @tap="recharge" wx:if="{{userInfo.type == 2}}">立即充值</view> -->
+      <!-- <view class="button" @tap="recharge" wx:if="{{userInfo.type == 1}}">立即提现</view> -->
     </view>
     <view class="title">资金明细</view>
     <view class="list">
@@ -61,8 +62,9 @@
     methods = {
       recharge(e) {
         // 进入充值页
-        let url = `/pages/userRecharge`
+        let url = `/pages/meRecharge`
         this.$navigate(url)
+        
       }
     }
 
@@ -143,9 +145,10 @@
     color: #fff;
     font-size: 26rpx;
     font-weight: 600;
-    padding: 15rpx 20rpx;
-    border-radius: 70rpx;
-    background: linear-gradient(to left,#30A2F4,#00E8BD);
+    padding: 15rpx 24rpx;
+    border-radius: 10rpx;
+    background-color: #F42652;
+    // background: linear-gradient(to left,#30A2F4,#00E8BD);
   }
 }
 .title{
