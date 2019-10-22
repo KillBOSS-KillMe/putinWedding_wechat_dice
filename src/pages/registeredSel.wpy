@@ -69,8 +69,16 @@
       },
       // 下一步
       sub() {
-        let url = ''
         let active = this.active
+        if (active == '') {
+          wx.showToast({
+            title: "请选择类别",
+            icon: 'none',
+            duration: 2000
+          });
+          return false
+        }
+        let url = ''
         if (active == '1') {
           url = '/pages/registeredClient'
         } else if (active == '2') {

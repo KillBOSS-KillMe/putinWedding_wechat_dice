@@ -3,11 +3,11 @@
     <view class="title">选择行业</view>
     <view class="list">
       <repeat for="{{list}}" item="item">
-        <view class="{{item.id == active?'active':''}}" data-index="{{index}}" @tap="sel">
+        <view class="{{item.sel == '1'?'active':''}}" data-sel="{{item.sel}}" data-index="{{index}}" @tap="sel">
           {{item.name}}
         </view>
       </repeat>
-      <view class="{{item.id == active?'active':''}}" @tap="newItem">其他</view>
+      <view @tap="newItem">其他</view>
     </view>
     <view class="sub">
       <view @tap="sub">注册</view>
@@ -34,23 +34,9 @@
     mixins = []
 
     data = {
+      addItemData: '',
       maskShow: false,
-      active: '',
-      list: [
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队车队', id: '1'},
-        {name: '车队', id: '1'}
-      ],
+      list: [],
       disabled: false,
       currentTime: 60,   // 倒计时初始值
       time: '发送验证码'
@@ -62,12 +48,46 @@
 
     methods = {
       // 获取输入框值
-      getVal() {
-
+      getVal(e) {
+        this.addItemData = e.detail.value
+        this.$apply()
       },
-      // 提交值
+      // 新增行业
       addItem() {
-
+        if (this.addItemData == '') {
+          this.maskShow = false
+          this.$apply()
+          return false
+        }
+        wx.showToast({
+          title: "新增中...",
+          icon: 'loading',
+          duration: 1000000
+        });
+        wx.request({
+          url: `${this.$parent.globalData.requestUrl}/auth/add_industrie`,
+          method: 'POST',
+          header: {
+            Authorization: this.$parent.globalData.token,
+            apikey: this.$parent.globalData.apikey
+          },
+          data: {
+            name: this.addItemData
+          },
+          success: data => {
+            wx.hideToast()
+            data = this.$parent.null2str(data)
+            if (data.data.code == 8888) {
+              wx.showToast({
+                title: "新增成功",
+                icon: 'loading',
+                duration: 1000000
+              });
+              // 获取行业
+              this.getIndustry()
+            }
+          }
+        })
       },
       // 弹框显示
       newItem() {
@@ -80,13 +100,67 @@
       },
       // 选择行业
       sel(e) {
+        let sel = e.currentTarget.dataset.sel
         let index = e.currentTarget.dataset.index
-        this.active = this.list[index].id
+        let list = this.list
+        if (sel == '1') {
+          list[index].sel = '0'
+        } else {
+          list[index].sel = '1'
+        }
+        this.list = list
         this.$apply()
       },
-      // 下一步
+      // 注册
       sub() {
-
+        let list = this.list
+        let industry = ''
+        for (let i = 0; i < list.length; i++) {
+          if (list[i].sel == '1') {
+            industry += list[i].id
+            industry += '|'
+          }
+        }
+        industry = industry.substring(0, industry.length - 1)
+        if (industry == '') {
+          wx.showToast({
+            title: "请选择行业",
+            icon: 'loading',
+            duration: 2000
+          })
+        }
+        wx.showToast({
+          title: "数据提交中...",
+          icon: 'loading',
+          duration: 1000000
+        });
+        wx.request({
+          url: `${this.$parent.globalData.requestUrl}/auth/register`,
+          method: 'PUT',
+          header: {
+            Authorization: this.$parent.globalData.token,
+            apikey: this.$parent.globalData.apikey
+          },
+          data: {
+            industrie_ids: industry
+          },
+          success: data => {
+            wx.hideToast()
+            data = this.$parent.null2str(data)
+            if (data.data.code == 8888) {
+              wx.showToast({
+                title: "注册成功，开始选择行业",
+                icon: 'none',
+                duration: 2000
+              });
+              setTimeout(() => {
+                formNode = JSON.stringify(formNode)
+                let url = `/pages/registeredSelIndustry?formdata=${formNode}`
+                this.$navigate(url)
+              }, 2000)
+            }
+          }
+        })
       }
     }
 
@@ -97,9 +171,35 @@
     onLoad() {
       this.getIndustry()
     }
-    // 获取分类
+    // 获取行业
     getIndustry() {
-
+      wx.showToast({
+        title: "注册中...",
+        icon: 'loading',
+        duration: 1000000
+      });
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/auth/industrie_list`,
+        method: 'GET',
+        header: {
+          Authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        data: {},
+        success: data => {
+          wx.hideToast()
+          data = this.$parent.null2str(data)
+          if (data.data.code == 8888) {
+            let list = data.data.data
+            for (let i = 0; i < list.length; i++) {
+              list[i]['sel'] = '0'
+            }
+            this.list = list
+            this.maskShow = false
+            this.$apply()
+          }
+        }
+      })
     }
   }
 </script>

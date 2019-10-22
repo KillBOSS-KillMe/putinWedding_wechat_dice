@@ -60,6 +60,9 @@
       },
       // 下一步
       sub() {
+        let url = `/pages/registeredSelIndustry`
+        this.$navigate(url)
+        return false
         let formNode = this.formNode
         if (formNode.phone == '') {
           wx.showToast({
@@ -89,10 +92,40 @@
             duration: 2000
           });
         }
-        formNode = JSON.stringify(formNode)
-        let url = `/pages/registeredSelIndustry?formdata=${formNode}`
-        this.$navigate(url)
+        wx.showToast({
+          title: "注册中...",
+          icon: 'loading',
+          duration: 1000000
+        });
+        wx.request({
+          url: `${this.$parent.globalData.requestUrl}/auth/register`,
+          method: 'PUT',
+          header: {
+            Authorization: this.$parent.globalData.token,
+            apikey: this.$parent.globalData.apikey
+          },
+          data: formNode,
+          success: data => {
+            wx.hideToast()
+            data = this.$parent.null2str(data)
+            if (data.data.code == 8888) {
+              wx.showToast({
+                title: "注册成功，开始选择行业",
+                icon: 'none',
+                duration: 2000
+              });
+              setTimeout(() => {
+                formNode = JSON.stringify(formNode)
+                let url = `/pages/registeredSelIndustry?formdata=${formNode}`
+                this.$navigate(url)
+              }, 2000)
+            }
+          }
+        })
       }
+
+        
+      
     }
 
     events = {
