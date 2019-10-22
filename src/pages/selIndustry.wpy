@@ -10,7 +10,7 @@
       <view class="{{item.id == active?'active':''}}" @tap="newItem">全部</view>
     </view>
     <view class="sub">
-      <view @tap="sub">注册</view>
+      <view @tap="sub">确定</view>
     </view>
     <view class="maskCon" wx:if="{{maskShow}}">
       <view class="mask" @tap="newItem"></view>
@@ -27,7 +27,7 @@
   import wepy from 'wepy'
   export default class SelIndustry extends wepy.page {
     config = {
-      navigationBarTitleText: '商户注册'
+      navigationBarTitleText: '行业选择'
     }
     components = {}
 
@@ -85,8 +85,10 @@
         this.$apply()
       },
       // 下一步
-      sub() {
-
+      sub(e) {
+        let url = `/pages/selIndustry`
+        this.$navigate(url)
+        this.$apply()
       }
     }
 
