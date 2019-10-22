@@ -36,7 +36,7 @@
         </view>
         <view class="list">
           <repeat for="{{serviceList}}" item="item">
-            <view class="item" data-id="{{item.id}}">
+            <view class="item" data-id="{{item.id}}" @tap="shopDetail">
               <image src="{{item.image_url}}" />
               <view class="name">{{item.name}}</view>
               <view class="price">
@@ -49,7 +49,7 @@
       </view>
       <view class="listCon">
         <view class="listTile">
-          <text class="name">服务推荐</text>
+          <text class="name">人气推荐</text>
           <view>
             更多
             <icon class="iconfont icondingwei"></icon>
@@ -57,7 +57,7 @@
         </view>
         <view class="list">
           <repeat for="{{peopleList}}" item="item">
-            <view class="item" data-id="{{item.id}}">
+            <view class="item" data-id="{{item.id}}" @tap="peopleDetail">
               <image src="{{item.image_url}}" />
               <view class="name">{{item.name}}</view>
               <view class="price">
@@ -104,10 +104,10 @@
         {image_url: '../image/daw.jpg'}
       ],
       pageNav: [
-        {id: '1', name: '全部商家', img: '../image/allMerchant.png' },
+        {id: '1', name: '全部商家', img: '../image/allMerchant.png'},
         {id: '2', name: '抢单', img: '../image/grabOrder.png' },
         {id: '3', name: '服务', img: '../image/service.png' },
-        {id: '4', name: '同行互换', img: '../image/exchange.png' }
+        {id: '4', name: '同行互换', img: '../image/exchange.png'}
       ],
       serviceList: [
         {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
@@ -150,6 +150,20 @@
       // 页面中部导航点击事件
       pageNavClick(e) {
         let id = e.currentTarget.dataset.id
+        if(id=='1'){
+          //全部商品
+          this.$navigate({url:"/pages/productSelIndustry"})
+        }else if(id=='2'){
+          //抢单
+          this.$navigate({url:"/pages/grabOrder"})
+        }else if(id=='3'){
+          //服务
+          this.$navigate({url:"/pages/service"})
+        }else if(id=='4'){
+          //同行互换
+          this.$navigate({url:"/pages/interactive"})
+        }
+        this.$apply()
       },
       // 弹框显示
       hideMask() {
@@ -164,7 +178,20 @@
         }
         this.$apply()
       },
-      
+      //服务推荐商品详情
+      shopDetail(e){
+         let id = e.currentTarget.dataset.id
+         let url = `/pages/productDetails?id=${id}`
+         this.$navigate(url)
+         this.$apply()
+      },
+      //人气推荐商品详情
+      peopleDetail(e){
+         let id = e.currentTarget.dataset.id
+         let url = `/pages/productDetails?id=${id}`
+         this.$navigate(url)
+         this.$apply()
+      }
     }
 
     events = {

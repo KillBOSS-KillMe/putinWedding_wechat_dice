@@ -50,7 +50,7 @@
             </view>
             <view class="grabOrder">
               <text class="price">￥{{item.price}}</text>
-              <view>抢单</view>
+              <view data-id="{{item.id}}" @tap="grabOrder">抢单</view>
             </view>
           </view>
         </view>
@@ -146,6 +146,13 @@
       getSearchKey(e) {
         this.searchKey = e.detail.value
         this.runSearch()
+      },
+      //抢单
+      grabOrder(e){
+        let id = e.currentTarget.dataset.id
+        let url = `/pages/grabOrderDetails?id=${id}`
+        this.$navigate(url)
+        this.$apply()  
       }
     }
 

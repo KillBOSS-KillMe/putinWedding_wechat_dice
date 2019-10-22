@@ -41,24 +41,24 @@
         </view>
         <icon class="iconfont iconjiantou"></icon>
       </view>
-      <view class="item">
+      <!-- <view class="item">
         <view>
           <text class="user">用车要求</text>
           <text class="user itemUser">{{infoNode.info.km}}</text>
         </view>
         <icon class="iconfont iconjiantou"></icon>
-      </view>
+      </view> -->
       <view class="item">
         <view>
           <text class="priceLabel">实际金额</text>
           <text class="price">{{infoNode.info.price}}</text>
         </view>
       </view>
-      <view class="item">
+      <!-- <view class="item">
         <text class="user">合同</text>
         <icon class="iconfont iconjiantou"></icon>
-      </view>
-      <view class="imgDetail">
+      </view> -->
+      <!-- <view class="imgDetail">
         <text class="h2">图文详情</text>
         <repeat for="{{infoNode.info.details}}" item="item">
           <view class="infoItem">
@@ -66,13 +66,13 @@
             <view>{{item.con}}</view>
           </view>
         </repeat>
-      </view>
+      </view> -->
     </view>
-    <view class="imgList">
+    <!-- <view class="imgList">
       <repeat for="{{infoNode.info.imgList}}" item="item">
         <image src="{{ item }}" />
       </repeat>
-    </view>
+    </view> -->
     <view class="operating">
       <view class="service">
         <icon class="iconfont iconkefu"></icon>
@@ -87,7 +87,7 @@
   import wepy from 'wepy'
   export default class GrabOrder extends wepy.page {
     config = {
-      navigationBarTitleText: '商品详情'
+      navigationBarTitleText: '产品详情'
     }
     components = {}
 
@@ -185,7 +185,7 @@
   .info{
     width: 690rpx;
     height: auto;
-    padding: 30rpx;
+    padding: 30rpx 30rpx 0;
     display: flex;
     align-items: center;
     justify-content: space-between;

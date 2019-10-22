@@ -12,18 +12,18 @@
           <text class="fontInfo">登录后获取更多服务信息</text>
         </view>
       </view>
-      <image class="seting" src='../image/seting.png'>
+      <image @tap="setting" class="seting" src='../image/seting.png'>
     </view>
     <view class="mony">
-      <view>
+      <view @tap='meBalance'>
         <text class="monyText">222</text>
         <text>余额/提现</text>
       </view>
-      <view>
+      <view @tap='meCashBack'>
         <text class="monyText">222</text>
         <text>分销返佣</text>
       </view>
-      <view>
+      <view @tap='meSubordinate'>
         <text class="monyText">222</text>
         <text>我的下级</text>
       </view>
@@ -136,7 +136,30 @@
         }
         this.$apply()
       },
-      
+      //设置中心
+      setting(e){
+        let url = `/pages/meSetting`
+        this.$navigate(url)
+        this.$apply()
+      },
+       //余额中心
+      setting(e){
+        let url = `/pages/meSetting`
+        this.$navigate(url)
+        this.$apply()
+      },
+       //分销返佣
+      setting(e){
+        let url = `/pages/meSetting`
+        this.$navigate(url)
+        this.$apply()
+      },
+       //我的下级
+      setting(e){
+        let url = `/pages/meSetting`
+        this.$navigate(url)
+        this.$apply()
+      }
     }
 
     events = {

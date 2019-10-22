@@ -29,7 +29,7 @@
     </view>
     <view class="list">
       <repeat for="{{list}}" item="item">
-        <view class="item">
+        <view class="item" data-id="{{item.id}}" @tap="severDetail">
           <image src="{{item.img}}" />
           <view class="info">
             <view>
@@ -58,7 +58,7 @@
   import wepy from 'wepy'
   export default class Service extends wepy.page {
     config = {
-      navigationBarTitleText: '所有商品'
+      navigationBarTitleText: '服务'
     }
     components = {}
 
@@ -137,6 +137,13 @@
       getSearchKey(e) {
         this.searchKey = e.detail.value
         this.runSearch()
+      },
+      //商品详情
+      severDetail(e){
+        let id = e.currentTarget.dataset.id
+        let url = `/pages/productDetails?id=${id}`
+        this.$navigate(url)
+        this.$apply()
       }
     }
 

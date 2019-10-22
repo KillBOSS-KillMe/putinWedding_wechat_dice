@@ -45,7 +45,7 @@
               </view>
               <view>发布于{{item.time}}</view>
             </view>
-            <view class="interactive">互换</view>
+            <view class="interactive" @tap="interactiveList" data-index='{{item.id}}'>互换</view>
           </view>
         </view>
       </repeat>
@@ -131,6 +131,14 @@
       getSearchKey(e) {
         this.searchKey = e.detail.value
         this.runSearch()
+      },
+      //详情
+      interactiveList(e){
+        let id = e.currentTarget.dataset.id
+        console.log(id)
+        let url = `/pages/interactiveInfo?id=${id}`
+        this.$navigate(url)
+        this.$apply()
       }
     }
 
