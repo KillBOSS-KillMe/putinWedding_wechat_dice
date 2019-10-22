@@ -24,7 +24,7 @@
   import wepy from 'wepy'
   export default class RegisteredService extends wepy.page {
     config = {
-      navigationBarTitleText: '客服注册'
+      navigationBarTitleText: '代理注册'
     }
     components = {}
 

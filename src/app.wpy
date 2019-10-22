@@ -111,7 +111,7 @@ export default class extends wepy.app {
       'pages/citySel', // 选择城市
       'pages/registeredSelIndustry', // 选择行业--注册
       'pages/registeredClient', // 客户注册
-      'pages/registeredService', // 客服注册
+      'pages/registeredService', // 代理注册
       'pages/registeredMerchant', // 商户注册
       'pages/registeredSel' // 注册选择
     ],
