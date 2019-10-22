@@ -1,80 +1,90 @@
 <template>
   <view>
-    <view class="address">
-      <view>
-        <icon class="iconfont icondingwei"></icon>
-        <text>西安</text>
-      </view>
-      <icon class="iconfont iconkefu"></icon>
-    </view>
-    <swiper wx:if="{{swiperList.length > 0}}" class='swiper' indicator-dots="true" autoplay='true' interval='5000' duration='2000'>
-      <repeat for="{{swiperList}}" item="item">
-        <swiper-item data-id="{{ item.id }}">
-          <image src="{{ item.image_url }}" bindtap='shareQRCodeImg' data-imgurl="{{requestImgUrl + item.image_url}}" />
-        </swiper-item>
-      </repeat>
-    </swiper>
-    <view class="pageNav">
-      <repeat for="{{pageNav}}" item="item">
-        <view class="item" data-id="{{item.id}}" @tap="pageNavClick">
-          <image src="{{item.img}}" />
-          <text>{{item.name}}</text>
-        </view>
-      </repeat>
-    </view>
-    <view class="VIP">
-      <image src="../image/vip.png" />
-    </view>
-    <view class="listCon">
-      <view class="listTile">
-        <text class="name">服务推荐</text>
+    <view class="index">
+      <view class="address">
         <view>
-          更多
           <icon class="iconfont icondingwei"></icon>
+          <text>西安</text>
         </view>
+        <icon class="iconfont iconkefu"></icon>
       </view>
-      <view class="list">
-        <repeat for="{{serviceList}}" item="item">
-          <view class="item" data-id="{{item.id}}">
-            <image src="{{item.image_url}}" />
-            <view class="name">{{item.name}}</view>
-            <view class="price">
-              ￥{{item.price}}
-              <text>起</text>
-            </view>
+      <swiper wx:if="{{swiperList.length > 0}}" class='swiper' indicator-dots="true" autoplay='true' interval='5000' duration='2000'>
+        <repeat for="{{swiperList}}" item="item">
+          <swiper-item data-id="{{ item.id }}">
+            <image src="{{ item.image_url }}" bindtap='shareQRCodeImg' data-imgurl="{{requestImgUrl + item.image_url}}" />
+          </swiper-item>
+        </repeat>
+      </swiper>
+      <view class="pageNav">
+        <repeat for="{{pageNav}}" item="item">
+          <view class="item" data-id="{{item.id}}" @tap="pageNavClick">
+            <image src="{{item.img}}" />
+            <text>{{item.name}}</text>
           </view>
         </repeat>
       </view>
-    </view>
-    <view class="listCon">
-      <view class="listTile">
-        <text class="name">服务推荐</text>
-        <view>
-          更多
-          <icon class="iconfont icondingwei"></icon>
+      <view class="VIP">
+        <image src="../image/vip.png" />
+      </view>
+      <view class="listCon">
+        <view class="listTile">
+          <text class="name">服务推荐</text>
+          <view>
+            更多
+            <icon class="iconfont icondingwei"></icon>
+          </view>
+        </view>
+        <view class="list">
+          <repeat for="{{serviceList}}" item="item">
+            <view class="item" data-id="{{item.id}}">
+              <image src="{{item.image_url}}" />
+              <view class="name">{{item.name}}</view>
+              <view class="price">
+                ￥{{item.price}}
+                <text>起</text>
+              </view>
+            </view>
+          </repeat>
         </view>
       </view>
-      <view class="list">
-        <repeat for="{{peopleList}}" item="item">
-          <view class="item" data-id="{{item.id}}">
-            <image src="{{item.image_url}}" />
-            <view class="name">{{item.name}}</view>
-            <view class="price">
-              ￥{{item.price}}
-              <text>起</text>
-            </view>
+      <view class="listCon">
+        <view class="listTile">
+          <text class="name">服务推荐</text>
+          <view>
+            更多
+            <icon class="iconfont icondingwei"></icon>
           </view>
-        </repeat>
+        </view>
+        <view class="list">
+          <repeat for="{{peopleList}}" item="item">
+            <view class="item" data-id="{{item.id}}">
+              <image src="{{item.image_url}}" />
+              <view class="name">{{item.name}}</view>
+              <view class="price">
+                ￥{{item.price}}
+                <text>起</text>
+              </view>
+            </view>
+          </repeat>
+        </view>
       </view>
+<<<<<<< HEAD
     </view>
     <view class="maskCon" wx:if="{{collectionStr}}">
       <view class="mask" @tap="hideMask"></view>
       <view class="showCon">
         <view class="name">为了方便您使用此产品，点击</view>
         <view class="name">右上角按钮，选择“添加到桌面”</view>
+=======
+      <view class="maskCon" wx:if="{{maskShow}}">
+        <view class="mask" @tap="newItem"></view>
+        <view class="showCon">
+          <view class="name">为了方便您使用此产品，点击</view>
+          <view class="name">右上角按钮，选择“添加到桌面”</view>
+        </view>
+>>>>>>> 446eeb140b3f026cb268a0d69212219d3307ec5c
       </view>
     </view>
-    
     <nav @childFn.user="goPage" @childFnOrReturn.user="goModifyUserInfo" />
   </view>
 </template>
@@ -196,6 +206,9 @@
   }
 </script>
 <style lang="less">
+  .index{
+    padding-bottom: 119rpx;
+  }
   .address{
     width: 690rpx;
     height: auto;
@@ -345,9 +358,9 @@
       }
     }
   }
-  .listCon:last-of-type{
-    margin-bottom: 130rpx
-  }
+  // .listCon:last-of-type{
+  //   margin-bottom: 130rpx
+  // }
   .maskCon .showCon{
     width: 580rpx;
     height: 445rpx;
