@@ -1,17 +1,17 @@
 <template>
   <view>
     <view class="name">帖子类型11</view>
-    <checkbox-group bindchange="selLocal" data-index="{{index}}" data-checks="{{item.checks}}">
+    <radio-group bindchange="selLocal" data-index="{{index}}" data-checks="{{item.checks}}">
       <view class="sel">
         <repeat for="{{typeList}}" item="item">
           <view class="item" data-id="{{item.id}}">
-            <checkbox data-index="{{index}}" value="{{index}}" checked="{{item.checks}}"/>
+            <radio color='#5DA4EF' data-index="{{index}}" value="{{index}}" checked="{{item.checks}}"></radio>
             {{item.name}}
           </view>
         </repeat>
       </view>
-    </checkbox-group>
-    <view class="sub">
+    </radio-group>
+    <view class="sub" @tap='next'>
       <view>下一步</view>
     </view>
     <nav @childFn.user="goPage" @childFnOrReturn.user="goModifyUserInfo" />
@@ -37,7 +37,8 @@
         {id: '1', name: '需求'},
         {id: '2', name: '提供'},
         {id: '3', name: '互换'}
-      ]
+      ],
+      j:''
     }
 
     computed = {
@@ -56,15 +57,44 @@
       },
       selLocal(e) {
         let i = 0
+        console.log(e)
         let cartIndex = e.detail.value
         let localList = this.searchList
+        this.cartInde=e.detail.value
         let selList = []
         // 需要加入去重操作
         for(i in cartIndex) {
           selList.push(localList[parseInt(cartIndex[i])])
         }
+        this.$apply();
       },
-      
+      //跳转选择行业
+      next(e){
+        // this.cartIndex=cartIndex
+        let i=this.cartInde
+        console.log(i)
+        if(i=='0'){
+          //发帖需要
+          let url = `/pages/postNeed`
+          this.$navigate(url)
+        }else if(i=='1'){
+          // 发帖--提供
+          let url = `/pages/postProvide`
+          this.$navigate(url)
+        }else if(i=='2'){
+          // 发帖--同行互换
+          let url = `/pages/postExchange`
+          this.$navigate(url)
+        }else if(i==undefined){
+          wx.showToast({
+            title: '请选择发帖类型',
+            icon: 'none',
+            duration: 1000,
+            mask: true
+          })
+        }
+        this.$apply()
+      }
     }
 
     events = {
@@ -110,6 +140,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      radio{
+        transform:scale(0.7);
+      }
     }
   }
   .sub{
