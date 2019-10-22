@@ -69,6 +69,7 @@ setStore(store);
 export default class extends wepy.app {
   config = {
     pages: [
+      
       // 首页模块
       'pages/index', // 首页
       'pages/productDetails', // 产品详情
@@ -108,12 +109,13 @@ export default class extends wepy.app {
       
 
       // 注册部分
+      'pages/registeredSel', // 注册选择
       'pages/citySel', // 选择城市
       'pages/registeredSelIndustry', // 选择行业--注册
       'pages/registeredClient', // 客户注册
       'pages/registeredService', // 代理注册
       'pages/registeredMerchant', // 商户注册
-      'pages/registeredSel' // 注册选择
+      
     ],
     window: {
       backgroundTextStyle: 'light',

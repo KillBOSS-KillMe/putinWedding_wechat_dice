@@ -28,8 +28,8 @@
 
     data = {
       formNode: {
-        hotel_name: '',         // 酒店名称
-        province_id: '1',       // 地址省id
+        phone: '',         // 酒店名称
+        code: '1',       // 地址省id
       },
       disabled: false,
       currentTime: 60,   // 倒计时初始值

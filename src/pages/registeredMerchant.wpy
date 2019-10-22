@@ -57,7 +57,8 @@
       },
       // 下一步
       sub() {
-
+        let url = '/pages/registeredSelIndustry'
+        this.$navigate(url)
       }
     }
 
