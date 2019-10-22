@@ -138,7 +138,7 @@ export default class extends wepy.app {
     requestUrl: 'http://192.168.0.101:8083/api/v1/wedding_api',
     // 图片路径
     requestImgUrl: 'https://192.168.0.101/api/v1/wedding_api',
-    mapKey: 'JPZBZ-TD6K6-AWES2-EL4ZX-5OBLJ-HDFG5',
+    mapKey: 'GCABZ-J4G64-2WKUX-DNQMK-MVCGK-OSFD4',
     apikey: '123456',
     token: '',
   };
@@ -306,6 +306,15 @@ export default class extends wepy.app {
 }
 </script>
 <style lang="less">
+#getUserInfo{
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  z-index: 999;
+}
 .container {
   height: 100%;
   display: flex;
