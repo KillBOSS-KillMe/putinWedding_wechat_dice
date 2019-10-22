@@ -69,7 +69,7 @@ setStore(store);
 export default class extends wepy.app {
   config = {
     pages: [
-      
+      'pages/messageDetail', // 消息列表
       // 首页模块
       'pages/index', // 首页
       'pages/productDetails', // 产品详情
