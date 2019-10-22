@@ -34,6 +34,10 @@
 
     methods = {
       selSetting(e) {
+        let type=e.currentTarget.dataset.type
+        let url = `/pages/meSettingPhone?type=${type}`
+        this.$navigate(url)
+        this.$apply()
         // console.log(e.currentTarget.dataset.type)
         
       }
