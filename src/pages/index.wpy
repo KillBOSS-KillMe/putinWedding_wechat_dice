@@ -67,8 +67,8 @@
         </repeat>
       </view>
     </view>
-    <view class="maskCon" wx:if="{{maskShow}}">
-      <view class="mask" @tap="newItem"></view>
+    <view class="maskCon" wx:if="{{collectionStr}}">
+      <view class="mask" @tap="hideMask"></view>
       <view class="showCon">
         <view class="name">为了方便您使用此产品，点击</view>
         <view class="name">右上角按钮，选择“添加到桌面”</view>
@@ -123,7 +123,7 @@
         {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
         {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
       ],
-      maskShow: false,
+      collectionStr: true,
       userInfo: null,
       cityNode: [],
       searchList: []
@@ -148,11 +148,15 @@
         let id = e.currentTarget.dataset.id
       },
       // 弹框显示
-      newItem() {
-        if (this.maskShow) {
-          this.maskShow = false
+      hideMask() {
+        wx.setStorage({
+          key: 'addCollection',
+          data: false
+        })
+        if (this.collectionStr) {
+          this.collectionStr = false
         } else {
-          this.maskShow = true
+          this.collectionStr = true
         }
         this.$apply()
       },
@@ -164,7 +168,8 @@
     }
 
     onLoad() {
-      
+      // 收藏小程序提示显示
+      this.addCollectionShow()
     }
     
 
@@ -177,6 +182,16 @@
         });
         return true
       }
+    }
+    addCollectionShow() {
+      wx.getStorage({
+        key: 'addCollection',
+        success: res => {
+          console.log(res.data)
+          this.collectionStr = res.data
+          this.$apply()
+        } 
+      })
     }
   }
 </script>
