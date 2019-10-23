@@ -18,6 +18,10 @@
         </view>
       </repeat>
     </view>
+    <view class="send">
+      <input type="text" placeholder="请输入...">
+      <text @tap='send'>发送</text>
+    </view>
   </view>
 </template>
 
@@ -112,6 +116,31 @@
       .tw{
         color: #FF4646;
       }
+    }
+  }
+  .send{
+    width: 690rpx;
+    padding: 20rpx 30rpx;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text{
+      width: 98rpx;
+      height: 60rpx;
+      border: 1rpx solid #B6B6B6;
+      border-radius: 10rpx;
+      text-align: center;
+      line-height: 60rpx;
+      font-size: 26rpx;
+      color: #1F1F1F;
+    }
+    input{
+      width: 520rpx;
+      padding-left: 40rpx;
     }
   }
 }

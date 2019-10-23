@@ -38,18 +38,18 @@
       active: '',
       list: [
         {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队车队', id: '1'},
-        {name: '车队', id: '1'}
+        {name: '车队', id: '2'},
+        {name: '车队', id: '3'},
+        {name: '车队', id: '4'},
+        {name: '车队', id: '5'},
+        {name: '车队车队', id: '6'},
+        {name: '车队', id: '7'},
+        {name: '车队', id: '8'},
+        {name: '车队', id: '9'},
+        {name: '车队', id: '10'},
+        {name: '车队', id: '11'},
+        {name: '车队车队', id: '12'},
+        {name: '车队', id: '13'}
       ],
       disabled: false,
       currentTime: 60,   // 倒计时初始值
@@ -82,13 +82,22 @@
       sel(e) {
         let index = e.currentTarget.dataset.index
         this.active = this.list[index].id
+        console.log(this.active)
         this.$apply()
       },
       // 下一步
       sub(e) {
-        let index = e.currentTarget.dataset.index
-        let url = `/pages/allCommodity?id=${index}`
-        this.$navigate(url)
+        let index = this.active
+        console.log(index)
+        if(index==''){
+          wx.showToast({
+            title: "请选择行业...",
+            icon: 'none',
+          });
+        }else{
+          let url = `/pages/allCommodity?id=${index}`
+          this.$navigate(url)
+        }
         this.$apply()
       }
     }

@@ -73,25 +73,17 @@
         // this.cartIndex=cartIndex
         let i=this.cartInde
         console.log(i)
-        if(i=='0'){
-          //发帖需要
-          let url = `/pages/postNeed`
-          this.$navigate(url)
-        }else if(i=='1'){
-          // 发帖--提供
-          let url = `/pages/postProvide`
-          this.$navigate(url)
-        }else if(i=='2'){
-          // 发帖--同行互换
-          let url = `/pages/postExchange`
-          this.$navigate(url)
-        }else if(i==undefined){
+        if(i==undefined){
           wx.showToast({
             title: '请选择发帖类型',
             icon: 'none',
             duration: 1000,
             mask: true
           })
+        }else{
+          let url = `/pages/selIndustry?a=${i}`
+          console.log(url)
+          this.$navigate(url)
         }
         this.$apply()
       }

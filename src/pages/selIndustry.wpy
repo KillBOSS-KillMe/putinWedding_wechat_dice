@@ -38,18 +38,18 @@
       active: '',
       list: [
         {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队', id: '1'},
-        {name: '车队车队', id: '1'},
-        {name: '车队', id: '1'}
+        {name: '车队', id: '2'},
+        {name: '车队', id: '3'},
+        {name: '车队', id: '4'},
+        {name: '车队', id: '5'},
+        {name: '车队车队', id: '6'},
+        {name: '车队', id: '7'},
+        {name: '车队', id: '8'},
+        {name: '车队', id: '9'},
+        {name: '车队', id: '10'},
+        {name: '车队', id: '11'},
+        {name: '车队车队', id: '12'},
+        {name: '车队', id: '13'}
       ],
       disabled: false,
       currentTime: 60,   // 倒计时初始值
@@ -86,8 +86,29 @@
       },
       // 下一步
       sub(e) {
-        let url = `/pages/selIndustry`
-        this.$navigate(url)
+        let id=this.active
+        if(id==''){
+          wx.showToast({
+            title: '请选择行业',
+            icon: 'none',
+            duration: 1000,
+            mask: true
+          })
+        }else{
+          if(this.a=='0'){
+          //发帖需要
+            let url = `/pages/postNeed?id=${id}`
+            this.$navigate(url)
+          }else if(this.a=='1'){
+            // 发帖--提供
+            let url = `/pages/postProvide?id=${id}`
+            this.$navigate(url)
+          }else if(this.a=='2'){
+            // 发帖--同行互换
+            let url = `/pages/postExchange?id=${id}`
+            this.$navigate(url)
+          }
+        }
         this.$apply()
       }
     }
@@ -96,7 +117,9 @@
       
     }
 
-    onLoad() {
+    onLoad(e) {
+      let a = e.a;
+      this.a=a
       this.getIndustry()
     }
     // 获取分类

@@ -140,14 +140,14 @@
       if (this.disabled) {
         return false
       }
-      // if (this.check.isPhone(this.formNode.phone)) {
-      //   wepy.showModal({
-      //     title: '',
-      //     content: '请输入电话',
-      //     showCancel: false
-      //   })
-      //   return
-      // }
+      if (this.check.isPhone(this.formNode.phone)) {
+        wepy.showModal({
+          title: '',
+          content: '请输入电话',
+          showCancel: false
+        })
+        return
+      }
       wx.showToast({
         title: "请求发送中...",
         icon: 'loading',

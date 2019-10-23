@@ -2,7 +2,7 @@
   <view class="containe  {{ col == 1 ? 'noscroll':'' }}">
     <view class="messageList">
       <repeat for="{{messageList}}" item="item">
-        <view class="carList">
+        <view class="carList" @tap='messageDetail' data-item='{{item.id}}'>
           <view class="item">
             <view class="top">
               <image src='{{item.userImg}}'>
@@ -19,7 +19,7 @@
             <text class="type" wx:if="{{item.type == '2'}}">尾车</text>
             <text class="name">{{item.content}}</text>
           </view>
-          <view class="confirm" @tap="exchange"><text>确认互换</text></view>
+          <view class="confirm" @tap.stop="exchange"><text>确认互换</text></view>
         </view>
       </repeat>
     </view>
@@ -124,6 +124,11 @@
         }
         this.$apply()
       },
+      //跳转详情
+      messageDetail(){
+        let url = `/pages/messageDetail`
+        this.$navigate(url)
+      }
     }
 
     events = {

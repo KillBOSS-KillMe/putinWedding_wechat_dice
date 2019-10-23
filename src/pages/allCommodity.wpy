@@ -216,7 +216,7 @@
       flex-direction: column;
       view{
         width: 100%;
-        padding: 3rpx 0;
+        padding: 4rpx 0;
         overflow:hidden;
         text-overflow:ellipsis;
         white-space:nowrap;

@@ -37,10 +37,10 @@
         <view class="list">
           <repeat for="{{serviceList}}" item="item">
             <view class="item" data-id="{{item.id}}" @tap="shopDetail">
-              <image src="{{item.image_url}}" />
-              <view class="name">{{item.name}}</view>
+              <image src="{{item.images}}" />
+              <view class="name">{{item.title}}</view>
               <view class="price">
-                ￥{{item.price}}
+                ￥{{item.money}}
                 <text>起</text>
               </view>
             </view>
@@ -58,10 +58,10 @@
         <view class="list">
           <repeat for="{{peopleList}}" item="item">
             <view class="item" data-id="{{item.id}}" @tap="peopleDetail">
-              <image src="{{item.image_url}}" />
-              <view class="name">{{item.name}}</view>
+              <image src="{{item.images}}" />
+              <view class="name">{{item.title}}</view>
               <view class="price">
-                ￥{{item.price}}
+                ￥{{item.money}}
                 <text>起</text>
               </view>
             </view>
@@ -104,24 +104,8 @@
         {id: '3', name: '服务', img: '../image/service.png' },
         {id: '4', name: '同行互换', img: '../image/exchange.png'}
       ],
-      serviceList: [
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-      ],
-      peopleList: [
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-        {id: '1', name: '奔驰E级', price: '30000', image_url: '../image/daw.jpg'},
-      ],
+      serviceList: [],
+      peopleList: [],
       collectionStr: true,
       
       cityNode: [],
@@ -222,10 +206,61 @@
     }
     // 服务推荐
     getServiceList() {
-      
+      wx.showToast({
+        title: "加载中...",
+        icon: 'none',
+        duration: 100
+      });
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/index/get_order_recommend_list`,
+        method: 'GET',
+        header: {
+          authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        data: {
+          
+        },
+        success: data => {
+          wx.hideToast()
+          data = this.$parent.null2str(data)
+
+          if (data.data.code == '8888') {
+            this.serviceList = data.data.data
+            this.$apply()
+          }
+          
+        }
+      })
     }
     // 人气推荐
-    getPopularityList() {}
+    getPopularityList() {
+      wx.showToast({
+        title: "加载中...",
+        icon: 'none',
+        duration: 100
+      });
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/index/get_order_sentiment_list`,
+        method: 'GET',
+        header: {
+          authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        data: {
+          
+        },
+        success: data => {
+          wx.hideToast()
+          data = this.$parent.null2str(data)
+          if (data.data.code == '8888') {
+            this.peopleList = data.data.data
+            this.$apply()
+          }
+          
+        }
+      })
+    }
     // 下拉刷新
     onPullDownRefresh() {
       wx.showToast({
@@ -380,6 +415,7 @@
           if (data.data.code === 8888) {
             this.swiperList = data.data.data
             this.$parent.globalData.swiperList = this.swiperList
+            console.log(this.swiperList)
             this.$apply()
           }
         }

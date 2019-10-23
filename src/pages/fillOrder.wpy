@@ -19,6 +19,23 @@
             <text class="orderDataInfo">超时、超公里另算</text>
           </view>
         </view>
+        <view class="progress">
+          <view class="progressItem rad_1">
+            <view>
+              <view class="radius radius_active"></view>
+              <view>定金</view>
+            </view>
+            <texe>￥400</texe>
+          </view>
+          <view class="progressItem rad_2">
+            <view>
+              <view class="radius radius_active"></view>
+              <view>定金</view>
+            </view>
+            <texe>￥400</texe>
+          </view>
+          <progress percent="50" activeColor="#F42652" backgroundColor="#B6B6B6" stroke-width="2" class="pro_border"/>
+        </view>
         <text class="money">09-05 00:00之前付清尾款</text>
         <text class="money">提醒我支付尾款  1800000000</text>
         <view class="flex contract">
@@ -113,188 +130,245 @@ export default class FillOrder extends wepy.page {
 }
 </script>
 <style lang="less">
-.container {
-  box-sizing: border-box;
-}
-.cityList {
-  width: 690rpx;
-  padding: 0 30rpx 98rpx 30rpx;
-  .orderInfo{
-    padding: 20rpx 0;
-    .type{
-      color: #F42652;
-      font-size: 20rpx;
-      padding: 5rpx 10rpx;
-      border: 1rpx solid #F42652;
-      border-radius: 5rpx;
-      margin-right: 10rpx;
-    }
-    .name{
-        font-size: 32rpx;
-        color: #1F1F1F;
-        vertical-align: middle;
-    }
-    .carInfo{
-      align-content: center;
-      image{
-        width: 200rpx;
-        height: 156rpx;
-        overflow: hidden;
-        border-radius: 10rpx;
-        margin-right: 17rpx;
-      }
-      .travel{
-        font-size: 32rpx;
-        color: #1F1F1F;
-        margin-bottom: 20rpx;
-        display: block;
-      }
-      .price{
+  .container {
+    box-sizing: border-box;
+  }
+  .cityList {
+    width: 690rpx;
+    padding: 0 30rpx 98rpx 30rpx;
+    .orderInfo{
+      padding: 20rpx 0;
+      .type{
         color: #F42652;
-        font-size: 32rpx;
-        font-weight: bold;
-        margin-right: 27rpx;
-        height: 36rpx;
+        font-size: 20rpx;
+        padding: 5rpx 10rpx;
+        border: 1rpx solid #F42652;
+        border-radius: 5rpx;
+        margin-right: 10rpx;
       }
-      .userInfo{
-        color: #494949;
-        font-size: 24rpx;
-        height: 36rpx;
-        line-height: 47rpx;
+      .name{
+          font-size: 32rpx;
+          color: #1F1F1F;
+          vertical-align: middle;
+      }
+      .carInfo{
+        align-content: center;
+        image{
+          width: 200rpx;
+          height: 156rpx;
+          overflow: hidden;
+          border-radius: 10rpx;
+          margin-right: 17rpx;
+        }
+        .travel{
+          font-size: 32rpx;
+          color: #1F1F1F;
+          margin-bottom: 20rpx;
+          display: block;
+        }
+        .price{
+          color: #F42652;
+          font-size: 32rpx;
+          font-weight: bold;
+          margin-right: 27rpx;
+          height: 36rpx;
+        }
+        .userInfo{
+          color: #494949;
+          font-size: 24rpx;
+          height: 36rpx;
+          line-height: 47rpx;
+        }
+      }
+      .money{
+        font-size: 28rpx;
+        color: #1F1F1F;
+        font-weight: 600;
+      }
+      .bz{
+        color: #999;
+        font-size: 28rpx;
+        width: 120rpx;
+        overflow: hidden;
+        margin-right: 25rpx;
+      }
+      textarea{
+        width: 650rpx;
+        height: 256rpx;
+        border: 1rpx solid #ddd;
+        border-radius: 10rpx;
+        padding: 20rpx;
+        margin-top: 20rpx;
       }
     }
-    .money{
-      font-size: 28rpx;
-      color: #1F1F1F;
-      font-weight: 600;
+    .orderInfo > text {
+      color: #1f1f1f;
+      font-size: 30rpx;
+      font-weight: bold;
+      margin: 40rpx 0;
+      display: block;
     }
-    .bz{
-      color: #999;
-      font-size: 28rpx;
-      width: 120rpx;
-      overflow: hidden;
-      margin-right: 25rpx;
-    }
-    textarea{
-      width: 650rpx;
-      height: 256rpx;
-      border: 1rpx solid #ddd;
-      border-radius: 10rpx;
-      padding: 20rpx;
-      margin-top: 20rpx;
-    }
-  }
-  .orderInfo > text {
-    color: #1f1f1f;
-    font-size: 30rpx;
-    font-weight: bold;
-    margin: 40rpx 0;
-    display: block;
-  }
-  .orderData {
-    margin-bottom: 30rpx;
-    display: flex;
-    align-content: center;
-    icon{
-      width: 20rpx;
-      height: 30rpx;
-      line-height: 30rpx;
-      color: #9a9a9a;
+    .orderData {
+      margin-bottom: 30rpx;
       display: flex;
       align-content: center;
-      justify-content: center;
+      icon{
+        width: 20rpx;
+        height: 30rpx;
+        line-height: 30rpx;
+        color: #9a9a9a;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+      }
+      picker{
+        width: 560rpx;
+        color: #1F1F1F;
+        font-size: 30rpx;
+        font-weight: 600;
+      }
+      .text {
+        display: block;
+        color: #999;
+        font-size: 28rpx;
+        width: 120rpx;
+        overflow: hidden;
+        margin-right: 25rpx;
+      }
+      .orderDataTime {
+        color: #1f1f1f;
+        font-size: 30rpx;
+        font-weight: bold;
+        
+      }
+      .orderDataInfo{
+        color: #999;
+        font-size: 30rpx;
+        margin-left: 15rpx;
+      }
     }
-    picker{
-      width: 560rpx;
-      color: #1F1F1F;
-      font-size: 30rpx;
-      font-weight: 600;
+    .contract{
+      justify-content: space-between;
+      text{
+        font-size: 28rpx;
+        color: #1f1f1f;
+        font-weight: bold;
+      }
     }
-    .text {
-      display: block;
-      color: #999;
-      font-size: 28rpx;
-      width: 120rpx;
-      overflow: hidden;
-      margin-right: 25rpx;
-    }
-    .orderDataTime {
-      color: #1f1f1f;
-      font-size: 30rpx;
-      font-weight: bold;
-      
-    }
-    .orderDataInfo{
-      color: #999;
-      font-size: 30rpx;
-      margin-left: 15rpx;
+    .earnest{
+      margin-top: 35rpx;
+      justify-content: space-between;
+      text{
+        font-size: 30rpx;
+        color: #1f1f1f;
+        font-weight: bold;
+      }
+      .money{
+        color: #F42652;
+        margin-left: 20rpx;
+        display: block;
+      }
+      .moneyType{
+        font-size: 26rpx;
+        color: #1f1f1f;
+      font-weight: initial;
+      vertical-align: super;
+      margin-left: 10rpx;
+      }
     }
   }
-  .contract{
-    justify-content: space-between;
-    text{
-      font-size: 28rpx;
-      color: #1f1f1f;
-      font-weight: bold;
-    }
-  }
-  .earnest{
-    margin-top: 35rpx;
-    justify-content: space-between;
-    text{
-      font-size: 30rpx;
-      color: #1f1f1f;
-      font-weight: bold;
-    }
-    .money{
-      color: #F42652;
-      margin-left: 20rpx;
-      display: block;
-    }
-    .moneyType{
-      font-size: 26rpx;
-      color: #1f1f1f;
-     font-weight: initial;
-     vertical-align: super;
-     margin-left: 10rpx;
-    }
-  }
-}
-.bottom{
-  width: 750rpx;
-  position: fixed;
-  bottom: 0;
-  height: 98rpx;
-  background: #fff;
-  justify-content: flex-end;
-  text{
-    width: 250rpx;
+  .bottom{
+    width: 750rpx;
+    position: fixed;
+    bottom: 0;
     height: 98rpx;
-    line-height: 98rpx;
-    text-align: center;
-    font-size: 30rpx;
-    font-weight: 600;
-    display: block;
-  }
-  .text0{
-    color: #1F1F1F;
     background: #fff;
+    justify-content: flex-end;
     text{
-      color: #F42652;
-      font-size: 32rpx;
+      width: 250rpx;
+      height: 98rpx;
+      line-height: 98rpx;
+      text-align: center;
+      font-size: 30rpx;
       font-weight: 600;
+      display: block;
+    }
+    .text0{
+      color: #1F1F1F;
+      background: #fff;
+      text{
+        color: #F42652;
+        font-size: 32rpx;
+        font-weight: 600;
+      }
+    }
+    .text1{
+      color: #fff;
+      background: #3E3A39;
+    }
+    .text2{
+      color: #fff;
+      background: #F42652;
     }
   }
-  .text1{
-    color: #fff;
-    background: #3E3A39;
+  .flex{
+    display: flex;
   }
-  .text2{
-    color: #fff;
-    background: #F42652;
+
+  .progress{
+    width:680rpx;
+    height: 160rpx;
+    position: relative;
+    margin: 60rpx 0;
+    .progressItem{
+      position: absolute;
+      display: flex;
+      justify-content: space-between;
+      width: 670rpx;
+      z-index: 88;
+    }
   }
-}
-.flex{
-  display: flex;
-}
+  .progressItem>view{
+    width: 180rpx;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    text{
+      display: block;
+    }
+  }
+  .progress .pro_border{
+    width:19%;
+    transform: rotate(90deg);
+    position: absolute;
+    top: 0;
+    left: -53rpx;
+    margin-top: 81rpx;
+
+  }
+  .progress .radius{
+    // position: absolute;
+    width:20rpx;
+    height: 20rpx;
+    line-height: 20rpx;
+    border-radius: 50%;
+    background: #E0E2E7;
+    color: #737586;
+    text-align:center;
+    display: block;
+    margin: 12rpx 20rpx 0 0;
+    // top:0;
+  }
+  .progress .radius_active{
+    background: #F86221;
+    color:#fff;
+  }
+  .progress .rad_1{
+    left:0;
+    top:0;
+  }
+  .progress .rad_2{
+    left:0;
+    top:120rpx;
+  }
 </style>
