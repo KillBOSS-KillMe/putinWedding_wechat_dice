@@ -40,8 +40,8 @@
 				},
 				{
 					"id": 1,
-					"name": "pages/releaseTypeSel",
-					"pathName": "pages/releaseTypeSel",
+					"name": "pages/postProvide",
+					"pathName": "pages/postProvide",
 					"query": "",
 					"scene": null
 				}
