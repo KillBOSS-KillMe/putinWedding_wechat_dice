@@ -1,9 +1,9 @@
 <style lang="less">
-.label{
+.label {
   width: 690rpx;
   height: 240rpx;
   padding: 0 30rpx;
-  border: solid #E9E9E9;
+  border: solid #e9e9e9;
   border-width: 1rpx 0 1rpx 0;
   font-size: 32rpx;
   font-weight: 600;
@@ -12,20 +12,20 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  .length{
+  .length {
     // font-weight: 500;
     font-size: 42rpx;
-    color: #F42652;
+    color: #f42652;
   }
 }
-.title{
+.title {
   width: 690rpx;
   padding: 30rpx;
   font-size: 32rpx;
   font-weight: 600;
   color: #222222;
 }
-.item{
+.item {
   width: 690rpx;
   padding: 30rpx;
   display: flex;
@@ -33,13 +33,13 @@
   justify-content: space-between;
   font-size: 20rpx;
   color: #898989;
-  image{
+  image {
     width: 44rpx;
     height: 44rpx;
     border-radius: 44rpx;
     margin-right: 15rpx;
   }
-  .name{
+  .name {
     font-size: 32rpx;
     font-weight: 600;
     color: #222222;
@@ -60,7 +60,7 @@
       <repeat for="{{list}}" item="item">
         <view class="item" data-id="{{item.id}}">
           <view class="name">
-            <image src="{{item.img}}" />
+            <image src="{{item.img}}">
             {{item.name}}
           </view>
           <text>{{item.time}}</text>
@@ -71,48 +71,62 @@
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import check from '../mixins/check'
-  export default class MeSettingPhone extends wepy.page {
-    config = {
-      navigationBarTitleText: '更改手机号'
-    }
-    components = {}
+import wepy from 'wepy';
+import check from '../mixins/check';
+export default class MeSubordinate extends wepy.page {
+  config = {
+    navigationBarTitleText: '我的下级'
+  };
+  components = {};
 
-    mixins = [check]
+  mixins = [check];
 
-    data = {
-      userInfo: {},
-      list: [],
-    }
+  data = {
+    userInfo: {},
+    list: []
+  };
 
-    computed = {}
+  computed = {};
 
-    methods = {
-    }
+  methods = {};
 
-    events = {
-      
-    }
-    onLoad() {
-      this.userInfo = this.$parent.globalData.userInfo
-      this.$apply()
-      this.getListData()
-    }
-    getListData() {
-      let list = [
-        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
-        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
-        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
-        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
-        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
-        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
-        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
-        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'},
-        {id: '1', name: '二狗子', img: '../image/daw.jpg', time: '2019-10-10'}
-      ]
-      this.list = list
-      this.$apply()
-    }
+  events = {};
+  onLoad () {
+    this.userInfo = this.$parent.globalData.userInfo;
+    this.$apply();
+    this.getListData();
   }
+  getListData () {
+    wx.showToast({
+      title: "拼命加载中...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/withdraw/get_my_user_details?page=1`,
+      header: {
+        authorization: this.$parent.globalData.token,
+        apikey: this.$parent.globalData.apikey
+      },
+      data: {
+        
+      },
+      method: 'GET',
+      success: data => {
+        wx.hideToast()
+        data = this.$parent.null2str(data)
+        if (data.data.code === 8888) {
+          this.list = this.list.concat(data.data.data.data)
+          console.log(this.list.concat(data.data.data.data))
+          // 当前页码
+          this.current_page = data.data.data.current_page
+          // 总页码
+          this.last_page = data.data.data.last_page
+          this.$apply()
+        }
+      }
+    })
+    this.$apply();
+  }
+}
 </script>

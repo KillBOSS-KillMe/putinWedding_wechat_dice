@@ -61,15 +61,15 @@
         duration: 1000000
       });
       wx.request({
-        url: `${this.$parent.globalData.requestUrl}/recharge/wx_pay`,
+        url: `${this.$parent.globalData.requestUrl}/withdraw/get_withdraw_tpl_list`,
         header: {
           authorization: this.$parent.globalData.token,
           apikey: this.$parent.globalData.apikey
         },
         data: {
-          id: this.id
+          // id: this.id
         },
-        method: 'POST',
+        method: 'GET',
         success: data => {
           wx.hideToast()
           data = this.$parent.null2str(data)

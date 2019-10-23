@@ -31,7 +31,7 @@
           <text class="name">服务推荐</text>
           <view>
             更多
-            <icon class="iconfont icondingwei"></icon>
+            <icon class="iconfont iconjiantou"></icon>
           </view>
         </view>
         <view class="list">
@@ -52,7 +52,7 @@
           <text class="name">人气推荐</text>
           <view>
             更多
-            <icon class="iconfont icondingwei"></icon>
+            <icon class="iconfont iconjiantou"></icon>
           </view>
         </view>
         <view class="list">
@@ -221,7 +221,9 @@
       this.getPopularityList()
     }
     // 服务推荐
-    getServiceList() {}
+    getServiceList() {
+      
+    }
     // 人气推荐
     getPopularityList() {}
     // 下拉刷新
@@ -520,12 +522,11 @@
       }
       icon{
         width: 28rpx;
-        width: 28rpx;
-        font-size: 28rpx;
+        font-size: 26rpx;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #999999
+        color: #999999;
       }
     }
     .list{

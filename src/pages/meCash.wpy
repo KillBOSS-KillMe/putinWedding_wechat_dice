@@ -61,15 +61,15 @@
         duration: 1000000
       });
       wx.request({
-        url: `${this.$parent.globalData.requestUrl}/recharge/wx_pay`,
+        url: `${this.$parent.globalData.requestUrl}/withdraw/get_withdraw_tpl_list`,
         header: {
           authorization: this.$parent.globalData.token,
           apikey: this.$parent.globalData.apikey
         },
         data: {
-          id: this.id
+          // id: this.id
         },
-        method: 'POST',
+        method: 'GET',
         success: data => {
           wx.hideToast()
           data = this.$parent.null2str(data)
@@ -86,7 +86,7 @@
     }
     runRecharge(payNode) {
       wx.showToast({
-        title: "充值加载中...",
+        title: "提现加载中...",
         icon: 'loading',
         duration: 1000000
       });
@@ -99,7 +99,7 @@
         'success': data => {
           wx.hideToast()
           wx.showToast({
-            title: "充值成功",
+            title: "提现成功",
             icon: 'success',
             duration: 2000
           });
@@ -113,7 +113,7 @@
         'fail': data => {
           wx.hideToast()
           wx.showToast({
-            title: "充值失败",
+            title: "提现失败",
             icon: 'none',
             duration: 2000
           });
@@ -126,23 +126,25 @@
         icon: 'loading',
         duration: 1000000
       });
-      let url = ''
-      let data = {}
-      if (this.userInfo.type == 2) {
-        // 执行酒店加载
-        url = 'recharge/get_recharge_tpl_list'
-      } else if (this.userInfo.type == 1) {
-        // 执行保洁加载
-        url = 'withdraw/get_withdraw_tpl_list'
-      }
+      // let url = ''
+      // let data = {}
+      // if (this.userInfo.type == 2) {
+      //   // 执行酒店加载
+      //   url = 'recharge/get_recharge_tpl_list'
+      // } else if (this.userInfo.type == 1) {
+      //   // 执行保洁加载
+      //   url = 'withdraw/get_withdraw_tpl_list'
+      // }
       wx.request({
-        url: `${this.$parent.globalData.requestUrl}/${url}`,
+        url: `${this.$parent.globalData.requestUrl}/withdraw/set_withdraw`,
         header: {
           authorization: this.$parent.globalData.token,
           apikey: this.$parent.globalData.apikey
         },
-        data: data,
-        method: 'GET',
+        data: {
+          type:1
+        },
+        method: 'POST',
         success: data => {
           wx.hideToast()
           data = this.$parent.null2str(data)
