@@ -2,24 +2,24 @@
   <view class="containe  {{ col == 1 ? 'noscroll':'' }}">
     <view class="messageList">
       <repeat for="{{messageList}}" item="item">
-        <view class="carList" @tap='messageDetail' data-item='{{item.id}}'>
+        <view class="carList">
           <view class="item">
             <view class="top">
               <image src='{{item.userImg}}'>
               <view>
-                <text class="userName">{{item.userName}} 向你咨询</text>
+                <text class="userName">{{item.userName}}</text>
                 <text class="time">{{item.time}}</text>
               </view>
             </view>
-            <text class="hf">回复</text>
+            <text class="hf" @tap='messageDetail' data-item='{{item.id}}'>回复</text>
           </view>
-          <text class="carName">{{item.name}}</text>
-          <view style="margin-bottom: 16rpx">
+          <!-- <text class="carName">{{item.name}}</text> -->
+          <view>
             <text class="type" wx:if="{{item.type == '1'}}">婚车</text>
             <text class="type" wx:if="{{item.type == '2'}}">尾车</text>
             <text class="name">{{item.content}}</text>
           </view>
-          <view class="confirm" @tap.stop="exchange"><text>确认互换</text></view>
+          <!-- <view class="confirm" @tap.stop="exchange"><text>确认互换</text></view> -->
         </view>
       </repeat>
     </view>
@@ -103,16 +103,16 @@
         this.$redirect(url)
       },
       // 互换弹框
-      exchange(){
-        if (this.collectionStr) {
-          this.collectionStr = false
-          this.col=2
-        } else {
-          this.collectionStr = true
-           this.col=1
-        }
-        this.$apply()
-      },
+      // exchange(){
+      //   if (this.collectionStr) {
+      //     this.collectionStr = false
+      //     this.col=2
+      //   } else {
+      //     this.collectionStr = true
+      //      this.col=1
+      //   }
+      //   this.$apply()
+      // },
       //弹框关闭
       hideMask(){
         if (this.collectionStr) {
@@ -158,7 +158,7 @@
     padding-bottom: 100rpx;
     box-sizing: border-box;
     .carList{
-      margin: 60rpx 0;
+      margin: 50rpx 0 100rpx;
     }
     .messageList{
       width: 630rpx;
@@ -167,6 +167,7 @@
         display: flex;
         justify-content: space-between;
         align-content: center;
+        margin-bottom: 25rpx;
         .top{
           display: flex;
           image{

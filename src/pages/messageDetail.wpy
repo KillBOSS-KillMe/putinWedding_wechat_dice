@@ -2,19 +2,25 @@
   <view class="containe">
     <view class="messageList">
       <repeat for="{{messageList}}" item="item">
-        <view class="carList">
+        <view class="carList" wx:if="{{item.type=='1'}}">
           <view class="top">
             <image src='{{item.userImg}}'>
             <text class="userName">{{item.userName}}</text>
             <view class="message">
-              <view class="question">
-                <text class="tw" wx:if="{{item.type == '1'}}">提问</text>
-                <text class="hd" wx:if="{{item.type == '2'}}">回答</text>
-              </view>
-              <text class="time">于{{item.time}}</text>
+              <text class="time">{{item.time}}</text>
             </view>
           </view>
-          <text>{{item.name}}</text>
+          <text class="you">{{item.name}}</text>
+        </view>
+        <view class="carList" wx:if="{{item.type=='2'}}">
+          <view class="twoTop">
+            <view class="message">
+              <text class="time">{{item.time}}</text>
+            </view>
+            <text class="userName">{{item.userName}}</text>
+            <image src='{{item.userImg}}'>
+          </view>
+          <text class="me">{{item.name}}</text>
         </view>
       </repeat>
     </view>
@@ -76,8 +82,8 @@
   padding-bottom: 100rpx;
   box-sizing: border-box;
   .carList{
-    width: 690rpx;
-    padding: 0 60rpx;
+    width: 670rpx;
+    padding: 0 40rpx;
     margin: 20rpx 0 60rpx;
     .top{
       display: flex;
@@ -96,6 +102,37 @@
         font-weight: 600;
         margin-left: 20rpx;
       }
+    }
+    .twoTop{
+      display: flex;
+      justify-content: flex-end;
+      align-content: flex-end;
+      margin-bottom: 26rpx;
+        image{
+        width: 44rpx;
+        height: 44rpx;
+        border-radius: 50%;
+        overflow: hidden;
+         margin-left: 20rpx;
+       }
+      .userName{
+        color: #1F1F1F;
+        font-size: 34rpx;
+        font-weight: 600;
+         margin-left: 20rpx;
+      }
+    }
+    .me{
+      font-size: 28rpx;
+      color: #1F1F1F;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .you{
+      font-size: 28rpx;
+      color: #1F1F1F;
+      display: flex;
+      justify-content: flex-start;
     }
     .message{
       display: flex;
