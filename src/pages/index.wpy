@@ -29,7 +29,7 @@
       <view class="listCon">
         <view class="listTile">
           <text class="name">服务推荐</text>
-          <view>
+          <view @tap='recommendMore' data-id="1">
             更多
             <icon class="iconfont iconjiantou"></icon>
           </view>
@@ -50,7 +50,7 @@
       <view class="listCon">
         <view class="listTile">
           <text class="name">人气推荐</text>
-          <view>
+          <view @tap='recommendMore' data-id="2">
             更多
             <icon class="iconfont iconjiantou"></icon>
           </view>
@@ -173,6 +173,19 @@
          let url = `/pages/productDetails?id=${id}`
          this.$navigate(url)
          this.$apply()
+      },
+      //服务人气推荐更多
+      recommendMore(e){
+        let id = e.currentTarget.dataset.id
+        //1服务推荐 2人气推荐
+        if(id=='1'){
+          let url = `/pages/serviceRecommend`
+          this.$navigate(url)
+        }else if(id=='2'){
+          let url = `/pages/peopleRecommend`
+          this.$navigate(url)
+        }
+        this.$apply()
       }
     }
 
