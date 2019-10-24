@@ -65,7 +65,7 @@
       输入新手机号
     </view>
     <view class="item">
-      <input type="text" data-name="phone" @input="getSetData" placeholder="请输入身份证号码" />
+      <input type="text" data-name="phone" @input="getSetData" placeholder="请输入新手机号" />
     </view>
     <view class="sub">
       <view @tap="sub">提交</view>
@@ -108,61 +108,13 @@
       },
       sub() {
         let formNode = this.formNode
-        // if (this.check.isIdentity_18(formNode.IDCard)) {
-        //   wepy.showModal({
-        //     title: '',
-        //     content: '请输入身份证号码',
-        //     showCancel: false
-        //   })
-        //   return
-        // }
-        // if (this.check.isNull(formNode.name)) {
-        //   wepy.showModal({
-        //     title: '',
-        //     content: '请输入名称',
-        //     showCancel: false
-        //   })
-        //   return
-        // }
-        // if (this.check.isPhone(formNode.phone)) {
-        //   wepy.showModal({
-        //     title: '',
-        //     content: '请输入电话',
-        //     showCancel: false
-        //   })
-        //   return
-        // }
-        // if (this.check.isNull(formNode.code)) {
-        //   wepy.showModal({
-        //     title: '',
-        //     content: '请输入验证码',
-        //     showCancel: false
-        //   })
-        //   return
-        // }
-        if (formNode.IDCard == '') {
-          wepy.showModal({
-            title: '',
-            content: '请输入身份证号码',
-            showCancel: false
-          })
-          return
-        }
-        if (formNode.name == '') {
-          wepy.showModal({
-            title: '',
-            content: '请输入名称',
-            showCancel: false
-          })
-          return
-        }
         if (formNode.phone.length != 11) {
           wepy.showModal({
             title: '',
             content: '请输入电话',
             showCancel: false
           })
-          return
+          return false
         }
         if (formNode.code == 1) {
           wepy.showModal({
@@ -170,15 +122,15 @@
             content: '请输入验证码',
             showCancel: false
           })
-          return
+          return false
         }
         wx.showToast({
-          title: "注册中...",
+          title: "修改中...",
           icon: 'loading',
           duration: 10000
         });
         wx.request({
-          url: `${this.$parent.globalData.requestUrl}/auth/clean_register`,
+          url: `${this.$parent.globalData.requestUrl}/auth/set_user_phone`,
           method: 'PUT',
           header: {
             'content-type':'application/json',
@@ -197,12 +149,17 @@
             data = this.$parent.null2str(data)
             if (data.data.code === 8888) {
               wx.showToast({
-                title: "注册成功",
+                title: "修改成功",
                 icon: 'success',
                 duration: 2000
               });
+              this.setUserInfo()
               setTimeout(() => {
-                this.$redirect('/pages/index')
+                wx.showToast({
+                  title: "更新信息",
+                  icon: 'success',
+                  duration: 2000
+                });
               }, 2000)
             } else {
             wx.showToast({
@@ -218,13 +175,21 @@
         if (this.disabled) {
           return false
         }
-        if (this.check.isPhone(this.formNode.phone)) {
-          wepy.showModal({
-            title: '',
-            content: '请输入电话',
-            showCancel: false
-          })
-          return
+        if (this.formNode.phone == '') {
+          wx.showToast({
+            title: "请输入手机号",
+            icon: 'none',
+            duration: 2000
+          });
+          return false
+        }
+        if (this.formNode.phone.length != 11) {
+          wx.showToast({
+            title: "请输入正确的手机号",
+            icon: 'none',
+            duration: 2000
+          });
+          return false
         }
         wx.showToast({
           title: "请求发送中...",
@@ -270,15 +235,37 @@
       
     }
     onLoad() {
-      // this.formNode['pid'] = this.$parent.globalData.pid
-      // this.$apply()
-      // this.userInfo = this.$parent.globalData.userInfo
-      this.userInfo['phone'] = '19999999990'
+      this.userInfo = this.$parent.globalData.userInfo
       this.$apply()
-      // if (this.userInfo.status != 2) {
-      //   // 提示注册
-      //   this.goRegistered()
-      // }
+    }
+    // 更新用户信息
+    setUserInfo() {
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/auth/my`,
+        method: 'GET',
+        header: {
+          'content-type':'application/json',
+          authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        success: data => {
+          wx.hideToast()
+          data = this.$parent.null2str(data)
+          if (data.data.code === 8888) {
+            this.userInfo = Object.assign(this.userInfo, data.data.data);
+            this.$parent.globalData.userInfo = this.userInfo
+            this.$apply()
+            wx.navigateBack({
+              delta: 1
+            })
+          } else {
+            wx.showModal({
+              title: '',
+              content: data.data.errmsg
+            })
+          }
+        }
+      })
     }
     // 提示注册
     goRegistered() {
