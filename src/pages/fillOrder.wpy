@@ -23,16 +23,16 @@
           <view class="progressItem rad_1">
             <view>
               <view class="radius radius_active"></view>
-              <view>定金</view>
+              <view class="cur earnestMoney">定金</view>
             </view>
-            <texe>￥400</texe>
+            <texe class="earnestMoney cur">￥400</texe>
           </view>
           <view class="progressItem rad_2">
             <view>
               <view class="radius radius_active"></view>
-              <view>定金</view>
+              <view class="earnestMoney">尾款</view>
             </view>
-            <texe>￥400</texe>
+            <texe class="earnestMoney cur">￥400</texe>
           </view>
           <progress percent="50" activeColor="#F42652" backgroundColor="#B6B6B6" stroke-width="2" class="pro_border"/>
         </view>
@@ -360,8 +360,10 @@ export default class FillOrder extends wepy.page {
     // top:0;
   }
   .progress .radius_active{
-    background: #F86221;
-    color:#fff;
+    background: #F42652;
+  }
+  .progress .cur{
+    color: #F42652;
   }
   .progress .rad_1{
     left:0;
@@ -370,5 +372,10 @@ export default class FillOrder extends wepy.page {
   .progress .rad_2{
     left:0;
     top:120rpx;
+  }
+  .earnestMoney{
+    font-weight: 600;
+    font-size: 30rpx;
+    color: #1F1F1F;
   }
 </style>
