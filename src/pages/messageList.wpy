@@ -5,6 +5,8 @@
         <view class="carList">
           <view class="item">
             <view class="top">
+              <view wx:if="{{item.type=='1'}}" class="clice"></view>
+              <view wx:else style="display:none" class="clice"></view>
               <image src='{{item.userImg}}'>
               <view>
                 <text class="userName">{{item.userName}}</text>
@@ -76,7 +78,7 @@
       messageList:[
         {id:'1',type:'1',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'},
         {id:'2',type:'1',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'},
-        {id:'3',type:'1',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'}
+        {id:'3',type:'2',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'}
       ],
       collectionStr:false,
       col:2,
@@ -170,6 +172,17 @@
         margin-bottom: 25rpx;
         .top{
           display: flex;
+          position: relative;
+          .clice{
+            width: 20rpx;
+            height: 20rpx;
+            border-radius: 50%;
+            background: #F42652;
+            position: absolute;
+            z-index: 99;
+            top: 0rpx;
+           left: 24px;
+          }
           image{
             width: 64rpx;
             height: 64rpx;

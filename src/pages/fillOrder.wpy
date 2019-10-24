@@ -1,26 +1,18 @@
 <template>
   <view class="concontainer">
     <view class="header">
-      <icon class="iconfont"></icon>
-      <text>客服电话：1800066445</text>
+      <icon class="iconfont icondianhuazhengzaibohao"></icon>
+      客服电话：1800066445
     </view>
     <view class="cityList">
       <view class="orderInfo">
-        <view class="flex orderData" style="justify-content: space-between;">
-          <text class="text">接亲日期</text>
-          <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
-            <view class="picker">
-              {{date}}
-            </view>
-          </picker>
-          <icon class="iconfont iconjiantou"></icon>
+        <view class="flex orderData">
+          <text class="text">标题</text>
+          <view class="orderDataInfo">{{message.carName}}</view>
         </view>
         <view class="flex orderData">
-          <text class="text">用车要求</text>
-          <view>
-            <text class="orderDataTime">{{message.carTime}}</text>
-            <text class="orderDataInfo">超时、超公里另算</text>
-          </view>
+          <text class="text">描述</text>
+          <text class="orderDataInfo">{{message.carTime}}</text>
         </view>
         <view class="progress">
           <view class="progressItem rad_1">
@@ -32,64 +24,46 @@
           </view>
           <view class="progressItem rad_2">
             <view>
-              <view class="radius radius_active"></view>
+              <view class="radius"></view>
               <view class="earnestMoney">尾款</view>
             </view>
             <texe class="earnestMoney cur">￥400</texe>
           </view>
           <progress percent="50" activeColor="#F42652" backgroundColor="#B6B6B6" stroke-width="2" class="pro_border"/>
         </view>
-        <text class="money">09-05 00:00之前付清尾款</text>
-        <text class="money">提醒我支付尾款  1800000000</text>
-        <view class="flex contract">
-          <text class="text">合同(婚车)</text>
-          <view>
-            <text wx:if="{{message.contract=='1'}}" style="color:#999">已签</text>
-            <text wx:else style="color:#999">未签</text>
-          </view>
-        </view>
-      </view>
-      <view class="orderInfo">
-        <text>联系信息</text>
         <view class="flex orderData">
-          <text class="text">联系电话</text>
-          <text class="orderDataTime">{{message.tel}}</text>
+          <text class="text">价格</text>
+          <text class="orderDataInfo">{{message.carTime}}</text>
         </view>
         <view class="flex orderData">
-          <text class="text">联系人</text>
-          <text class="orderDataTime">{{message.userName}}</text>
+          <text class="text">需要日期</text>
+          <text class="orderDataInfo">{{message.carTime}}</text>
         </view>
-        <view style="margin-bottom:0">
-          <text class="bz">备注</text>
-          <textarea bindblur="bindTextAreaBlur" placeholder="请输入备注，如包伙食等" placeholder-style="color:#999;font-size:28rpx;"/>
+        <view class="flex orderData">
+          <text class="text">所在地</text>
+          <text class="orderDataInfo">{{message.carTime}}</text>
         </view>
-      </view>
-      <view class="orderInfo">
-        <text>商品信息</text>
-        <view class="carInfo flex">
-          <image src='{{message.shopImg}}'>
-          <view>
-            <view style="margin-bottom: 16rpx">
-                <text class="type" wx:if="{{message.type == '1'}}">头车</text>
-                <text class="type" wx:if="{{message.type == '2'}}">尾车</text>
-                <text class="name">{{message.carName}}</text>
-            </view>
-            <text class="travel">{{message.travel}}</text>
-            <view class="flex" style="align-content: center;">
-              <text class="price">￥{{message.price}}</text>
-              <text class="userInfo">{{message.userName}}/{{message.adders}}</text>
-            </view>
+        <view class="flex orderData">
+          <text class="text">服务区域</text>
+          <text class="orderDataInfo">{{message.carTime}}</text>
+        </view>
+        <view>
+          <text class="text">图片</text>
+          <view class="img">
+            <image src="../image/daw.jpg"/>
+            <image src="../image/daw.jpg"/>
+            <image src="../image/daw.jpg"/>
+            <image src="../image/daw.jpg"/>
           </view>
         </view>
-        <view class="flex earnest">
-          <text>定金</text>
-          <text class="money">￥{{message.earnest}}</text>
+        <view class="flex" style="justify-content: space-between">
+          <text class="text">订金</text>
+          <text class="textMony">￥{{message.carTime}}</text>
         </view>
       </view>
     </view>
     <view class="bottom flex">
-      <text class="text0">合计￥{{message.earnest}}</text>
-      <text class="text1">付全款</text>
+      <text class="text1">立即沟通</text>
       <text class="text2">支付定金</text>
     </view>
   </view>
@@ -143,12 +117,17 @@ export default class FillOrder extends wepy.page {
     line-height: 88rpx;
     text-align: center;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-content: center;
     align-items: center;
     font-size: 28rpx;
     font-weight: 600;
     color: #1F1F1F;
+    icon{
+      color: #EFA443;
+      margin-right: 20rpx;
+      font-size: 46rpx;
+    }
   }
   .cityList {
     width: 690rpx;
@@ -238,17 +217,12 @@ export default class FillOrder extends wepy.page {
         align-content: center;
         justify-content: center;
       }
-      picker{
-        width: 560rpx;
-        color: #1F1F1F;
-        font-size: 30rpx;
-        font-weight: 600;
-      }
       .text {
         display: block;
-        color: #999;
-        font-size: 28rpx;
+        color: #1f1f1f;
+        font-size: 30rpx;
         width: 120rpx;
+        font-weight: 600;
         overflow: hidden;
         margin-right: 25rpx;
       }
@@ -256,12 +230,12 @@ export default class FillOrder extends wepy.page {
         color: #1f1f1f;
         font-size: 30rpx;
         font-weight: bold;
-        
       }
       .orderDataInfo{
-        color: #999;
+        color: #1F1F1F;
         font-size: 30rpx;
         margin-left: 15rpx;
+        text-align: justify;
       }
     }
     .contract{
@@ -302,7 +276,7 @@ export default class FillOrder extends wepy.page {
     background: #fff;
     justify-content: flex-end;
     text{
-      width: 250rpx;
+      width: 50%;
       height: 98rpx;
       line-height: 98rpx;
       text-align: center;
@@ -394,5 +368,31 @@ export default class FillOrder extends wepy.page {
     font-weight: 600;
     font-size: 30rpx;
     color: #1F1F1F;
+  }
+  .img{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    image{
+      width: 210rpx;
+      height: 210rpx;
+      overflow: hidden;
+      border-radius: 10rpx;
+      margin: 20rpx 0;
+    }
+  }
+  .text {
+    display: block;
+    color: #1f1f1f;
+    font-size: 30rpx;
+    width: 120rpx;
+    font-weight: 600;
+    overflow: hidden;
+    margin-right: 25rpx;
+  }
+  .textMony{
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #F42652;
   }
 </style>
