@@ -27,7 +27,8 @@
     data = {
       list: [
         {name: '更改手机号', type: '1'},
-        {name: '更改头像', type: '2'}
+        {name: '更改头像', type: '2'},
+        {name: '更改昵称', type: '3'}
       ]
     }
 
@@ -44,6 +45,9 @@
             break;
           case '2':
             url = `/pages/meSettingAvatarUrl`
+            break;
+          case '3':
+            url = `/pages/meSettingNickName`
             break;
           default:
             return false

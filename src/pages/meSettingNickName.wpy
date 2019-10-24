@@ -54,18 +54,10 @@
 <template>
   <view>
     <view class="label">
-      更改手机号
-      <text>当前手机号：{{userInfo.phone}}</text>
-    </view>
-    <view class="item code">
-      <input type="text" data-name="code" @input="getSetData" placeholder="请输入验证码" />
-      <view class="getCode" @tap="getCode">{{time}}</view>
-    </view>
-    <view class="label">
-      输入新手机号
+      输入昵称
     </view>
     <view class="item">
-      <input type="text" data-name="phone" @input="getSetData" placeholder="请输入新手机号" />
+      <input type="text" data-name="name" @input="getSetData" placeholder="请输入昵称" />
     </view>
     <view class="sub">
       <view @tap="sub">提交</view>
@@ -86,13 +78,9 @@
 
     data = {
       formNode: {
-        phone: '',
-        code: ''
+        name: ''
       },
       userInfo: {},
-      disabled: false,
-      currentTime: 60,   // 倒计时初始值
-      time: '发送验证码'
     }
 
     computed = {}
@@ -108,10 +96,10 @@
       },
       sub() {
         let formNode = this.formNode
-        if (formNode.phone.length != 11) {
+        if (formNode.name == '') {
           wepy.showModal({
             title: '',
-            content: '请输入电话',
+            content: '请输入昵称',
             showCancel: false
           })
           return false
@@ -122,7 +110,7 @@
           duration: 10000
         });
         wx.request({
-          url: `${this.$parent.globalData.requestUrl}/auth/set_user_phone`,
+          url: `${this.$parent.globalData.requestUrl}/auth/set_user_nickname`,
           method: 'PUT',
           header: {
             'content-type':'application/json',
@@ -130,7 +118,7 @@
             apikey: this.$parent.globalData.apikey
           },
           data: {
-            name: formNode.name,
+            nickname: formNode.name
           },
           success: data => {
             wx.hideToast()
