@@ -4,7 +4,7 @@
       <view class="address">
         <view>
           <icon class="iconfont icondingwei"></icon>
-          <text>西安</text>
+          <text>{{address}}</text>
         </view>
         <icon class="iconfont iconkefu"></icon>
       </view>
@@ -96,6 +96,7 @@
 
     data = {
       userInfo: {},
+      address: '',
       userInfoButtonShow: true,
       swiperList: [],
       pageNav: [
@@ -109,7 +110,9 @@
       collectionStr: true,
       
       cityNode: [],
-      searchList: []
+      searchList: [],
+      longitude: 0,
+      latitude: 0
     }
 
     computed = {
@@ -456,6 +459,7 @@
 
     // 定位
     getLocation() {
+      console.log('-------------------------------------')
       wx.getLocation({
         type: 'wgs84',   //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标 
         desc: '你的位置信息将用于小程序位置接口的效果展示',
@@ -463,25 +467,25 @@
           this.longitude = res.longitude
           this.latitude = res.latitude
           this.$apply()
-          // 酒店列表
-          this.getWineList()
+          console.log(this.longitude, this.latitude)
           this.loadCity(this.longitude, this.latitude)
         },
         fail: res => {
+          console.log(res)
           this.longitude = ''
           this.latitude = ''
           this.$apply()
-          // 酒店列表
-          this.getWineList()
         }
       })
     }
     loadCity(longitude, latitude) {
+      console.log('-------------------------------------')
       wx.request({
-        url: `https://apis.map.qq.com/ws/geocoder/v1/?location=${latitude},${longitude}&key=${this.mapKey}`,
+        url: `https://apis.map.qq.com/ws/geocoder/v1/?location=${latitude},${longitude}&key=${this.$parent.globalData.mapKey}`,
         data: {},
         success: (res) => {
           this.address = res.data.result.address
+          console.log(this.address)
         }
       })
     }

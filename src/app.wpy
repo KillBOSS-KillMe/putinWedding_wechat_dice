@@ -97,12 +97,16 @@ export default class extends wepy.app {
       // 个人中心
       'pages/me', // 个人中心  
       'pages/meSettingPhone', // 个人中心--设置--电话
+      'pages/meSettingAvatarUrl',//个人中心--设置--头像
+      'pages/meSettingNickName',//个人中心--设置--昵称
       'pages/meSetting', // 个人中心--设置
       'pages/meBalance', // 个人中心--账号余额
       'pages/meCashBack', // 个人中心--分销反佣
       'pages/meRecharge', // 个人中心--充值
       'pages/meCash', // 个人中心--提现
       'pages/meSubordinate',//个人中心--我的下级
+      
+    
       
       // 订单模块
       'pages/orderList', // 订单列表

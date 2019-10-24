@@ -2,14 +2,23 @@
   <view class="me">
     <image class="meBj" src='../image/meBj.png'>
     <view class="header">
-      <view class="headLift">
-        <image src='{{img}}'>
+      <view class="headLift" wx:if="{{userInfo.phone == ''}}">
+        <image src='{{userInfo.avatarUrl}}'>
         <view>
           <view>
-            <text class="name">{{user}}</text>
-            <text class="userId">ID：{{userid}}</text>
+            <text class="name">{{userInfo.nickName}}</text>
+            <text class="userId">ID：{{userInfo.phone}}</text>
           </view>
           <text class="fontInfo">登录后获取更多服务信息</text>
+        </view>
+      </view>
+      <view class="headLift" wx:if="{{userInfo.phone != ''}}">
+        <image src='{{userInfo.avatarUrl}}'>
+        <view>
+          <view>
+            <text class="name">{{userInfo.nickName}}</text>
+            <text class="userId">ID：{{userInfo.phone}}</text>
+          </view>
         </view>
       </view>
       <image @tap="setting" class="seting" src='../image/seting.png'>
