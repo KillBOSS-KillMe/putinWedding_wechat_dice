@@ -195,14 +195,27 @@
         icon: 'loading',
         duration: 1000000
       });
-      // 获取Token
-      this.getToken()
+      
       // 获取用户信息
       this.onGetUserInfo()
-      // 服务推荐
-      this.getServiceList()
-      // 人气推荐
-      this.getPopularityList()
+      let token = this.$parent.globalData.token
+      if (token != '') {
+        // 轮播图加载
+        this.getSwiperList()
+        // 获取定位及地址
+        this.getLocation()
+        // 用户信息获取
+        this.setUserInfo()
+        // 服务推荐
+        this.getServiceList()
+        // 人气推荐
+        this.getPopularityList()
+      } else {
+        // 获取Token
+        this.getToken()
+      }
+      
+      
     }
     // 服务推荐
     getServiceList() {
@@ -336,16 +349,18 @@
                 wx.hideToast()
                 data = this.$parent.null2str(data)
                 if (data.data.code == '8888') {
-                  
                   let token = `${data.data.msg.token_type} ${data.data.msg.token}`
                   this.$parent.globalData.token = token
                   // 轮播图加载
                   this.getSwiperList()
                   // 获取定位及地址
                   this.getLocation()
-                  
                   // 用户信息获取
                   this.setUserInfo()
+                  // 服务推荐
+                  this.getServiceList()
+                  // 人气推荐
+                  this.getPopularityList()
                 }
                 
               }
@@ -370,6 +385,7 @@
         success: data => {
           data = this.$parent.null2str(data)
           if (data.data.code === 8888) {
+            console.log(data)
             this.userInfo = Object.assign(this.userInfo, data.data.data);
             this.$parent.globalData.userInfo = this.userInfo
             this.$apply()
@@ -417,6 +433,9 @@
             this.$parent.globalData.swiperList = this.swiperList
             console.log(this.swiperList)
             this.$apply()
+          } else if (data.data.code === 1001) {
+            // 获取Token
+            this.$parent.getToken(this.onLoad())
           }
         }
       })

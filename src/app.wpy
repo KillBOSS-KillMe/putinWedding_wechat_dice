@@ -170,11 +170,12 @@ export default class extends wepy.app {
               code: res.code
             },
             success: data => {
-              data = this.null2str(data)
-              console.log(data)
-              let token = `${data.data.token_type} ${data.data.token}`
-              console.log(token)
-              return token
+              wx.hideToast()
+              data = this.$parent.null2str(data)
+              if (data.data.code == '8888') {
+                let token = `${data.data.msg.token_type} ${data.data.msg.token}`
+                this.$parent.globalData.token = token
+              }
             }
           })
         }

@@ -75,6 +75,7 @@
             icon: 'none',
             duration: 2000
           });
+          return false
         }
         if (formNode.phone.length != 11) {
           wx.showToast({
@@ -82,6 +83,7 @@
             icon: 'none',
             duration: 2000
           });
+          return false
         }
         if (formNode.code == '') {
           wx.showToast({
@@ -89,6 +91,7 @@
             icon: 'none',
             duration: 2000
           });
+          return false
         }
         wx.showToast({
           title: "注册中...",
@@ -116,6 +119,11 @@
                 let url = `/pages/index`
                 this.$redirect(url)
               }, 2000)
+            } else {
+              wx.showToast({
+                title: data.data.msg,
+                icon: 'none'
+              })
             }
           }
         })
@@ -138,13 +146,21 @@
       if (this.disabled) {
         return false
       }
-      if (this.check.isPhone(this.formNode.phone)) {
-        wepy.showModal({
-          title: '',
-          content: '请输入电话',
-          showCancel: false
-        })
-        return
+      if (this.formNode.phone == '') {
+        wx.showToast({
+          title: "请输入手机号",
+          icon: 'none',
+          duration: 2000
+        });
+        return false
+      }
+      if (this.formNode.phone.length != 11) {
+        wx.showToast({
+          title: "请输入正确的手机号",
+          icon: 'none',
+          duration: 2000
+        });
+        return false
       }
       wx.showToast({
         title: "请求发送中...",
@@ -183,6 +199,24 @@
           }
         }
       })
+    }
+    // 倒计时
+    countdown() {
+      var currentTime = this.currentTime;
+      this.time = `倒计时${currentTime}秒`
+      this.$apply()
+      var interval = setInterval(() => {
+        this.time = '倒计时' + (currentTime - 1) + '秒'
+        this.$apply()
+        currentTime--
+        if (currentTime <= 0) {
+          clearInterval(interval)
+          this.time = '重新获取'
+          this.currentTime = 60
+          this.disabled = false
+          this.$apply()
+        }
+      }, 1000)
     }
   }
 </script>
