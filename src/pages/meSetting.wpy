@@ -26,7 +26,8 @@
 
     data = {
       list: [
-        {name: '更改手机号', type: '1'}
+        {name: '更改手机号', type: '1'},
+        {name: '更改头像', type: '2'}
       ]
     }
 
@@ -34,12 +35,22 @@
 
     methods = {
       selSetting(e) {
-        let type=e.currentTarget.dataset.type
-        let url = `/pages/meSettingPhone?type=${type}`
+        let type = e.currentTarget.dataset.type
+        console.log(11)
+        let url = `/pages/meSettingPhone`
+        switch(type) {
+          case '1':
+            url = `/pages/meSettingPhone`
+            break;
+          case '2':
+            url = `/pages/meSettingAvatarUrl`
+            break;
+          default:
+            return false
+        }
+        console.log(url)
         this.$navigate(url)
         this.$apply()
-        // console.log(e.currentTarget.dataset.type)
-        
       }
     }
 
