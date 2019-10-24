@@ -76,9 +76,9 @@
 <script>
   import wepy from 'wepy'
   import check from '../mixins/check'
-  export default class MeSettingPhone extends wepy.page {
+  export default class MeSettingNickName extends wepy.page {
     config = {
-      navigationBarTitleText: '更改手机号'
+      navigationBarTitleText: '更改昵称'
     }
     components = {}
 
@@ -116,14 +116,6 @@
           })
           return false
         }
-        if (formNode.code == 1) {
-          wepy.showModal({
-            title: '',
-            content: '请输入验证码',
-            showCancel: false
-          })
-          return false
-        }
         wx.showToast({
           title: "修改中...",
           icon: 'loading',
@@ -138,8 +130,7 @@
             apikey: this.$parent.globalData.apikey
           },
           data: {
-            phone: formNode.phone,
-            code: formNode.code
+            name: formNode.name,
           },
           success: data => {
             wx.hideToast()
@@ -164,65 +155,6 @@
               icon: 'none'
             });
           }
-          }
-        })
-      },
-      // 获取验证码
-      getCode() {
-        if (this.disabled) {
-          return false
-        }
-        if (this.formNode.phone == '') {
-          wx.showToast({
-            title: "请输入手机号",
-            icon: 'none',
-            duration: 2000
-          });
-          return false
-        }
-        if (this.formNode.phone.length != 11) {
-          wx.showToast({
-            title: "请输入正确的手机号",
-            icon: 'none',
-            duration: 2000
-          });
-          return false
-        }
-        wx.showToast({
-          title: "请求发送中...",
-          icon: 'loading',
-          duration: 10000
-        });
-        this.disabled = true
-        this.$apply()
-        wx.request({
-          url: `${this.$parent.globalData.requestUrl}/auth/send_code`,
-          method: 'POST',
-          header: {
-            'content-type':'application/json',
-            authorization: this.$parent.globalData.token,
-            apikey: this.$parent.globalData.apikey
-          },
-          data: {
-            phone: this.formNode.phone
-          },
-          success: data => {
-            wx.hideToast()
-            data = this.$parent.null2str(data)
-            if (data.data.code === 8888) {
-              wx.showToast({
-                title: data.data.msg,
-                icon: 'success',
-                duration: 1000
-              });
-              this.$apply()
-              this.countdown()
-            } else {
-              wx.showToast({
-                title: data.data.msg,
-                icon: 'none'
-              });
-            }
           }
         })
       }
@@ -263,24 +195,6 @@
           }
         }
       })
-    }
-    // 倒计时
-    countdown() {
-      var currentTime = this.currentTime;
-      this.time = `倒计时${currentTime}秒`
-      this.$apply()
-      var interval = setInterval(() => {
-        this.time = '倒计时' + (currentTime - 1) + '秒'
-        this.$apply()
-        currentTime--
-        if (currentTime <= 0) {
-          clearInterval(interval)
-          this.time = '重新获取'
-          this.currentTime = 60
-          this.disabled = false
-          this.$apply()
-        }
-      }, 1000)
     }
   }
 </script>
