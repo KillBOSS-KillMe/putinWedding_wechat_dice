@@ -86,7 +86,7 @@ export default class extends wepy.app {
       'pages/postProvide', // 发帖--提供 
       'pages/postNeed', // 发帖--需要
       'pages/selIndustry', // 选择行业
-      'pages/fillOrder', // 填写订单
+      'pages/fillOrder', // 支付订单
 
       // 消息
       'pages/messageList', // 消息列表

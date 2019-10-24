@@ -1,8 +1,11 @@
 <template>
   <view class="concontainer">
+    <view class="header">
+      <icon class="iconfont"></icon>
+      <text>客服电话：1800066445</text>
+    </view>
     <view class="cityList">
       <view class="orderInfo">
-        <text>订单信息</text>
         <view class="flex orderData" style="justify-content: space-between;">
           <text class="text">接亲日期</text>
           <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
@@ -132,6 +135,20 @@ export default class FillOrder extends wepy.page {
 <style lang="less">
   .container {
     box-sizing: border-box;
+  }
+  .header{
+    width: 750rpx;
+    background: #F3F3F3;
+    height: 88rpx;
+    line-height: 88rpx;
+    text-align: center;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #1F1F1F;
   }
   .cityList {
     width: 690rpx;

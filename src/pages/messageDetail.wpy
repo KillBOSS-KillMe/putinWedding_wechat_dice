@@ -7,11 +7,7 @@
             <image src='{{item.userImg}}'>
             <text class="userName">{{item.userName}}</text>
             <view class="message">
-              <view class="question">
-                <text class="tw" wx:if="{{item.type == '1'}}">提问</text>
-                <text class="hd" wx:if="{{item.type == '2'}}">回答</text>
-              </view>
-              <text class="time">于{{item.time}}</text>
+              <text class="time">{{item.time}}</text>
             </view>
           </view>
           <text>{{item.name}}</text>
