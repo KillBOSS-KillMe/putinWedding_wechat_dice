@@ -349,7 +349,6 @@
                 wx.hideToast()
                 data = this.$parent.null2str(data)
                 if (data.data.code == '8888') {
-                  
                   let token = `${data.data.msg.token_type} ${data.data.msg.token}`
                   this.$parent.globalData.token = token
                   // 轮播图加载
