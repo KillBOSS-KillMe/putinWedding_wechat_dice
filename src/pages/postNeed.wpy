@@ -6,26 +6,29 @@
     </view>
     <view class="item">
       <label>描述</label>
-      <textarea data-name="describe" @textarea="getSetData"  placeholder="请输入服务描述"></textarea>
+      <textarea data-name="describe" @input="getSetData"  placeholder="请输入服务描述"></textarea>
     </view>
     <view class="item">
       <view>
         <label>价格</label>
-        <text>1000</text>
+        <input type="number" data-name="price" @input="getSetData" placeholder="请输入价格">
       </view>
       <icon class="iconfont iconjiantou"></icon>
     </view>
     <view class="item">
       <view>
         <label>需要日期</label>
-        <text>2019.05.21</text>
+        <text>{{formNode.dataTime}}</text>
       </view>
       <icon class="iconfont iconjiantou"></icon>
     </view>
     <view class="item">
       <view>
         <label>所在地</label>
-        <text>陕西省西安市</text>
+        <picker mode="region" bindchange="getSetData" value="{{formNode.region}}" data-name="region">
+           <input class="adderss" type="text" value="{{formNode.region[0]}} {{formNode.region[1]}} {{formNode.region[2]}}" disabled placeholder="区域选择" />
+        </picker>
+        <!-- <text>陕西省西安市</text> -->
       </view>
       <icon class="iconfont iconjiantou"></icon>
     </view>
@@ -34,12 +37,14 @@
       <text>(最多上传9张)</text>
     </view>
     <view class="imgList">
-      <repeat for="{{formNode.imgList}}" item="item">
-        <image src="{{item.img}}" />
-      </repeat>
-      <icon class="iconfont iconchuanzhaopian" wx:if="{{imgList.length < 9}}"></icon>
+     <repeat for="{{hotelImgList}}" item="item">
+        <image src="{{item.path.image_url}}" />
+     </repeat>
+      <!-- <image src="/img/upImg.png" @tap="upHotelImgList" wx:if="{{hotelImgList.length < 9}}" /> -->
+     <icon class="iconfont iconchuanzhaopian" @tap="upHotelImgList" wx:if="{{hotelImgList.length < 9}}"></icon>
     </view>
-    <view class="sub">
+    <map class="button" id="map" longitude="113.324520" latitude="23.099994" scale="14" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width:690rpx;padding:10rpx 30rpx;height:380rpx;"></map>
+    <view class="sub" @tap='sub'>
       <view>发布</view>
     </view>
   </view>
@@ -48,6 +53,7 @@
 <script>
   import wepy from 'wepy'
   import nav from '../components/nav' // 底部导航
+  import check from '../mixins/check' //验证
   export default class PostNeed extends wepy.page {
     config = {
       navigationBarTitleText: '发帖'
@@ -56,21 +62,18 @@
       nav: nav
     }
 
-    mixins = []
+    mixins = [check]
 
     data = {
       userInfo: null,
-      
+      hotelImgList: [],
       formNode: {
-        headline: '',            // 标题
+        headline: '',           // 标题
         describe: '',           // 描述
-        imgList: [
-          {id: '', img: '../image/daw.jpg'},
-          {id: '', img: '../image/daw.jpg'},
-          {id: '', img: '../image/daw.jpg'},
-          {id: '', img: '../image/daw.jpg'},
-          {id: '', img: '../image/daw.jpg'},
-        ]
+        price:'',                //价格
+        region: ['', '', ''],
+        hotel_image: '',
+        dataTime:'2019.08.12'
       },
     }
 
@@ -98,17 +101,178 @@
         console.log(formNode)
         this.$apply()
       },
+      upHotelImgList() {
+        this.runUpHotelImgList()
+      },
+      
     }
 
     events = {
 
     }
 
-    onLoad() {
-      
+    onLoad(e) {
+      console.log(e)
+      this.industrie_ids=e.id
+      this.getLocation()//获取经纬度
     }
-    
+    runUpHotelImgList() {
+      let count = 9 - this.hotelImgList.length
+      wx.chooseImage({
+        count: count,
+        sizeType: ['original', 'compressed'],
+        sourceType: ['album', 'camera'],
+        success: res => {
+          wx.showToast({
+            title: '图片上传中',
+            icon: 'loading'
+          });
+          Promise.all(res.tempFiles.map(item => {
+            return new Promise((resolve, reject) => {
+              wx.uploadFile({
+                url: `${this.$parent.globalData.requestUrl}/upload/upload_file`,
+                filePath: item.path,
+                name: 'file',
+                header: {
+                  authorization: this.$parent.globalData.token,
+                  apikey: this.$parent.globalData.apikey
+                },
+                success: res => {
+                  resolve({
+                    path: JSON.parse(res.data).data
+                  })
+                }
+              })
+            })
+          })).then(e => {
+            wx.hideToast()
+            this.hotelImgList = this.hotelImgList.concat(e)
+            let hotelImgList = this.hotelImgList
+            console.log(this.hotelImgList)
+            let hotel_image = ''
+            for (let i = 0; i < hotelImgList.length; i++) {
+              hotel_image += '|'
+              hotel_image += hotelImgList[i].path.image_id
+            }
+            hotel_image = hotel_image.substr(1)
+            this.formNode['hotel_image'] = hotel_image
+            this.$apply()
+          }).catch(err => console.log(err))
+        }
+      })
+    }
+    sub() {
+      let formNode = this.formNode
+      console.log(this.formNode)
+      if (this.check.isNull(formNode.headline)) {
+        wx.showToast({
+          title: '请输入标题',
+          icon: 'none'
+        });
+        return
+      }
+      if (this.check.isNull(formNode.describe)) {
+        wx.showToast({
+          title: '请输入描述',
+          icon: 'none'
+        });
+        return
+      }
+      if (this.check.isNull(formNode.price)) {
+        wx.showToast({
+          title: '请输入价格',
+          icon: 'none'
+        });
+        return
+      }
+      if (this.check.isNull(formNode.dataTime)) {
+        wx.showToast({
+          title: '请选择日期',
+          icon: 'none'
+        });
+        return
+      }
+      let region=formNode.region[0] + formNode.region[1] + formNode.region[2]
+      if (this.check.isNull(region)) {
+        wx.showToast({
+          title: '请选择地址',
+          icon: 'none'
+        });
+        return
+      }
+      if (this.check.isNull(formNode.hotel_image)) {
+        wx.showToast({
+          title: '请添加图片',
+          icon: 'none'
+        });
+        return
+      }
+      this.upformData(formNode)
+    }
+    upformData(formNode) {
+      console.log(formNode)
+      wx.showToast({
+        title: "发布中...",
+        icon: 'loading',
+        duration: 10000
+      });
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/order/set_want`,
+        method: 'POST',
+        header: {
+          authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        data: {
+          industrie_ids:this.industrie_ids, //hangye
+          title:formNode.headline,          //标题
+          content:formNode.describe,        //内容
+          money:formNode.price,             //价格
+          date:formNode.dataTime,
+          province:formNode.region[0],
+          city:formNode.region[1],
+          county:formNode.region[2],
+          address:'陕西省西安市',
+          images:formNode.hotel_image,
+        },
+        success: data => {
+          wx.hideToast()
+          data = this.$parent.null2str(data)
+          if (data.data.code === 8888) {
+            wx.showToast({
+              title: "发布成功",
+              icon: 'success',
+              duration: 2000
+            });
+            setTimeout(() => {
+              this.$redirect('/pages/orderList')
+            }, 2000)
+          } else {
+            wx.showToast({
+              title: '发布失败',
+              icon: 'none'
+            });
+          }
+        }
+      })
+    }
 
+    getLocation () {
+      wx.getLocation({
+        type: 'wgs84',
+        success: function (res) {
+          console.log(JSON.stringify(res))
+          let latitude = res.latitude
+          this.latitude=latitude
+          let longitude = res.longitude
+          let speed = res.speed
+          let accuracy = res.accuracy;
+        },
+        fail: function (res) {
+          console.log('fail' + JSON.stringify(res))
+        }
+      })
+    }
     // 用户信息校验
     verificationUserInfo() {
       if (!this.userInfo.hasOwnProperty('id')) {
@@ -187,23 +351,31 @@
     width: 690rpx;
     height: auto;
     padding: 20rpx 30rpx;
-    margin-bottom: 220rpx;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-direction: row;
     flex-wrap: wrap;
     .iconchuanzhaopian{
-      font-size: 216rpx;
-      height: 216rpx;
-      width: 216rpx;
+      font-size: 214rpx;
+      height: 214rpx;
+      width: 214rpx;
     }
     image{
-      width: 216rpx;
-      height: 216rpx;
-      margin: 10rpx 0;
+      width: 214rpx;
+      height: 214rpx;
+      margin: 10rpx 21rpx 10rpx 0;
       border-radius: 10rpx;
     }
+    image:nth-child(3n){
+      margin-right: 0;
+    }
   }
-  
+  .adderss{
+    color: #333;
+    font-size: 30rpx;
+  }
+  .button{
+    margin-bottom: 220rpx;
+  }
 </style>

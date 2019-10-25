@@ -37,52 +37,35 @@
       // 选择行业
       sel(e) {
         this.activeNum = e.currentTarget.dataset.index
+        console.log(this.activeNum)
         this.$apply()
       },
       // 提交
       sub() {
-        let list = this.list
-        let industry = this.list[this.activeNum].id
-        if (industry == -1) {
+        let id=this.activeNum
+        console.log(id)
+        if(id=='-1'){
           wx.showToast({
-            title: "请选择行业",
-            icon: 'loading',
-            duration: 2000
+            title: '请选择行业',
+            icon: 'none',
+            duration: 1000,
+            mask: true
           })
+        }else{
+          if(this.a=='0'){
+          //发帖需要
+            let url = `/pages/postNeed?id=${id}`
+            this.$navigate(url)
+          }else if(this.a=='1'){
+            // 发帖--提供
+            let url = `/pages/postProvide?id=${id}`
+            this.$navigate(url)
+          }else if(this.a=='2'){
+            // 发帖--同行互换
+            let url = `/pages/postExchange?id=${id}`
+            this.$navigate(url)
+          }
         }
-
-        console.log(industry)
-        // wx.showToast({
-        //   title: "数据提交中...",
-        //   icon: 'loading',
-        //   duration: 1000000
-        // });
-        // wx.request({
-        //   url: `${this.$parent.globalData.requestUrl}/auth/set_industrie`,
-        //   method: 'PUT',
-        //   header: {
-        //     Authorization: this.$parent.globalData.token,
-        //     apikey: this.$parent.globalData.apikey
-        //   },
-        //   data: {
-        //     industrie_ids: industry
-        //   },
-        //   success: data => {
-        //     wx.hideToast()
-        //     data = this.$parent.null2str(data)
-        //     if (data.data.code == 8888) {
-        //       wx.showToast({
-        //         title: "注册成功，进入首页",
-        //         icon: 'none',
-        //         duration: 2000
-        //       });
-        //       setTimeout(() => {
-        //         let url = `/pages/index`
-        //         this.$redirect(url)
-        //       }, 2000)
-        //     }
-        //   }
-        // })
       }
     }
 
@@ -90,7 +73,9 @@
       
     }
 
-    onLoad() {
+    onLoad(e) {
+      let a = e.a;
+      this.a=a
       this.getIndustry()
     }
     // 获取行业

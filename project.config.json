@@ -1,10 +1,21 @@
 {
 	"description": "普京婚庆",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
-		"minified": false
+		"minified": false,
+		"newFeature": true,
+		"coverView": true,
+		"autoAudits": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"compileType": "miniprogram",
 	"appid": "wx8934a8d454fb5bc0",
@@ -29,7 +40,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": 8,
 			"list": [
 				{
 					"id": -1,
@@ -71,6 +82,26 @@
 					"name": "pages/postNeed",
 					"pathName": "pages/postNeed",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/postNeed",
+					"pathName": "pages/postNeed",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/orderList",
+					"pathName": "pages/orderList",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/orderList",
+					"pathName": "pages/orderList",
 					"scene": null
 				}
 			]

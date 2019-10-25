@@ -109,7 +109,7 @@ export default class extends wepy.app {
     
       
       // 订单模块
-      'pages/orderList', // 订单列表
+      'pages/orderList', // 订单列表--需要
       'pages/orderListExchange', // 订单列表--同行互换
       'pages/orderPost', // 发布评价
       'pages/orderDetailBail', // 订单详情--保证金
@@ -423,7 +423,16 @@ export default class extends wepy.app {
     z-index: 100;
   }
 }
-
+.listNull{ 
+  width: 100%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  padding: 20rpx 0; 
+  font-size: 25rpx; 
+  // font-weight: 600; 
+  color: #898989; 
+ } 
 // 多选框样式
   checkbox .wx-checkbox-input {
     border-radius: 50%; /* 圆角 */

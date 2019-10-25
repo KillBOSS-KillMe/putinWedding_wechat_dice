@@ -8,11 +8,11 @@
       <view class="orderInfo">
         <view class="flex orderData">
           <text class="text">标题</text>
-          <view class="orderDataInfo">{{message.carName}}</view>
+          <view class="orderDataInfo">{{list.title}}</view>
         </view>
         <view class="flex orderData">
           <text class="text">描述</text>
-          <text class="orderDataInfo">{{message.carTime}}</text>
+          <text class="orderDataInfo">{{list.content}}</text>
         </view>
         <view class="progress">
           <view class="progressItem rad_1">
@@ -20,32 +20,35 @@
               <view class="radius radius_active"></view>
               <view class="cur earnestMoney">定金</view>
             </view>
-            <texe class="earnestMoney cur">￥400</texe>
+            <texe class="earnestMoney cur">￥{{list.f_d_money}}</texe>
           </view>
           <view class="progressItem rad_2">
             <view>
               <view class="radius"></view>
               <view class="earnestMoney">尾款</view>
             </view>
-            <texe class="earnestMoney cur">￥400</texe>
+            <texe class="earnestMoney cur">￥{{list.w_d_money}}</texe>
           </view>
           <progress percent="50" activeColor="#F42652" backgroundColor="#B6B6B6" stroke-width="2" class="pro_border"/>
         </view>
         <view class="flex orderData">
           <text class="text">价格</text>
-          <text class="orderDataInfo">{{message.carTime}}</text>
+          <text class="orderDataInfo">{{list.money}}</text>
         </view>
         <view class="flex orderData">
           <text class="text">需要日期</text>
-          <text class="orderDataInfo">{{message.carTime}}</text>
+          <text class="orderDataInfo">{{list.date}}</text>
         </view>
         <view class="flex orderData">
           <text class="text">所在地</text>
-          <text class="orderDataInfo">{{message.carTime}}</text>
+          <text class="orderDataInfo">{{list.carTime}}</text>
         </view>
-        <view class="flex orderData">
-          <text class="text">服务区域</text>
-          <text class="orderDataInfo">{{message.carTime}}</text>
+        <view>
+          <view class="flex orderData" wx:if="{{list.area==''}}" style="display:none"></view>
+          <view class="flex orderData" wx:else>
+            <text class="text">服务区域</text>
+            <text class="orderDataInfo">{{list.area}}</text>
+          </view>
         </view>
         <view>
           <text class="text">图片</text>
@@ -73,37 +76,51 @@
 import wepy from 'wepy';
 export default class FillOrder extends wepy.page {
   config = {
-    navigationBarTitleText: '填写订单'
+    navigationBarTitleText: '支付订单'
   };
   components = {};
 
   mixins = [];
 
   data = {
-    message:{
-      data:'2019-10-21 12:30:01',
-      carTime:'5小时30公里',
-      contract:'1'  ,//合同状态
-      userName:'王先生',
-      tel:'1310000000',
-      remarks:'12345',
-      shopImg:'../image/daw.jpg',
-      type:'1',  //车顺序
-      carName:'宝马X6', 
-      travel:'5小时30公里',
-      adders:'西安市',
-      price:'1300',
-      earnest:'1230',
-      balance:'12301',
-      moneyType:'1'
-      },
+    list:{ },
     date: '2016-09-01',
   };
 
   computed = {};
   methods = {};
   events = {};
-  onLoad() {}
+  onLoad(e) {
+    console.log(e)
+    this.orderId=e.id
+    this.getListData()
+  }
+  getListData(){
+    wx.showToast({
+      title: "数据加载...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/order/get_need_info`,
+      method: 'GET',
+      header: {
+        Authorization: this.$parent.globalData.token,
+        apikey: this.$parent.globalData.apikey
+      },
+      data: {
+        id:this.orderId
+      },
+      success: data => {
+        wx.hideToast()
+        data = this.$parent.null2str(data)
+        if (data.data.code == 8888) {
+          console.log(data.data.data)
+          this.$apply()
+        }
+      }
+    })
+  }
 }
 </script>
 <style lang="less">

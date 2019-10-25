@@ -606,25 +606,33 @@
       height: auto;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       flex-direction: row;
       flex-wrap: wrap;
     }
+    .item:nth-child(3n){
+      margin-right: 0;
+    }
     .item{
-      width: 222rpx;
+      width: 216rpx;
       height: 350rpx;
       display: flex;
       align-items: center;
       justify-content: flex-start;
       flex-direction: column;
       border-radius: 10rpx;
-      margin: 10rpx 0;
+      margin: 10rpx 20rpx 10rpx 0;
       background-color: #F5F5F5;
       .name{
+        width: 100%;
         font-size: 30rpx;
         font-weight: 600;
+        text-align: center;
         color: #1F1F1F;
         padding: 15rpx 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
     image{

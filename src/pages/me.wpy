@@ -47,11 +47,11 @@
     <view class="mony">
       <view class="meOrderItem" @tap='meXy'>
         <image src='../image/meXy.png'>
-        <text>需要</text>
+        <text>发布的需要</text>
       </view>
       <view class="meOrderItem" @tap='meTg'>
         <image src='../image/meTg.png'>
-        <text>提供</text>
+        <text>发布的提供</text>
       </view>
       <view class="meOrderItem" @tap='meXyB'>
         <image src='../image/meXyB.png'>
@@ -169,8 +169,8 @@
       },
       //需要
       meXy(e){
-        // let url = `/pages/meSubordinate`
-        // this.$navigate(url)
+        let url = `/pages/orderList`
+        this.$navigate(url)
         this.$apply()
       },
       //提供
