@@ -371,14 +371,16 @@ export default class FillOrder extends wepy.page {
   }
   .img{
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
     flex-wrap: wrap;
     image{
       width: 210rpx;
       height: 210rpx;
       overflow: hidden;
       border-radius: 10rpx;
-      margin: 20rpx 0;
+      padding: 20rpx 20rpx 20rpx 0;
     }
   }
   .text {

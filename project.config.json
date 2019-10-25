@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 4,
 			"list": [
 				{
 					"id": -1,
@@ -56,6 +56,13 @@
 					"id": -1,
 					"name": "pages/messageDetail",
 					"pathName": "pages/messageDetail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 4,
+					"name": "pages/productSelIndustry",
+					"pathName": "pages/productSelIndustry",
 					"query": "",
 					"scene": null
 				}
