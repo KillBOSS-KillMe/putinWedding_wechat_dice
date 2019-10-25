@@ -16,7 +16,7 @@
       <icon class="iconfont iconjiantou"></icon>
     </view>
     <view class="item">
-      <view>
+      <view catchtap='showModalBtn'>
         <label>需要日期</label>
         <text>请选择</text>
       </view>
@@ -60,6 +60,49 @@
     <view class="sub">
       <view>发布</view>
     </view>
+
+
+
+
+    <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" hidden="{{showModal}}"></view>
+    <view class="modal-dialog" hidden="{{showModal}}">
+    <view class='modalBox'>
+      <view class='box'>
+        <view class='calendarBox'>
+          <view class='calendarTitle'>
+            <icon class="iconfont iconjiantou" @tap="upMonth"></icon>
+            <text style='font-size:46rpx;'>{{thisYear}}</text> 年
+            <text style='font-size:46rpx;'>{{thisMonth}}</text> 月
+            <icon class="iconfont iconjiantou" @tap="downMonth"></icon>
+            <text @tap="selAll">全选</text>
+          </view>
+          <!-- 星期显示 -->
+          <block wx:for="{{week}}" wx:key="item">
+          <view class="week">{{week[index]}}</view>
+          </block>
+          <block wx:for="{{weekNum}}" wx:key="item">
+          <view class="week" style="border-bottom:0;color:transparent"></view>
+          </block>
+          <block wx:for="{{dayListNode[showMonth]}}" wx:key="item">
+            <view class="week noActive" wx:if="{{item.isDid == 0}}">
+              {{item.day}}
+            </view>
+            <view class="week {{item.sel == 1?'active':''}}" wx:if="{{item.isDid == 1}}"
+            @tap="chooseDate"
+            data-key="{{showMonth}}"
+            data-index="{{index}}"
+            data-value="{{item.day}}">
+              <text class="time">{{item.day}}</text>
+              <text class="num">{{item.num}}</text>
+            </view>
+          </block>
+        </view>
+        <view @tap="getTime">完成</view>
+      </view>
+    </view>
+    </view>
+
+
   </view>
 </template>
 
@@ -83,8 +126,15 @@
         {id: '', img: '../image/daw.jpg'},
         {id: '', img: '../image/daw.jpg'},
         {id: '', img: '../image/daw.jpg'},
-        {id: '', img: '../image/daw.jpg'},
-      ]
+      ],
+      // 日历部分
+      showModal:true,
+      week:["日","一","二","三","四","五","六"],
+      showMonth: '',
+      dayListNode: {},
+      weekNum:0,
+      thisMonth:0,
+      thisYear:0,
     }
 
     computed = {
@@ -96,11 +146,50 @@
       // 底部导航跳转
       goPage (url, evt) {
         if (this.verificationUserInfo()) {
-          return 
+          return false
         }
         // 销毁当前页{跳转}
         this.$redirect(url)
       },
+      // 上一月
+      upMonth() {
+        let data = this.$parent.getPreMonth(this.thisTime)
+        this.thisTime = data
+        this.$apply()
+        data = data.split('-')
+        this.showMonth = `time${parseInt(data[0])}_${parseInt(data[1])}`
+        this.$apply()
+        this.getWeek(data[0], data[1], data[2])
+      },
+      // 下一月
+      downMonth() {
+        let data = this.$parent.getNextMonth(this.thisTime)
+        this.thisTime = data
+        this.$apply()
+        data = data.split('-')
+        this.showMonth = `time${parseInt(data[0])}_${parseInt(data[1])}`
+        this.$apply()
+        this.getWeek(data[0], data[1], data[2])
+      },
+      // 获取时间
+      getTime() {
+        let dayListNode = this.dayListNode
+        let timeList = []
+        for( let key in dayListNode ){
+          let date = key.split('time').pop().split('_')
+          let year = date[0]
+          let month = date[1]
+          for (let i = 0; i < dayListNode[key].length; i++) {
+            if (dayListNode[key][i].sel == 1) {
+              let time = `${year}-${month}-${dayListNode[key][i].day}`
+              let timeNode = {}
+              timeNode[time] = 0
+              timeList.push(timeNode)
+            }
+          }
+          console.log(timeList)
+        }
+      }
       
     }
 
@@ -109,9 +198,19 @@
     }
 
     onLoad() {
+      //使用方法： 在此函数内传入年、月、日(此月的天数)即可。
       
     }
-    
+    onShow() {
+      let date = new Date();
+      var year = date.getFullYear(); //获取当前年份   
+      var month = date.getMonth()+1; //获取当前月份   
+      var day = date.getDate(); //获取当前日
+      this.thisTime = `${year}-${month}-${day}`
+      this.showMonth = `time${parseInt(year)}_${parseInt(month)}`
+      this.$apply()
+      this.getWeek(year, month, day)
+    }
 
     // 用户信息校验
     verificationUserInfo() {
@@ -122,6 +221,103 @@
         });
         return true
       }
+    }
+    // 全选
+    selAll() {
+      let data = this.dayListNode[this.showMonth]
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].isDid == 1) {
+          if (data[i].sel == 1) {
+            data[i]['sel'] = 0
+          } else {
+            data[i]['sel'] = 1
+          }
+        }
+      }
+      this.dayListNode[this.showMonth] = data
+      this.$apply()
+    }
+
+    getWeek(year,month,day){
+      year = parseInt(year)
+      month = parseInt(month)
+      day = parseInt(day)
+      
+      var arr =[];
+      var now = new Date();
+      var nowYear = now.getFullYear();
+      var nowMonth = now.getMonth()+1;
+      var nowDay = now.getDate();
+      // 获取月份天数
+      var thisMonthNum = new Date(year,month,0).getDate();
+      for(var i = 1; i<=thisMonthNum; i++){
+        // 显示年份大于等于当前年份
+        if (year == nowYear) {
+          // 显示月份等于当前月份
+          if (month == nowMonth) {
+            // 显示日大于等于当前日
+            if (day > i) {
+              arr.push({day: i, sel: 0, isDid: 0, num: 0})
+            } else {
+              arr.push({day: i, sel: 0, isDid: 1, num: 0})
+            }
+            // 显示月份大于当前月份
+          } else if (month > nowMonth) {
+            arr.push({day: i, sel: 0, isDid: 1, num: 0})
+          } else {
+            arr.push({day: i, sel: 0, isDid: 0, num: 0})
+          }
+        } else if (year > nowYear) {
+          arr.push({day: i, sel: 0, isDid: 1, num: 0})
+        } else {
+          arr.push({day: i, sel: 0, isDid: 0, num: 0})
+        }
+      }
+      // 获取前置个数
+      var d = new Date();
+      d.setFullYear(year);
+      d.setMonth(month-1);
+      d.setDate(1);
+      var n = d.getDay();
+      this.weekNum = n
+      let key = `time${year}_${month}`
+      if (!this.dayListNode.hasOwnProperty(this.showMonth)) {
+        this.dayListNode[key] = arr
+      }
+      this.thisMonth = month
+      this.thisYear = year
+      this.showModal = false
+      this.$apply()
+    }
+    // 选中日期、取消选中
+    chooseDate(e){
+      let dayListNode = this.dayListNode
+      var index = e.currentTarget.dataset.index
+      var val = e.currentTarget.dataset.value
+      let key = e.currentTarget.dataset.key
+      if (dayListNode[key][index]['sel'] == 1) {
+        dayListNode[key][index]['sel'] = 0
+      } else {
+        dayListNode[key][index]['sel'] = 1
+      }
+      this.dayListNode = dayListNode
+      this.$apply()
+    }
+    /** 
+     * 弹出框蒙层截断touchmove事件 
+     */
+    preventTouchMove() {
+    }
+    /** 
+      * 隐藏模态对话框 
+      */
+    hideModal() {
+      this.showModal = true
+      this.$apply()
+    }
+    showModalBtn(){
+      this.showModal = false
+      this.$apply()
     }
   }
 </script>
@@ -216,4 +412,93 @@
     margin-bottom: 220rpx;
   }
   
+
+
+
+  .modalBox{
+ width: 100%;
+ font-size: 32rpx;
+}
+.box{
+ margin: 0 auto;
+ width: 630rpx;
+}
+.calendarTitle{
+ /* margin: 0 auto;
+ width: 630rpx; */
+ width: 100%;
+ height: 80rpx;
+ line-height: 80rpx;
+ text-align: center;
+ border-bottom: 1rpx solid #ddd;
+}
+.calendarBox{
+ /* width: 630rpx; */
+ width:100%;
+ margin: 0 auto;
+ border:1rpx solid #ddd;
+}
+.week{
+ display: inline-block;
+ width:90rpx;
+ height: 80rpx;
+ text-align: center;
+ line-height: 80rpx;
+ border-bottom: 1rpx solid #ddd;
+ view{
+   background-color: #fff;
+ }
+
+}
+.noActive{
+  background-color: #999;
+}
+.active{
+  background-color: #F42652;
+  color: #fff;
+}
+.dateBtn{
+ width:100%;
+ height: 80rpx;
+ display: flex;
+ justify-content: space-between;
+ margin-top: 20rpx;
+  
+}
+ .dateBtn>button{
+ width: 45%;
+ height: 100%;
+ display:flex;
+ justify-content: center;
+ align-items: center;
+ margin: 0;
+ font-size: 36rpx;
+} 
+/* 模态框 */
+  
+.modal-mask { 
+ width: 100%; 
+ height: 100%; 
+ position: fixed; 
+ top: 0; 
+ left: 0; 
+ background: #000; 
+ opacity: 0.5; 
+ overflow: hidden; 
+ z-index: 9000; 
+} 
+  
+.modal-dialog { 
+ width: 85%; 
+ padding: 100rpx 30rpx 30rpx 30rpx; 
+ overflow: hidden; 
+ position: fixed; 
+ top: 20%; 
+ left: 0; 
+ right: 0; 
+ margin: 0 auto; 
+ z-index: 9999; 
+ background: rgba(255, 255, 255, 1); 
+ border-radius: 5rpx; 
+} 
 </style>
