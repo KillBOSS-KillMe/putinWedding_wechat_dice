@@ -2,7 +2,7 @@
   <view>
     <view class="item">
       <label>标题</label>
-      <input type="text" placeholder="请输入标题">
+      <input type="text" data-name="" placeholder="请输入标题" @input="getSetData">
     </view>
     <view class="item">
       <label>描述</label>
@@ -34,7 +34,7 @@
       <text>(最多上传9张)</text>
     </view>
     <view class="imgList">
-      <repeat for="{{imgList}}" item="item">
+      <repeat for="{{formNode.imgList}}" item="item">
         <image src="{{item.img}}" />
       </repeat>
       <icon class="iconfont iconchuanzhaopian" wx:if="{{imgList.length < 9}}"></icon>
@@ -60,13 +60,20 @@
 
     data = {
       userInfo: null,
-      imgList: [
-        {id: '', img: '../image/daw.jpg'},
-        {id: '', img: '../image/daw.jpg'},
-        {id: '', img: '../image/daw.jpg'},
-        {id: '', img: '../image/daw.jpg'},
-        {id: '', img: '../image/daw.jpg'},
-      ]
+      
+      formNode: {
+        hotel_name: '',         // 酒店名称
+        province_id: '1',       // 地址省id
+        province_name: '',      // 地址省名称
+        city_id: '1',           // 地址市id
+        imgList: [
+          {id: '', img: '../image/daw.jpg'},
+          {id: '', img: '../image/daw.jpg'},
+          {id: '', img: '../image/daw.jpg'},
+          {id: '', img: '../image/daw.jpg'},
+          {id: '', img: '../image/daw.jpg'},
+        ]
+      },
     }
 
     computed = {
@@ -83,7 +90,15 @@
         // 销毁当前页{跳转}
         this.$redirect(url)
       },
-      
+      // 表单数据获取
+      getSetData(e) {
+        let formNode = this.formNode
+        let name = e.currentTarget.dataset.name
+        let value = e.detail.value
+        formNode[name] = value
+        this.formNode = formNode
+        this.$apply()
+      },
     }
 
     events = {
