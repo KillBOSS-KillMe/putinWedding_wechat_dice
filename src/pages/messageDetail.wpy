@@ -25,7 +25,7 @@
       </repeat>
     </view>
     <view class="send">
-      <input type="text" placeholder="请输入...">
+      <input type="text" @input="getSetData" data-name="content" placeholder="请输入...">
       <text @tap='send'>发送</text>
     </view>
   </view>
@@ -44,7 +44,8 @@
         {id:'1',type:'1',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'},
         {id:'1',type:'2',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'},
         {id:'1',type:'2',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'}
-      ]
+      ],
+      content:''
     }
 
     computed = {
@@ -52,18 +53,83 @@
     }
 
     methods = {
-      
+      // 表单数据获取
+      getSetData(e) {
+        console.log(e)
+        let messageList = this.messageList
+        let name = e.currentTarget.dataset.name
+        let value = e.detail.value
+        messageList[name] = value
+        this.messageList = messageList
+        this.$apply()
+      },
     }
 
     events = {
 
     }
 
-    onLoad() {
-      
+    onLoad(e) {
+      console.log(e)
+      this.orderId=e.id
+      this.communicate()
     }
-    
-
+    communicate(){
+      wx.showToast({
+        title: "数据加载...",
+        icon: 'loading',
+        duration: 1000000
+      });
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/message/set_message_send_list`,
+        method: 'GET',
+        header: {
+          Authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        data: {
+          id:this.orderId
+        },
+        success: data => {
+          wx.hideToast()
+          data = this.$parent.null2str(data)
+          if (data.data.code == 8888) {
+            this.messageList=data.data.data
+            console.log(this.messageList)
+            this.$apply()
+          }
+        }
+      })
+    }
+    //发送
+    send(){
+      wx.showToast({
+        title: "数据加载...",
+        icon: 'loading',
+        duration: 1000000
+      });
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/message/set_message_send`,
+        method: 'POST',
+        header: {
+          Authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        data: {
+          content:this.messageList,
+          message_id:this.orderId
+        },
+        success: data => {
+          wx.hideToast()
+          data = this.$parent.null2str(data)
+          if (data.data.code == 8888) {
+            this.messageList=data.data.data
+            console.log(this.messageList)
+            this.$apply()
+          }
+        }
+      })
+    }
     // 用户信息校验
     verificationUserInfo() {
       if (!this.userInfo.hasOwnProperty('id')) {
