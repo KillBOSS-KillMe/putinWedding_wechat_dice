@@ -2,11 +2,11 @@
   <view>
     <view class="item">
       <label>标题</label>
-      <input type="text" data-name="" placeholder="请输入标题" @input="getSetData">
+      <input type="text" data-name="headline" @input="getSetData" placeholder="请输入标题">
     </view>
     <view class="item">
       <label>描述</label>
-      <textarea placeholder="请输入服务描述"></textarea>
+      <textarea data-name="describe" @textarea="getSetData"  placeholder="请输入服务描述"></textarea>
     </view>
     <view class="item">
       <view>
@@ -62,10 +62,8 @@
       userInfo: null,
       
       formNode: {
-        hotel_name: '',         // 酒店名称
-        province_id: '1',       // 地址省id
-        province_name: '',      // 地址省名称
-        city_id: '1',           // 地址市id
+        headline: '',            // 标题
+        describe: '',           // 描述
         imgList: [
           {id: '', img: '../image/daw.jpg'},
           {id: '', img: '../image/daw.jpg'},
@@ -97,6 +95,7 @@
         let value = e.detail.value
         formNode[name] = value
         this.formNode = formNode
+        console.log(formNode)
         this.$apply()
       },
     }
