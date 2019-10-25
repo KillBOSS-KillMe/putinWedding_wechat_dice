@@ -67,38 +67,49 @@
     <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" hidden="{{showModal}}"></view>
     <view class="modal-dialog" hidden="{{showModal}}">
     <view class='modalBox'>
-      <view class='box'>
-        <view class='calendarBox'>
+      <!-- <view class='box'> -->
+        <!-- <view class='calendarBox'> -->
+          <view class='calendarTitleh1'>
+            选择调整价格时间
+            <view @tap="selAll">全选</view>
+          </view>
           <view class='calendarTitle'>
-            <icon class="iconfont iconjiantou" @tap="upMonth"></icon>
-            <text style='font-size:46rpx;'>{{thisYear}}</text> 年
-            <text style='font-size:46rpx;'>{{thisMonth}}</text> 月
-            <icon class="iconfont iconjiantou" @tap="downMonth"></icon>
-            <text @tap="selAll">全选</text>
+            <icon class="iconfont iconjiantou_zuo" @tap="upMonth"></icon>
+            {{thisYear}}年{{thisMonth}}月
+            <icon class="iconfont iconjiantou1" @tap="downMonth"></icon>
           </view>
           <!-- 星期显示 -->
-          <block wx:for="{{week}}" wx:key="item">
-          <view class="week">{{week[index]}}</view>
-          </block>
-          <block wx:for="{{weekNum}}" wx:key="item">
-          <view class="week" style="border-bottom:0;color:transparent"></view>
-          </block>
-          <block wx:for="{{dayListNode[showMonth]}}" wx:key="item">
-            <view class="week noActive" wx:if="{{item.isDid == 0}}">
-              {{item.day}}
-            </view>
-            <view class="week {{item.sel == 1?'active':''}}" wx:if="{{item.isDid == 1}}"
-            @tap="chooseDate"
-            data-key="{{showMonth}}"
-            data-index="{{index}}"
-            data-value="{{item.day}}">
-              <text class="time">{{item.day}}</text>
-              <text class="num">{{item.num}}</text>
-            </view>
-          </block>
+          <view class='calendarTitle'>
+            <repeat for="{{week}}" item="item">
+              <view class="week">{{week[index]}}</view>
+            </repeat>
+          </view>
+          <view class="timeListDom">
+            <repeat for="{{weekNum}}" item="item">
+              <view></view>
+            </repeat>
+            <repeat for="{{dayListNode[showMonth]}}" item="item">
+              <view class="items noActive" wx:if="{{item.isDid == 0}}">
+                {{item.day}}
+                <text class="num">{{item.num}}</text>
+              </view>
+              <view class="items {{item.sel == 1?'active':''}}" wx:if="{{item.isDid == 1}}"
+              @tap="chooseDate"
+              data-key="{{showMonth}}"
+              data-index="{{index}}"
+              data-value="{{item.day}}">
+                {{item.day}}
+                <text class="num">{{item.num}}</text>
+              </view>
+            </repeat>
+          </view>
+          
+          
+        <!-- </view> -->
+        <view class="getTime">
+          <view @tap="getTime">完成</view>
         </view>
-        <view @tap="getTime">完成</view>
-      </view>
+      <!-- </view> -->
     </view>
     </view>
 
@@ -127,6 +138,9 @@
         {id: '', img: '../image/daw.jpg'},
         {id: '', img: '../image/daw.jpg'},
       ],
+      formNode: {
+        num: 5,         // 数量
+      },
       // 日历部分
       showModal:true,
       week:["日","一","二","三","四","五","六"],
@@ -250,6 +264,7 @@
       var nowDay = now.getDate();
       // 获取月份天数
       var thisMonthNum = new Date(year,month,0).getDate();
+      let num = this.formNode.num
       for(var i = 1; i<=thisMonthNum; i++){
         // 显示年份大于等于当前年份
         if (year == nowYear) {
@@ -257,20 +272,20 @@
           if (month == nowMonth) {
             // 显示日大于等于当前日
             if (day > i) {
-              arr.push({day: i, sel: 0, isDid: 0, num: 0})
+              arr.push({day: i, sel: 0, isDid: 0, num: num})
             } else {
-              arr.push({day: i, sel: 0, isDid: 1, num: 0})
+              arr.push({day: i, sel: 0, isDid: 1, num: num})
             }
             // 显示月份大于当前月份
           } else if (month > nowMonth) {
-            arr.push({day: i, sel: 0, isDid: 1, num: 0})
+            arr.push({day: i, sel: 0, isDid: 1, num: num})
           } else {
-            arr.push({day: i, sel: 0, isDid: 0, num: 0})
+            arr.push({day: i, sel: 0, isDid: 0, num: num})
           }
         } else if (year > nowYear) {
-          arr.push({day: i, sel: 0, isDid: 1, num: 0})
+          arr.push({day: i, sel: 0, isDid: 1, num: num})
         } else {
-          arr.push({day: i, sel: 0, isDid: 0, num: 0})
+          arr.push({day: i, sel: 0, isDid: 0, num: num})
         }
       }
       // 获取前置个数
@@ -415,90 +430,154 @@
 
 
 
-  .modalBox{
- width: 100%;
- font-size: 32rpx;
+.modalBox{
+  width: 100%;
+  font-size: 32rpx;
 }
 .box{
- margin: 0 auto;
- width: 630rpx;
+  margin: 0 auto;
+  width: 630rpx;
+}
+.calendarTitleh1{
+  position: relative;
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1F1F1F;
+  view{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 80rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 .calendarTitle{
- /* margin: 0 auto;
- width: 630rpx; */
- width: 100%;
- height: 80rpx;
- line-height: 80rpx;
- text-align: center;
- border-bottom: 1rpx solid #ddd;
-}
-.calendarBox{
- /* width: 630rpx; */
- width:100%;
- margin: 0 auto;
- border:1rpx solid #ddd;
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 27rpx;
+  font-weight: 600;
+  color: #1F1F1F;
+  view{
+    width: 101.4rpx;
+  }
+  .iconfont{
+    width: 80rpx;
+    height: 80rpx;
+    font-size: 50rpx;
+    color: #999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .iconjiantou_zuo{
+    font-size: 30rpx;
+  }
 }
 .week{
- display: inline-block;
- width:90rpx;
- height: 80rpx;
- text-align: center;
- line-height: 80rpx;
- border-bottom: 1rpx solid #ddd;
- view{
-   background-color: #fff;
- }
-
-}
-.noActive{
-  background-color: #999;
-}
-.active{
-  background-color: #F42652;
-  color: #fff;
-}
-.dateBtn{
- width:100%;
- height: 80rpx;
- display: flex;
- justify-content: space-between;
- margin-top: 20rpx;
+  display: inline-block;
+  width:90rpx;
+  height: 80rpx;
+  text-align: center;
+  line-height: 80rpx;
+  border-bottom: 1rpx solid #ddd;
+  view{
+    position: relative;
+    background-color: #fff;
+  }
   
 }
- .dateBtn>button{
- width: 45%;
- height: 100%;
- display:flex;
- justify-content: center;
- align-items: center;
- margin: 0;
- font-size: 36rpx;
-} 
+.timeListDom{
+  width: 710rpx;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .items{
+    width: 81.4rpx;
+    height: 70rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10rpx 10rpx;
+    position: relative;
+    color: #999999;
+    text{
+      position: absolute;
+      top: 5rpx;
+      right: 5rpx;
+      font-size: 20rpx;
+      color: #F42652;
+    }
+  }
+  .noActive{
+    background-color: #EDEDED;
+    color: #999999;
+    text{
+      color: #F42652;
+    }
+  }
+  .active{
+    background-color: #F42652;
+    color: #fff;
+    text{
+      color: #fff;
+    }
+  }
+}
+
+.getTime{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  view{
+    margin: 40rpx 0;
+    background-color: #F42652;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #fff;
+    width: 280rpx;
+    height: 80rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 /* 模态框 */
   
 .modal-mask { 
- width: 100%; 
- height: 100%; 
- position: fixed; 
- top: 0; 
- left: 0; 
- background: #000; 
- opacity: 0.5; 
- overflow: hidden; 
- z-index: 9000; 
-} 
-  
+  width: 100%; 
+  height: 100%; 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  background: #000; 
+  opacity: 0.5; 
+  overflow: hidden; 
+  z-index: 9000; 
+}
 .modal-dialog { 
- width: 85%; 
- padding: 100rpx 30rpx 30rpx 30rpx; 
- overflow: hidden; 
- position: fixed; 
- top: 20%; 
- left: 0; 
- right: 0; 
- margin: 0 auto; 
- z-index: 9999; 
- background: rgba(255, 255, 255, 1); 
- border-radius: 5rpx; 
+  width: 710rpx; 
+  padding: 0 20rpx;
+  overflow: hidden; 
+  position: fixed; 
+  left: 0; 
+  right: 0;
+  bottom: 0;
+  margin: 0 auto; 
+  z-index: 9999; 
+  background: rgba(255, 255, 255, 1); 
+  border-radius: 5rpx; 
 } 
 </style>
