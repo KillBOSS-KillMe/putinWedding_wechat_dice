@@ -16,7 +16,7 @@
       <icon class="iconfont iconjiantou"></icon>
     </view>
     <view class="item">
-      <view catchtap='showModalBtn'>
+      <view @tap='calendarInit'>
         <label>需要日期</label>
         <text>请选择</text>
       </view>
@@ -63,54 +63,60 @@
 
 
 
-
     <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" hidden="{{showModal}}"></view>
     <view class="modal-dialog" hidden="{{showModal}}">
-    <view class='modalBox'>
-      <!-- <view class='box'> -->
-        <!-- <view class='calendarBox'> -->
-          <view class='calendarTitleh1'>
-            选择调整价格时间
-            <view @tap="selAll">全选</view>
-          </view>
-          <view class='calendarTitle'>
-            <icon class="iconfont iconjiantou_zuo" @tap="upMonth"></icon>
-            {{thisYear}}年{{thisMonth}}月
-            <icon class="iconfont iconjiantou1" @tap="downMonth"></icon>
-          </view>
-          <!-- 星期显示 -->
-          <view class='calendarTitle'>
-            <repeat for="{{week}}" item="item">
-              <view class="week">{{week[index]}}</view>
-            </repeat>
-          </view>
-          <view class="timeListDom">
-            <repeat for="{{weekNum}}" item="item">
-              <view></view>
-            </repeat>
-            <repeat for="{{dayListNode[showMonth]}}" item="item">
-              <view class="items noActive" wx:if="{{item.isDid == 0}}">
-                {{item.day}}
-                <text class="num">{{item.num}}</text>
-              </view>
-              <view class="items {{item.sel == 1?'active':''}}" wx:if="{{item.isDid == 1}}"
+      <view class='modalBox'>
+        <view class='calendarTitleh1'>
+          选择调整价格时间
+          <view @tap="selAll">全选</view>
+        </view>
+        <view class='calendarTitle'>
+          <icon class="iconfont iconjiantou_zuo" @tap="upMonth"></icon>
+          {{thisYear}}年{{thisMonth}}月
+          <icon class="iconfont iconjiantou1" @tap="downMonth"></icon>
+        </view>
+        <!-- 星期显示 -->
+        <view class='calendarTitle'>
+          <repeat for="{{week}}" item="item">
+            <view class="week">{{week[index]}}</view>
+          </repeat>
+        </view>
+        <view class="timeListDom">
+          <repeat for="{{weekNum}}" item="item">
+            <view></view>
+          </repeat>
+          <repeat for="{{dayListNode[showMonth]}}" item="item">
+            <view class="items noActive" wx:if="{{item.isDid == 0}}">
+              {{item.day}}
+              <text class="num">{{item.num}}</text>
+            </view>
+            <view class="items {{item.sel == 1?'active':''}}" wx:if="{{item.isDid == 1 && step == 1}}"
               @tap="chooseDate"
               data-key="{{showMonth}}"
               data-index="{{index}}"
               data-value="{{item.day}}">
+              {{item.day}}
+              <text class="num">{{item.num}}</text>
+            </view>
+            
+            <view class="items {{item.sel == 1?'active':''}}" wx:if="{{item.isDid == 1 && step == 2}}">
+              <picker bindchange="tiemNumSel"
+              data-key="{{showMonth}}"
+              data-index="{{index}}"
+              data-value="{{item.day}}"
+               range="{{tiemNumSelData}}">
                 {{item.day}}
                 <text class="num">{{item.num}}</text>
-              </view>
-            </repeat>
-          </view>
-          
-          
-        <!-- </view> -->
-        <view class="getTime">
-          <view @tap="getTime">完成</view>
+              </picker>
+            </view>
+            
+          </repeat>
         </view>
-      <!-- </view> -->
-    </view>
+        <view class="getTime">
+          <view @tap="selNum" wx:if="{{step == 1}}">选择数量</view>
+          <view @tap="getTime" wx:if="{{step == 2}}">完成</view>
+        </view>
+      </view>
     </view>
 
 
@@ -132,6 +138,7 @@
 
     data = {
       userInfo: null,
+      
       imgList: [
         {id: '', img: '../image/daw.jpg'},
         {id: '', img: '../image/daw.jpg'},
@@ -149,6 +156,9 @@
       weekNum:0,
       thisMonth:0,
       thisYear:0,
+      tiemNumSelData: null,
+      step: 1,
+      calendarData: null
     }
 
     computed = {
@@ -156,15 +166,6 @@
     }
 
     methods = {
-      // 底部导航跳转
-      // 底部导航跳转
-      goPage (url, evt) {
-        if (this.verificationUserInfo()) {
-          return false
-        }
-        // 销毁当前页{跳转}
-        this.$redirect(url)
-      },
       // 上一月
       upMonth() {
         let data = this.$parent.getPreMonth(this.thisTime)
@@ -185,6 +186,10 @@
         this.$apply()
         this.getWeek(data[0], data[1], data[2])
       },
+      selNum() {
+        this.step = 2
+        this.$apply()
+      },
       // 获取时间
       getTime() {
         let dayListNode = this.dayListNode
@@ -197,13 +202,28 @@
             if (dayListNode[key][i].sel == 1) {
               let time = `${year}-${month}-${dayListNode[key][i].day}`
               let timeNode = {}
-              timeNode[time] = 0
+              timeNode[time] = dayListNode[key][i].num
               timeList.push(timeNode)
             }
           }
-          console.log(timeList)
         }
-      }
+        console.log(timeList)
+        this.calendarData = timeList
+        this.step = 1
+        this.showModal = true
+        this.$apply()
+      },
+      // 时间数量选择
+      tiemNumSel(e) {
+        let num = e.detail.value
+        let dayListNode = this.dayListNode
+        var index = e.currentTarget.dataset.index
+        var val = e.currentTarget.dataset.value
+        let key = e.currentTarget.dataset.key
+        dayListNode[key][index]['num'] = parseInt(num)
+        this.dayListNode = dayListNode
+        this.$apply()
+      },
       
     }
 
@@ -212,10 +232,16 @@
     }
 
     onLoad() {
-      //使用方法： 在此函数内传入年、月、日(此月的天数)即可。
-      
+      // 生成0-100的数组
+      this.tiemNumSelData = [...Array(100).keys()]
+      this.$apply()
+      // this.calendarInit()
     }
     onShow() {
+      
+    }
+    // 日历初始化
+    calendarInit() {
       let date = new Date();
       var year = date.getFullYear(); //获取当前年份   
       var month = date.getMonth()+1; //获取当前月份   
@@ -225,7 +251,6 @@
       this.$apply()
       this.getWeek(year, month, day)
     }
-
     // 用户信息校验
     verificationUserInfo() {
       if (!this.userInfo.hasOwnProperty('id')) {
