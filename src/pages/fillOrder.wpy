@@ -18,7 +18,7 @@
           <view class="progressItem rad_1">
             <view>
               <view class="radius radius_active"></view>
-              <view class="cur earnestMoney">定金</view>
+              <view class="cur earnestMoney">订金</view>
             </view>
             <texe class="earnestMoney cur">￥{{list.f_d_money}}</texe>
           </view>
@@ -59,14 +59,14 @@
             </view>
         </view>
         <view class="flex" style="justify-content: space-between">
-          <text class="text">{{earnest}}</text>
+          <text class="text">订金</text>
           <text class="textMony">￥{{list.f_d_money}}</text>
         </view>
       </view>
     </view>
     <view class="bottom flex">
       <text @tap="communicate" data-id="{{list.id}}" class="text1">立即沟通</text>
-      <text class="text2">支付定金</text>
+      <text class="text2">支付订金</text>
     </view>
   </view>
 </template>

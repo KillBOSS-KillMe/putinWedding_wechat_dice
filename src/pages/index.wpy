@@ -163,7 +163,7 @@
       //服务推荐商品详情
       shopDetail(e){
          let id = e.currentTarget.dataset.id
-         let url = `/pages/fillOrder?id=${id}`
+         let url = `/pages/fillOrderOffer?id=${id}`
          this.$navigate(url)
          this.$apply()
       },
