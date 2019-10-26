@@ -69,7 +69,6 @@ setStore(store);
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/postProvide', // 发帖--提供
       // 首页模块
       'pages/index', // 首页
       'pages/productDetails', // 产品详情
@@ -86,7 +85,7 @@ export default class extends wepy.app {
       // 发布
       'pages/releaseTypeSel', // 发帖--类型选择
       'pages/postExchange', // 发帖--同行互换
-       
+      'pages/postProvide', // 发帖--提供 
       'pages/postNeed', // 发帖--需要
       'pages/selIndustry', // 选择行业
       'pages/fillOrder', // 支付订单
@@ -111,6 +110,10 @@ export default class extends wepy.app {
       
       // 订单模块
       'pages/orderList', // 订单列表--需要
+      'pages/orderOfferList', // 订单列表--提供
+      'pages/fillOrderOffer', // 支付订单 订单列表--提供
+
+
       'pages/orderListExchange', // 订单列表--同行互换
       'pages/orderPost', // 发布评价
       'pages/orderDetailBail', // 订单详情--保证金

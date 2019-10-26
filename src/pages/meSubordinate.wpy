@@ -60,10 +60,10 @@
       <repeat for="{{list}}" item="item">
         <view class="item" data-id="{{item.id}}">
           <view class="name">
-            <image src="{{item.img}}">
-            {{item.name}}
+            <image src="{{item.image_url}}">
+            {{item.nickname}}
           </view>
-          <text>{{item.time}}</text>
+          <text>{{item.updated_at}}</text>
         </view>
       </repeat>
     </view>
@@ -83,7 +83,9 @@ export default class MeSubordinate extends wepy.page {
 
   data = {
     userInfo: {},
-    list: []
+    list: [],
+    current_page: 0,
+    last_page: 0
   };
 
   computed = {};
@@ -103,13 +105,13 @@ export default class MeSubordinate extends wepy.page {
       duration: 1000000
     });
     wx.request({
-      url: `${this.$parent.globalData.requestUrl}/withdraw/get_my_user_details?page=1`,
+      url: `${this.$parent.globalData.requestUrl}/withdraw/get_my_user_details`,
       header: {
         authorization: this.$parent.globalData.token,
         apikey: this.$parent.globalData.apikey
       },
       data: {
-        
+        page:this.current_page + 1
       },
       method: 'GET',
       success: data => {
@@ -127,6 +129,16 @@ export default class MeSubordinate extends wepy.page {
       }
     })
     this.$apply();
+  }
+        // 下拉刷新
+  onPullDownRefresh() {
+    wx.showToast({
+      title: "拼命加载中...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    // 获取liebiao
+    this.getListData()
   }
 }
 </script>

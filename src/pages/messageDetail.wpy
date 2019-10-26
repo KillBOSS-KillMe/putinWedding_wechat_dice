@@ -40,7 +40,7 @@
     mixins = []
 
     data = {
-      messageList:'',
+      messageList:[],
       content:''
     }
 
@@ -65,6 +65,9 @@
       console.log(e)
       this.orderId=e.id
       this.communicate()
+      setTimeout(() => {
+        this.communicate()
+      }, 1000)
     }
     communicate(){
       wx.showToast({

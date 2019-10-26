@@ -170,9 +170,38 @@
       },
       //订单调转
       meXy(e){
-
-        let url = `/pages/orderList`
-        this.$navigate(url)
+        let index=e.currentTarget.dataset.id
+        if(index=='1'){
+          let url = `/pages/orderList` 
+          this.$navigate(url)
+          return false
+        }
+        //发布的提供
+        if(index=='2'){
+          let url = `/pages/orderOfferList` 
+          this.$navigate(url)
+          return false
+        }
+        if(index=='3'){
+          let url = `/pages/orderList` 
+          this.$navigate(url)
+          return false
+        }
+        if(index=='4'){
+          let url = `/pages/orderList` 
+          this.$navigate(url)
+          return false
+        }
+        if(index=='5'){
+          let url = `/pages/orderList` 
+          this.$navigate(url)
+          return false
+        }
+        if(index=='6'){
+          let url = `/pages/orderList` 
+          this.$navigate(url)
+          return false
+        }
         this.$apply()
       }
     }

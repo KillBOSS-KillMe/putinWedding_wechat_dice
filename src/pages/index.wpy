@@ -163,14 +163,14 @@
       //服务推荐商品详情
       shopDetail(e){
          let id = e.currentTarget.dataset.id
-         let url = `/pages/productDetails?id=${id}`
+         let url = `/pages/fillOrder?id=${id}`
          this.$navigate(url)
          this.$apply()
       },
       //人气推荐商品详情
       peopleDetail(e){
          let id = e.currentTarget.dataset.id
-         let url = `/pages/productDetails?id=${id}`
+         let url = `/pages/fillOrder?id=${id}`
          this.$navigate(url)
          this.$apply()
       },

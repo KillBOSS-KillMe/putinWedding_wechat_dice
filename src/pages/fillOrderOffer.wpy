@@ -75,7 +75,7 @@
 import wepy from 'wepy';
 export default class FillOrder extends wepy.page {
   config = {
-    navigationBarTitleText: '支付订单'
+    navigationBarTitleText: '支付订单--提供'
   };
   components = {};
 
@@ -96,14 +96,6 @@ export default class FillOrder extends wepy.page {
     console.log(e)
     this.orderId=e.id
     this.getListData()
-    this.dj=e.type
-    if(this.dj=='1'){
-      this.dj=50
-      this.earnest='定金'
-    }else if(this.dj=='2'){
-      this.dj=100
-      this.earnest='支付尾款'
-    }
   }
   //获取数据
   getListData(){
