@@ -110,8 +110,12 @@ export default class extends wepy.app {
       
       // 订单模块
       'pages/orderList', // 订单列表--需要
+      'pages/orderPostList', // 订单列表--接受的需要
+      'pages/orderPostListDteail', // 订单列表--接受的需要详情
       'pages/orderOfferList', // 订单列表--提供
       'pages/fillOrderOffer', // 支付订单 订单列表--提供
+      'pages/fillOrderPostList', // 支付订单 订单列表--接受的提供
+      'pages/fillOrderPostListDteail', // 支付订单 订单列表--接受的提供详情
 
 
       'pages/orderListExchange', // 订单列表--同行互换
@@ -146,7 +150,8 @@ export default class extends wepy.app {
   globalData = {
     userInfo: {},
     // 接口请求路径
-    requestUrl: 'http://192.168.0.101:8083/api/v1/wedding_api',
+    // requestUrl: 'http://192.168.0.101:8083/api/v1/wedding_api',
+    requestUrl:'https://wedding.lvacms.cn/api/v1/wedding_api',
     // 图片路径
     requestImgUrl: 'https://192.168.0.101/api/v1/wedding_api',
     mapKey: 'GCABZ-J4G64-2WKUX-DNQMK-MVCGK-OSFD4',

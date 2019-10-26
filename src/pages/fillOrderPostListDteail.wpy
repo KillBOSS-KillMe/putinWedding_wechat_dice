@@ -1,0 +1,528 @@
+<template>
+  <view class="concontainer">
+    <view class="header">
+      <icon class="iconfont icondianhuazhengzaibohao"></icon>
+      客服电话：1800066445
+    </view>
+    <view class="cityList">
+      <view class="orderInfo">
+        <view class="flex orderData">
+          <text class="text">标题</text>
+          <view class="orderDataInfo">{{list.title}}</view>
+        </view>
+        <view class="flex orderData">
+          <text class="text">描述</text>
+          <text class="orderDataInfo">{{list.content}}</text>
+        </view>
+        <view class="progress">
+          <view class="progressItem rad_1">
+            <view>
+              <view class="radius radius_active"></view>
+              <view class="cur earnestMoney">定金</view>
+            </view>
+            <texe class="earnestMoney cur">￥{{list.f_d_money}}</texe>
+          </view>
+          <view class="progressItem rad_2">
+            <view>
+              <view class="radius"></view>
+              <view class="earnestMoney">尾款</view>
+            </view>
+            <texe class="earnestMoney cur">￥{{list.w_d_money}}</texe>
+          </view>
+          <progress percent="50" activeColor="#F42652" backgroundColor="#B6B6B6" stroke-width="2" class="pro_border"/>
+        </view>
+        <view class="flex orderData">
+          <text class="text">价格</text>
+          <text class="orderDataInfo">{{list.money}}</text>
+        </view>
+        <view class="flex orderData">
+          <text class="text">需要日期</text>
+          <text class="orderDataInfo">{{list.date}}</text>
+        </view>
+        <view class="flex orderData">
+          <text class="text">所在地</text>
+          <text class="orderDataInfo">{{list.province}}.{{list.city}}.{{list.county}}</text>
+        </view>
+        <view>
+          <view class="flex orderData" wx:if="{{list.area==''}}" style="display:none"></view>
+          <view class="flex orderData" wx:else>
+            <text class="text">服务区域</text>
+            <text class="orderDataInfo">{{list.area}}</text>
+          </view>
+        </view>
+        <view>
+          <text class="text">图片</text>
+            <view class="img">
+              <repeat for="{{img}}" item="item">
+                <image src='{{item.url}}'>
+              </repeat>
+            </view>
+        </view>
+        <view class="flex" style="justify-content: space-between">
+          <text class="text">订金</text>
+          <text class="textMony">￥{{list.j_d_money}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="maskCon" wx:if='{{collectionStr}}'>
+      <view class="mask"></view>
+      <view class="showCon">
+        <view>
+          <view class="showCon1">
+            <!-- {name: 'zy'} -->
+            <repeat for="{{dataTime}}" item="ele" index="key">
+              <text>{{key}}   {{ele}}</text>
+            </repeat>
+          </view>
+          <icon @tap="hideMask" class="iconfont iconguanbi"></icon>
+        </view>
+      </view>
+    </view>
+    <view class="bottom flex">
+      <text @tap="communicate" data-id="{{list.id}}" class="text1">立即沟通</text>
+      <text class="text2">支付订金</text>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class FillOrderPostListDteail extends wepy.page {
+  config = {
+    navigationBarTitleText: '支付订单--接受的提供详情'
+  };
+  components = {};
+
+  mixins = [];
+
+  data = {
+    list:{ },
+    date: '2016-09-01',
+    img:{},
+    dataTime:{},
+    dj:'',
+    earnest:'',
+    collectionStr:false,
+  };
+
+  computed = {};
+  methods = {};
+  events = {};
+  onLoad(e) {
+    console.log(e)
+    this.orderId=e.id
+    this.getListData()
+  }
+  //获取数据
+  getListData(){
+    wx.showToast({
+      title: "数据加载...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/order/get_provide_b_info`,
+      method: 'GET',
+      header: {
+        Authorization: this.$parent.globalData.token,
+        apikey: this.$parent.globalData.apikey
+      },
+      data: {
+        id:this.orderId
+      },
+      success: data => {
+        wx.hideToast()
+        data = this.$parent.null2str(data)
+        if (data.data.code == 8888) {
+          console.log(data.data)
+          this.list=data.data.data
+          this.img=this.list.images
+          // this.dataTime=JSON.stringify(this.list.date)
+          // this.dataTim=JSON.parse(this.dataTime)
+          this.$apply()
+        }
+      }
+    })
+  }
+  //立即沟通
+  communicate(e){
+    let id=e.currentTarget.dataset.id
+    wx.showToast({
+      title: "数据加载...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/message/set_message`,
+      method: 'POST',
+      header: {
+        Authorization: this.$parent.globalData.token,
+        apikey: this.$parent.globalData.apikey
+      },
+      data: {
+        id:this.list.id
+      },
+      success: data => {
+        wx.hideToast()
+        data = this.$parent.null2str(data)
+        if (data.data.code == 8888) {
+          console.log(data.data.data.id)
+          let url = `/pages/messageDetail?id=${data.data.data.id}`
+          this.$navigate(url)
+        }
+      }
+    })
+    this.$apply()
+  }
+  //查看日期详情
+  details(){
+     console.log('详情')
+    if (this.collectionStr) {
+      this.collectionStr = false
+      // this.col=2
+    } else {
+      this.collectionStr = true
+        // this.col=1
+    }
+    this.$apply()
+  }
+    //弹框关闭
+  hideMask(){
+    if (this.collectionStr) {
+      this.collectionStr = false
+      this.col=2
+    } else {
+      this.collectionStr = true
+      this.col=1
+    }
+    this.$apply()
+  }
+}
+</script>
+<style lang="less">
+  .container {
+    box-sizing: border-box;
+  }
+  .header{
+    width: 750rpx;
+    background: #F3F3F3;
+    height: 88rpx;
+    line-height: 88rpx;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #1F1F1F;
+    icon{
+      color: #EFA443;
+      margin-right: 20rpx;
+      font-size: 46rpx;
+    }
+  }
+  .cityList {
+    width: 690rpx;
+    padding: 0 30rpx 98rpx 30rpx;
+    .orderInfo{
+      padding: 20rpx 0;
+      .type{
+        color: #F42652;
+        font-size: 20rpx;
+        padding: 5rpx 10rpx;
+        border: 1rpx solid #F42652;
+        border-radius: 5rpx;
+        margin-right: 10rpx;
+      }
+      .name{
+          font-size: 32rpx;
+          color: #1F1F1F;
+          vertical-align: middle;
+      }
+      .carInfo{
+        align-content: center;
+        image{
+          width: 200rpx;
+          height: 156rpx;
+          overflow: hidden;
+          border-radius: 10rpx;
+          margin-right: 17rpx;
+        }
+        .travel{
+          font-size: 32rpx;
+          color: #1F1F1F;
+          margin-bottom: 20rpx;
+          display: block;
+        }
+        .price{
+          color: #F42652;
+          font-size: 32rpx;
+          font-weight: bold;
+          margin-right: 27rpx;
+          height: 36rpx;
+        }
+        .userInfo{
+          color: #494949;
+          font-size: 24rpx;
+          height: 36rpx;
+          line-height: 47rpx;
+        }
+      }
+      .money{
+        font-size: 28rpx;
+        color: #1F1F1F;
+        font-weight: 600;
+      }
+      .bz{
+        color: #999;
+        font-size: 28rpx;
+        width: 120rpx;
+        overflow: hidden;
+        margin-right: 25rpx;
+      }
+      textarea{
+        width: 650rpx;
+        height: 256rpx;
+        border: 1rpx solid #ddd;
+        border-radius: 10rpx;
+        padding: 20rpx;
+        margin-top: 20rpx;
+      }
+    }
+    .orderInfo > text {
+      color: #1f1f1f;
+      font-size: 30rpx;
+      font-weight: bold;
+      margin: 40rpx 0;
+      display: block;
+    }
+    .orderData {
+      margin-bottom: 30rpx;
+      display: flex;
+      align-content: center;
+      icon{
+        width: 20rpx;
+        height: 30rpx;
+        line-height: 30rpx;
+        color: #9a9a9a;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+      }
+      .text {
+        display: block;
+        color: #1f1f1f;
+        font-size: 30rpx;
+        width: 120rpx;
+        font-weight: 600;
+        overflow: hidden;
+        margin-right: 25rpx;
+      }
+      .orderDataTime {
+        color: #1f1f1f;
+        font-size: 30rpx;
+        font-weight: bold;
+      }
+      .orderDataInfo{
+        color: #1F1F1F;
+        font-size: 30rpx;
+        margin-left: 15rpx;
+        text-align: justify;
+      }
+    }
+    .contract{
+      justify-content: space-between;
+      text{
+        font-size: 28rpx;
+        color: #1f1f1f;
+        font-weight: bold;
+      }
+    }
+    .earnest{
+      margin-top: 35rpx;
+      justify-content: space-between;
+      text{
+        font-size: 30rpx;
+        color: #1f1f1f;
+        font-weight: bold;
+      }
+      .money{
+        color: #F42652;
+        margin-left: 20rpx;
+        display: block;
+      }
+      .moneyType{
+        font-size: 26rpx;
+        color: #1f1f1f;
+      font-weight: initial;
+      vertical-align: super;
+      margin-left: 10rpx;
+      }
+    }
+  }
+  .bottom{
+    width: 750rpx;
+    position: fixed;
+    bottom: 0;
+    height: 98rpx;
+    background: #fff;
+    justify-content: flex-end;
+    text{
+      width: 50%;
+      height: 98rpx;
+      line-height: 98rpx;
+      text-align: center;
+      font-size: 30rpx;
+      font-weight: 600;
+      display: block;
+    }
+    .text0{
+      color: #1F1F1F;
+      background: #fff;
+      text{
+        color: #F42652;
+        font-size: 32rpx;
+        font-weight: 600;
+      }
+    }
+    .text1{
+      color: #fff;
+      background: #3E3A39;
+    }
+    .text2{
+      color: #fff;
+      background: #F42652;
+    }
+  }
+  .flex{
+    display: flex;
+  }
+
+  .progress{
+    width:680rpx;
+    height: 160rpx;
+    position: relative;
+    margin: 60rpx 0;
+    .progressItem{
+      position: absolute;
+      display: flex;
+      justify-content: space-between;
+      width: 670rpx;
+      z-index: 88;
+    }
+  }
+  .progressItem>view{
+    width: 180rpx;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    text{
+      display: block;
+    }
+  }
+  .progress .pro_border{
+    width:19%;
+    transform: rotate(90deg);
+    position: absolute;
+    top: 0;
+    left: -53rpx;
+    margin-top: 81rpx;
+
+  }
+  .progress .radius{
+    // position: absolute;
+    width:20rpx;
+    height: 20rpx;
+    line-height: 20rpx;
+    border-radius: 50%;
+    background: #E0E2E7;
+    color: #737586;
+    text-align:center;
+    display: block;
+    margin: 12rpx 20rpx 0 0;
+    // top:0;
+  }
+  .progress .radius_active{
+    background: #F42652;
+  }
+  .progress .cur{
+    color: #F42652;
+  }
+  .progress .rad_1{
+    left:0;
+    top:0;
+  }
+  .progress .rad_2{
+    left:0;
+    top:120rpx;
+  }
+  .earnestMoney{
+    font-weight: 600;
+    font-size: 30rpx;
+    color: #1F1F1F;
+  }
+  .img{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    image{
+      width: 215rpx;
+      height: 215rpx;
+      overflow: hidden;
+      border-radius: 10rpx;
+      margin: 20rpx 24rpx 20rpx 0;
+    }
+    image:nth-child(3n){
+      margin-right: 0;
+    }
+  }
+  .text {
+    display: block;
+    color: #1f1f1f;
+    font-size: 30rpx;
+    width: 120rpx;
+    font-weight: 600;
+    overflow: hidden;
+    margin-right: 25rpx;
+  }
+  .textMony{
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #F42652;
+  }
+  .maskCon .showCon1{
+    display: flex;
+    width: 530rpx;
+    // height: 445rpx;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 16rpx;
+    padding: 50rpx 50rpx;
+    text{
+      width: 245rpx;
+      margin: 0 34rpx 30rpx 0;
+      text-align: center;
+    }
+    text:nth-child(2n){
+      margin-right: 0;
+    }
+  }
+  .maskCon .showCon{
+    background: transparent;
+    icon{
+      color: #fff;
+      font-size: 58rpx;
+      text-align: center;
+      margin: 60rpx auto 0;
+      width: 100%;
+    }
+  }
+  .noscroll {
+    height: 100vh;
+    overflow: hidden;
+  } 
+</style>

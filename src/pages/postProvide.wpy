@@ -45,7 +45,7 @@
         <!-- <picker mode="region" bindchange="getSetData" value="{{formNode.region}}" data-name="region">
            <input class="adderss" type="text" value="{{formNode.region[0]}} {{formNode.region[1]}} {{formNode.region[2]}}" disabled placeholder="请输入地址" />
         </picker> -->
-        <input @input="getAddress" class="adderss" type="text" value="" placeholder="请输入地址" />
+        <input @input="getAddress" class="adderss" type="text" value="" placeholder="请输入详细地址" />
       </view>
       <icon class="iconfont iconjiantou"></icon>
     </view>

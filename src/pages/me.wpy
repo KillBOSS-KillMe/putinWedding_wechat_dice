@@ -182,18 +182,21 @@
           this.$navigate(url)
           return false
         }
+        //
         if(index=='3'){
           let url = `/pages/orderList` 
           this.$navigate(url)
           return false
         }
+        //接受的需要
         if(index=='4'){
-          let url = `/pages/orderList` 
+          let url = `/pages/orderPostList` 
           this.$navigate(url)
           return false
         }
+        //接受的提供
         if(index=='5'){
-          let url = `/pages/orderList` 
+          let url = `/pages/fillOrderPostList` 
           this.$navigate(url)
           return false
         }
