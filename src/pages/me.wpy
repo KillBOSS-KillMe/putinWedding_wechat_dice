@@ -45,21 +45,29 @@
       </view>
     </view>
     <view class="mony">
-      <view class="meOrderItem" @tap='meXy'>
+      <view class="meOrderItem" @tap='meXy' data-id='1'>
         <image src='../image/meXy.png'>
         <text>发布的需要</text>
       </view>
-      <view class="meOrderItem" @tap='meTg'>
+      <view class="meOrderItem" @tap='meXy' data-id='2'>
         <image src='../image/meTg.png'>
         <text>发布的提供</text>
       </view>
-      <view class="meOrderItem" @tap='meXyB'>
+      <view class="meOrderItem" @tap='meXy' data-id='3'>
         <image src='../image/meXyB.png'>
-        <text>需要(被)</text>
+        <text>发布的互换</text>
       </view>
-      <view class="meOrderItem" @tap='meTgB'>
+      <view class="meOrderItem" @tap='meXy' data-id='4'>
         <image src='../image/meTgB.png'>
-        <text>提供(被)</text>
+        <text>接受的需求</text>
+      </view>
+      <view class="meOrderItem" @tap='meXy' data-id='5'>
+        <image src='../image/meTgB.png'>
+        <text>接受的服务</text>
+      </view>
+      <view class="meOrderItem" @tap='meXy' data-id='6'>
+        <image src='../image/meTgB.png'>
+        <text>接受的互换</text>
       </view>
     </view>
     <view class="meList">
@@ -167,30 +175,13 @@
         this.$navigate(url)
         this.$apply()
       },
-      //需要
+      //订单调转
       meXy(e){
+
         let url = `/pages/orderList`
         this.$navigate(url)
         this.$apply()
-      },
-      //提供
-      meTg(e){
-        // let url = `/pages/meSubordinate`
-        // this.$navigate(url)
-        this.$apply()
-      },
-      //需要被
-      meXyB(e){
-        // let url = `/pages/meSubordinate`
-        // this.$navigate(url)
-        this.$apply()
-      },
-      //提供被
-      meTgB(e){
-        // let url = `/pages/meSubordinate`
-        // this.$navigate(url)
-        this.$apply()
-      },
+      }
     }
 
     events = {

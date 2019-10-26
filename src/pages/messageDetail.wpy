@@ -2,30 +2,30 @@
   <view class="containe">
     <view class="messageList">
       <repeat for="{{messageList}}" item="item">
-        <view class="carList" wx:if="{{item.type=='1'}}">
+        <view class="carList" wx:if="{{item.status=='0'}}">
           <view class="top">
-            <image src='{{item.userImg}}'>
-            <text class="userName">{{item.userName}}</text>
+            <image src='{{item.image_url}}'>
+            <text class="userName">{{item.nickname}}</text>
             <view class="message">
-              <text class="time">{{item.time}}</text>
+              <text class="time">{{item.created_at}}</text>
             </view>
           </view>
-          <text class="you">{{item.name}}</text>
+          <text class="you">{{item.content}}</text>
         </view>
-        <view class="carList" wx:if="{{item.type=='2'}}">
+        <view class="carList" wx:if="{{item.status=='1'}}">
           <view class="twoTop">
             <view class="message">
-              <text class="time">{{item.time}}</text>
+              <text class="time">{{item.created_at}}</text>
             </view>
-            <text class="userName">{{item.userName}}</text>
-            <image src='{{item.userImg}}'>
+            <text class="userName">{{item.nickname}}</text>
+            <image src='{{item.image_url}}'>
           </view>
-          <text class="me">{{item.name}}</text>
+          <text class="me">{{item.content}}</text>
         </view>
       </repeat>
     </view>
     <view class="send">
-      <input type="text" @input="getSetData" data-name="content" placeholder="请输入...">
+      <input type="text" @input="getSetData" value="{{content}}" data-name="content" placeholder="请输入...">
       <text @tap='send'>发送</text>
     </view>
   </view>
@@ -40,11 +40,7 @@
     mixins = []
 
     data = {
-      messageList:[
-        {id:'1',type:'1',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'},
-        {id:'1',type:'2',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'},
-        {id:'1',type:'2',content:'本人19年9-21-08:00需要十辆奔驰x6',name:'有红色的玛莎拉蒂吗？车型不限！',time:'2019/10/12',userImg:'../image/daw.jpg',userName:'张小飞'}
-      ],
+      messageList:'',
       content:''
     }
 
@@ -55,12 +51,8 @@
     methods = {
       // 表单数据获取
       getSetData(e) {
-        console.log(e)
-        let messageList = this.messageList
-        let name = e.currentTarget.dataset.name
         let value = e.detail.value
-        messageList[name] = value
-        this.messageList = messageList
+        this.content = value
         this.$apply()
       },
     }
@@ -94,8 +86,7 @@
           wx.hideToast()
           data = this.$parent.null2str(data)
           if (data.data.code == 8888) {
-            this.messageList=data.data.data
-            console.log(this.messageList)
+            this.messageList=(data.data.data).reverse()
             this.$apply()
           }
         }
@@ -116,15 +107,15 @@
           apikey: this.$parent.globalData.apikey
         },
         data: {
-          content:this.messageList,
+          content:this.content,
           message_id:this.orderId
         },
         success: data => {
           wx.hideToast()
           data = this.$parent.null2str(data)
           if (data.data.code == 8888) {
-            this.messageList=data.data.data
-            console.log(this.messageList)
+            this.content=''
+            this.communicate()
             this.$apply()
           }
         }
