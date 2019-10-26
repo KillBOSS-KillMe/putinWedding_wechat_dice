@@ -42,9 +42,10 @@
     <view class="item">
       <view>
         <label>所在地</label>
-        <picker mode="region" bindchange="getSetData" value="{{formNode.region}}" data-name="region">
-           <input class="adderss" type="text" value="{{formNode.region[0]}} {{formNode.region[1]}} {{formNode.region[2]}}" disabled placeholder="区域选择" />
-        </picker>
+        <!-- <picker mode="region" bindchange="getSetData" value="{{formNode.region}}" data-name="region">
+           <input class="adderss" type="text" value="{{formNode.region[0]}} {{formNode.region[1]}} {{formNode.region[2]}}" disabled placeholder="请输入地址" />
+        </picker> -->
+        <input @input="getAddress" class="adderss" type="text" value="" placeholder="请输入地址" />
       </view>
       <icon class="iconfont iconjiantou"></icon>
     </view>
@@ -61,7 +62,12 @@
     <view class="title">
       <text>车主发布18以上帖子可以看到同行价！</text>
     </view>
-    <map class="button" id="map" longitude="113.324520" latitude="23.099994" scale="14" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width:690rpx;padding:10rpx 30rpx;height:380rpx;"></map>
+    <map id="myMap"
+      markers="{{markers}}"
+      longitude="{{markers[0].longitude}}"
+      latitude="{{markers[0].latitude}}"
+      scale='16' show-location>
+    </map>
     <view class="sub" @tap='sub'>
       <view>发布</view>
     </view>
@@ -132,6 +138,9 @@
   import wepy from 'wepy'
   import nav from '../components/nav' // 底部导航
   import check from '../mixins/check' //验证
+  // 引入SDK核心类
+  import qqmapwx from '../mixins/qqmap-wx-jssdk.min.js';
+  var qqmapsdk;
   export default class PostProvide extends wepy.page {
     config = {
       navigationBarTitleText: '发帖'
@@ -165,7 +174,8 @@
       thisYear:0,
       tiemNumSelData: null,
       step: 1,
-      calendarData: []
+      calendarData: [],
+      markers: null
     }
 
     computed = {
@@ -246,6 +256,16 @@
         console.log(formNode)
         this.$apply()
       },
+      getAddress(e) {
+        let formNode = this.formNode
+        let name = e.currentTarget.dataset.name
+        let value = e.detail.value
+        formNode[name] = value
+        this.formNode = formNode
+        this.$apply()
+        // 地图信息显示
+        this.getMapInfo(value)
+      },
       //上传图片
       upHotelImgList() {
         this.runUpHotelImgList()
@@ -257,6 +277,10 @@
     }
 
     onLoad(e) {
+      qqmapsdk = new qqmapwx({
+        key: this.$parent.globalData.mapKey
+        // key: 'GCABZ-J4G64-2WKUX-DNQMK-MVCGK-OSFD4'
+      });
       this.industrie_ids=e.id
       // 生成0-100的数组
       this.tiemNumSelData = [...Array(100).keys()]
@@ -264,8 +288,41 @@
       // this.calendarInit()
     }
     onShow() {
-      
     }
+    // 根据地址获取地图信息
+    getMapInfo(address) {
+      //调用地址解析接口
+      qqmapsdk.geocoder({
+        //获取表单传入地址
+        address: address, //地址参数，例：固定地址，address: '北京市海淀区彩和坊路海淀西大街74号'
+        success: res => {//成功后的回调
+          var res = res.result;
+          var latitude = res.location.lat;
+          var longitude = res.location.lng;
+          //根据地址解析在地图上标记解析地址位置
+          this.markers = [{
+              id: 0,
+              title: res.title,
+              latitude: latitude,
+              longitude: longitude,
+              iconPath: '../image/position.png',//图标路径
+              callout: { //可根据需求是否展示经纬度
+                content: address,  // 文字西安市
+                color: '#000',
+                display: 'ALWAYS'
+              }
+            }]
+          this.$apply()
+        },
+        fail: function(error) {
+          console.error(error);
+        },
+        complete: function(res) {
+          console.log(res);
+        }
+      })
+    }
+
     // 日历初始化
     calendarInit() {
       let date = new Date();
@@ -637,7 +694,11 @@
   .button{
     margin-bottom: 220rpx;
   }
-  
+  map{
+    width:690rpx;
+    padding:10rpx 30rpx;
+    height:690rpx;
+  }
 
 
 
