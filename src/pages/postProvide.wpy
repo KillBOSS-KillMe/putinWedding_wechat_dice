@@ -45,7 +45,7 @@
         <!-- <picker mode="region" bindchange="getSetData" value="{{formNode.region}}" data-name="region">
            <input class="adderss" type="text" value="{{formNode.region[0]}} {{formNode.region[1]}} {{formNode.region[2]}}" disabled placeholder="请输入地址" />
         </picker> -->
-        <input @input="getAddress" class="adderss" type="text" value="" placeholder="请输入详细地址" />
+        <input bindblur="getAddress" data-name="getAddres" class="adderss" type="text" value="" placeholder="请输入详细地址" />
       </view>
       <icon class="iconfont iconjiantou"></icon>
     </view>
@@ -158,10 +158,12 @@
         headline: '',           // 标题
         describe: '',           // 描述
         price:'',                //价格
-        region: ['', '', ''],     //省市级
         hotel_image: '', 
         bazaarPrice:'',         //市场价
-        // number:''                //数量
+        getAddres:''    ,            //地址
+        province:'',                  //省
+        city:'',                  //市
+        district:'',                  //区
       },
       hotelImgList: [],             //上传图片列表
       // 日历部分
@@ -279,7 +281,6 @@
     onLoad(e) {
       qqmapsdk = new qqmapwx({
         key: this.$parent.globalData.mapKey
-        // key: 'GCABZ-J4G64-2WKUX-DNQMK-MVCGK-OSFD4'
       });
       this.industrie_ids=e.id
       // 生成0-100的数组
@@ -301,17 +302,22 @@
           var longitude = res.location.lng;
           //根据地址解析在地图上标记解析地址位置
           this.markers = [{
-              id: 0,
-              title: res.title,
-              latitude: latitude,
-              longitude: longitude,
-              iconPath: '../image/position.png',//图标路径
-              callout: { //可根据需求是否展示经纬度
-                content: address,  // 文字西安市
-                color: '#000',
-                display: 'ALWAYS'
-              }
-            }]
+            id: 0,
+            title: res.title,
+            latitude: latitude,
+            longitude: longitude,
+            iconPath: '../image/position.png',//图标路径
+            callout: { //可根据需求是否展示经纬度
+              content: address,  // 文字西安市
+              color: '#000',
+              display: 'ALWAYS'
+            }
+          }]
+          this.province=res.address_components.province
+          this.city=res.address_components.city
+          this.district=res.address_components.district
+          this.getAddres=this.province+this.city+this.district
+          console.log(this.getAddres)
           this.$apply()
         },
         fail: function(error) {
@@ -442,6 +448,7 @@
       this.showModal = false
       this.$apply()
     }
+    //图片上传
     runUpHotelImgList() {
       let count = 9 - this.hotelImgList.length
       wx.chooseImage({
@@ -487,8 +494,8 @@
         }
       })
     }
+    //发布
     sub() {
-      console.log(123)
       let formNode = this.formNode
       console.log(this.formNode)
       if (this.check.isNull(formNode.headline)) {
@@ -533,8 +540,8 @@
         });
         return
       }
-      let region=formNode.region[0] + formNode.region[1] + formNode.region[2]
-      if (this.check.isNull(region)) {
+      // let region=formNode.region[0] + formNode.region[1] + formNode.region[2]
+      if (this.check.isNull(formNode.getAddres)) {
         wx.showToast({
           title: '请选择地址',
           icon: 'none'
@@ -572,10 +579,10 @@
           content:formNode.describe,        //内容
           money:formNode.price,             //同行价格
           date:dataTimeStr,
-          province:formNode.region[0],
-          city:formNode.region[1],
-          county:formNode.region[2],
-          address:'陕西省西安市',
+          province:this.province,
+          city:this.city,
+          county:this.district,
+          address:formNode.getAddres,
           images:formNode.hotel_image,
           t_money:formNode.bazaarPrice            //市场价
         },

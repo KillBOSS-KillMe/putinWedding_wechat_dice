@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="allMoney">
-      <view class="money">￥{{userInfo.amount}}</view>
+      <view class="money">￥{{userInfo.commission}}</view>
       <view>总金额</view>
       <!-- <view class="button" @tap="recharge" wx:if="{{userInfo.type == 2}}">立即充值</view> -->
       <view class="button" @tap="recharge">立即提现</view>
@@ -10,32 +10,32 @@
     <view class="list">
       <!-- list -->
       <repeat for="{{list}}" item="item">
-        <view class="item" data-id="{{item.id}}">
+        <view class="item" data-id="{{item.id}}" style="height:400rpx">
           <view>
-            <view class="name" wx:if="{{item.type == 2}}">充值成功</view>
+            <view class="name" wx:if="{{item.type == 1}}">提现成功</view>
             <view class="name" wx:if="{{item.type == 3}}">接单返佣</view>
-            <view class="name" wx:if="{{item.type == 4}}">提现成功</view>
-            <view class="name" wx:if="{{item.type == 5}}">保洁工钱</view>
-            <view class="name" wx:if="{{item.type == 6}}">酒店发工资</view>
             <view class="money">
-              <text wx:if="{{item.status == 2 || item.status == 3}}">+</text>
+              <text wx:if="{{item.type == 3}}">+</text>
               <text wx:else>-</text>
               <text>￥{{item.money}}</text>
-              ￥{{item.amount}}
+              <!-- ￥{{item.amount}} -->
             </view>
           </view>
           <view>
-            <view wx:if="{{userInfo.type == 2}}">{{userInfo.hotel_name}}</view>
-            <view wx:if="{{userInfo.type == 1}}">{{userInfo.name}}</view>
+            <!-- <view wx:if="{{userInfo.type == 2}}">{{userInfo.hotel_name}}</view> -->
+            <view >{{userInfo.nickName}}</view>
             <view>{{item.created_at}}</view>
           </view>
         </view>
+        
       </repeat>
+      <view class="listNull" wx:if="{{list.length == 0}}">暂无数据</view>
     </view>
-    <view class="listMore" @tap="getList" wx:if="{{current_page < last_page}}">
-      <text>加载更多</text>
+    
+    <!-- <view class="listMore"  wx:if="{{isShow}}">
+      <text>暂无更多数据</text>
       <icon class="iconfont iconxiala"></icon>
-    </view>
+    </view> -->
   </view>
 </template>
 
@@ -53,7 +53,7 @@
       userInfo: {},
       list: [],
       current_page: 0,
-      last_page: 0
+      last_page: 0,
     }
 
     computed = {}
@@ -61,7 +61,9 @@
     methods = {
       recharge(e) {
         // 进入提现页
-        let url = `/pages/meCash`
+        console.log(e)
+        let cashId=e.currentTarget.id
+        let url = `/pages/meCash?type=${1}`
         this.$navigate(url)
       }
     }
@@ -72,6 +74,7 @@
 
     onLoad() {
       this.userInfo = this.$parent.globalData.userInfo
+      console.log(this.userInfo)
       this.$apply()
     }
     onShow() {
@@ -84,22 +87,14 @@
         icon: 'loading',
         duration: 1000000
       });
-      // let url = ''
-      // if (this.userInfo.type == 2) {
-      //   // 执行酒店加载
-      //   url = 'wine_user_wallet_list'
-      // } else if (this.userInfo.type == 1) {
-      //   // 执行保洁加载
-      //   url = 'clean_user_wallet_list'
-      // }
       wx.request({
-         url: `${this.$parent.globalData.requestUrl}/withdraw/get_rebate_details?page=1`,
+         url: `${this.$parent.globalData.requestUrl}/withdraw/get_rebate_details`,
         header: {
           authorization: this.$parent.globalData.token,
           apikey: this.$parent.globalData.apikey
         },
         data: {
-          
+           page: this.current_page + 1
         },
         method: 'GET',
         success: data => {
@@ -116,6 +111,16 @@
           }
         }
       })
+    }
+    //上拉加载
+    onReachBottom(){
+      this.current_page + +
+      wx.showToast({
+        title: "拼命加载中...",
+        icon: 'loading',
+        duration: 1000000
+      });
+      this.getList()
     }
   }
 </script>

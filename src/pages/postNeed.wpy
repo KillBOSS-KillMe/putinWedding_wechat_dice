@@ -16,18 +16,18 @@
       <icon class="iconfont iconjiantou"></icon>
     </view>
     <view class="item">
-      <view>
+      <view style="width:690rpx">
         <label>需要日期</label>
-        <text>{{formNode.dataTime}}</text>
+        <picker mode="date" value="{{formNode.dataTime}}" start="2015-09-01" data-name='dataTime' end="2017-09-01" bindchange="getSetData">
+          <view class="picker" wx:if="{{formNode.dataTime==''}}"><text>请选择日期</text><icon class="iconfont iconjiantou"></icon></view>
+          <view class="picker" wx:else><text>{{formNode.dataTime}}</text><icon class="iconfont iconjiantou"></icon></view>
+        </picker>
       </view>
-      <icon class="iconfont iconjiantou"></icon>
     </view>
     <view class="item">
       <view>
         <label>所在地</label>
-        <picker mode="region" bindchange="getSetData" value="{{formNode.region}}" data-name="region">
-           <input class="adderss" type="text" value="{{formNode.region[0]}} {{formNode.region[1]}} {{formNode.region[2]}}" disabled placeholder="区域选择" />
-        </picker>
+        <input bindblur="getAddress" data-name="getAddres" class="adderss" type="text" value="" placeholder="请输入详细地址" />
         <!-- <text>陕西省西安市</text> -->
       </view>
       <icon class="iconfont iconjiantou"></icon>
@@ -43,7 +43,12 @@
       <!-- <image src="/img/upImg.png" @tap="upHotelImgList" wx:if="{{hotelImgList.length < 9}}" /> -->
      <icon class="iconfont iconchuanzhaopian" @tap="upHotelImgList" wx:if="{{hotelImgList.length < 9}}"></icon>
     </view>
-    <map class="button" id="map" longitude="113.324520" latitude="23.099994" scale="14" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width:690rpx;padding:10rpx 30rpx;height:380rpx;"></map>
+    <map id="myMap"
+      markers="{{markers}}"
+      longitude="{{markers[0].longitude}}"
+      latitude="{{markers[0].latitude}}"
+      scale='16' show-location>
+    </map>
     <view class="sub" @tap='sub'>
       <view>发布</view>
     </view>
@@ -54,6 +59,9 @@
   import wepy from 'wepy'
   import nav from '../components/nav' // 底部导航
   import check from '../mixins/check' //验证
+   // 引入SDK核心类
+  import qqmapwx from '../mixins/qqmap-wx-jssdk.min.js';
+  var qqmapsdk;
   export default class PostNeed extends wepy.page {
     config = {
       navigationBarTitleText: '发帖'
@@ -71,10 +79,14 @@
         headline: '',           // 标题
         describe: '',           // 描述
         price:'',                //价格
-        region: ['', '', ''],
         hotel_image: '',
-        dataTime:'2019.08.12'
+        dataTime:'',
+        getAddres:''    ,            //地址
+        province:'',                  //省
+        city:'',                  //市
+        district:'',                  //区
       },
+      markers: null
     }
 
     computed = {
@@ -101,6 +113,16 @@
         console.log(formNode)
         this.$apply()
       },
+      getAddress(e) {
+        let formNode = this.formNode
+        let name = e.currentTarget.dataset.name
+        let value = e.detail.value
+        formNode[name] = value
+        this.formNode = formNode
+        this.$apply()
+        // 地图信息显示
+        this.getMapInfo(value)
+      },
       upHotelImgList() {
         this.runUpHotelImgList()
       },
@@ -114,7 +136,10 @@
     onLoad(e) {
       console.log(e)
       this.industrie_ids=e.id
-      this.getLocation()//获取经纬度
+      qqmapsdk = new qqmapwx({
+        key: this.$parent.globalData.mapKey
+      });
+      // this.getLocation()//获取经纬度
     }
     runUpHotelImgList() {
       let count = 9 - this.hotelImgList.length
@@ -161,6 +186,44 @@
         }
       })
     }
+     // 根据地址获取地图信息
+    getMapInfo(address) {
+      //调用地址解析接口
+      qqmapsdk.geocoder({
+        //获取表单传入地址
+        address: address, //地址参数，例：固定地址，address: '北京市海淀区彩和坊路海淀西大街74号'
+        success: res => {//成功后的回调
+          var res = res.result;
+          var latitude = res.location.lat;
+          var longitude = res.location.lng;
+          //根据地址解析在地图上标记解析地址位置
+          this.markers = [{
+            id: 0,
+            title: res.title,
+            latitude: latitude,
+            longitude: longitude,
+            iconPath: '../image/position.png',//图标路径
+            callout: { //可根据需求是否展示经纬度
+              content: address,  // 文字西安市
+              color: '#000',
+              display: 'ALWAYS'
+            }
+          }]
+          this.province=res.address_components.province
+          this.city=res.address_components.city
+          this.district=res.address_components.district
+          this.getAddres=this.province+this.city+this.district
+          console.log(this.getAddres)
+          this.$apply()
+        },
+        fail: function(error) {
+          console.error(error);
+        },
+        complete: function(res) {
+          console.log(res);
+        }
+      })
+    }
     sub() {
       let formNode = this.formNode
       console.log(this.formNode)
@@ -192,8 +255,7 @@
         });
         return
       }
-      let region=formNode.region[0] + formNode.region[1] + formNode.region[2]
-      if (this.check.isNull(region)) {
+      if (this.check.isNull(formNode.getAddres)) {
         wx.showToast({
           title: '请选择地址',
           icon: 'none'
@@ -229,10 +291,10 @@
           content:formNode.describe,        //内容
           money:formNode.price,             //价格
           date:formNode.dataTime,
-          province:formNode.region[0],
-          city:formNode.region[1],
-          county:formNode.region[2],
-          address:'陕西省西安市',
+          province:this.province,
+          city:this.city,
+          county:this.district,
+          address:formNode.getAddres,
           images:formNode.hotel_image,
         },
         success: data => {
@@ -253,23 +315,6 @@
               icon: 'none'
             });
           }
-        }
-      })
-    }
-
-    getLocation () {
-      wx.getLocation({
-        type: 'wgs84',
-        success: function (res) {
-          console.log(JSON.stringify(res))
-          let latitude = res.latitude
-          this.latitude=latitude
-          let longitude = res.longitude
-          let speed = res.speed
-          let accuracy = res.accuracy;
-        },
-        fail: function (res) {
-          console.log('fail' + JSON.stringify(res))
         }
       })
     }
@@ -377,5 +422,15 @@
   }
   .button{
     margin-bottom: 220rpx;
+  }
+  map{
+    width:690rpx;
+    padding:10rpx 30rpx;
+    height:690rpx;
+  }
+  .picker{
+    width: 552rpx !important;
+    display: flex;
+    justify-content: space-between !important;
   }
 </style>

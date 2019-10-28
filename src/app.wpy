@@ -80,7 +80,9 @@ export default class extends wepy.app {
       'pages/interactive', // 同行互动
       'pages/allCommodity', // 所有商品
       'pages/serviceRecommend', // 服务推荐
+      'pages/serviceRecommendDetail', // 服务推荐详情
       'pages/peopleRecommend', // 人气推荐
+      'pages/peopleRecommendDetail', // 人气推荐详情
 
       // 发布
       'pages/releaseTypeSel', // 发帖--类型选择
@@ -506,6 +508,11 @@ export default class extends wepy.app {
   // font-weight: 600; 
   color: #898989; 
  } 
+  .listNull{
+    text-align: center;
+    font-size: 26rpx;
+    color: #898989;
+  }
 // 多选框样式
   checkbox .wx-checkbox-input {
     border-radius: 50%; /* 圆角 */

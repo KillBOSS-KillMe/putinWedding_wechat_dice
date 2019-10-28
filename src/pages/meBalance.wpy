@@ -1,9 +1,9 @@
 <template>
   <view>
     <view class="allMoney">
-      <view class="money">￥{{userInfo.amount}}</view>
+      <view class="money">￥{{userInfo.money}}</view>
       <view>总金额</view>
-      <view class="button" @tap="recharge">立即充值</view>
+      <view class="button" @tap="recharge">立即提现</view>
       <!-- <view class="button" @tap="recharge" wx:if="{{userInfo.type == 2}}">立即充值</view> -->
       <!-- <view class="button" @tap="recharge" wx:if="{{userInfo.type == 1}}">立即提现</view> -->
     </view>
@@ -13,21 +13,18 @@
       <repeat for="{{list}}" item="item">
         <view class="item" data-id="{{item.id}}">
           <view>
-            <view class="name" wx:if="{{item.type == 2}}">接单收入</view>
-            <!-- <view class="name" wx:if="{{item.status == 3}}">提现申请</view> -->
-            <view class="name" wx:if="{{item.type == 4}}">返还保证金</view>
-            <!-- <view class="name" wx:if="{{item.status == 5}}">保洁工钱</view>
-            <view class="name" wx:if="{{item.status == 6}}">酒店发工资</view> -->
+            <view class="name" wx:if="{{item.type==0}}">提现成功</view>
+            <view class="name" wx:if="{{item.type==1}}">返还保证金</view>
             <view class="money">
-              <text wx:if="{{item.type == 2 || item.type == 4}}">+</text>
+              <text wx:if="{{item.type == 4}}">+</text>
               <text wx:else>-</text>
               <text>￥{{item.money}}</text>
-              ￥{{item.amount}}
+              <!-- ￥{{item.amount}} -->
             </view>
           </view>
           <view>
-            <view wx:if="{{userInfo.type == 2}}">{{userInfo.hotel_name}}</view>
-            <view wx:if="{{userInfo.type == 1}}">{{userInfo.name}}</view>
+            <!-- <view wx:if="{{userInfo.type == 2}}">{{userInfo.hotel_name}}</view> -->
+            <view>{{userInfo.nickName}}</view>
             <view>{{item.created_at}}</view>
           </view>
         </view>
@@ -95,13 +92,13 @@
       //   url = 'clean_user_wallet_list'
       // }
       wx.request({
-        url: `${this.$parent.globalData.requestUrl}/withdraw/get_fund_details?page=1`,
+        url: `${this.$parent.globalData.requestUrl}/withdraw/get_fund_details`,
         header: {
           authorization: this.$parent.globalData.token,
           apikey: this.$parent.globalData.apikey
         },
         data: {
-          // page: this.current_page + 1
+          page: this.current_page + 1
         },
         method: 'GET',
         success: data => {

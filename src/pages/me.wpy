@@ -25,15 +25,15 @@
     </view>
     <view class="mony">
       <view @tap='meBalance'>
-        <text class="monyText">222</text>
+        <text class="monyText">{{userInfo.money}}</text>
         <text>余额/提现</text>
       </view>
       <view @tap='meCashBack'>
-        <text class="monyText">222</text>
+        <text class="monyText">{{userInfo.commission}}</text>
         <text>分销返佣</text>
       </view>
       <view @tap='meSubordinate'>
-        <text class="monyText">222</text>
+        <text class="monyText">{{userInfo.money}}</text>
         <text>我的下级</text>
       </view>
     </view>
