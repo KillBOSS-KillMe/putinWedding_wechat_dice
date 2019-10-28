@@ -112,16 +112,18 @@ export default class extends wepy.app {
       
       // 订单模块
       'pages/orderList', // 订单列表--需要
+      'pages/orderPostTail', // 订单--需要--尾款
+      'pages/orderPostConfirm', // 订单--需要--确认订单
       'pages/orderPostList', // 订单列表--接受的需要
       'pages/orderPostListDteail', // 订单列表--接受的需要详情
       'pages/orderOfferList', // 订单列表--提供
       'pages/fillOrderOffer', // 支付订单 订单列表--提供
       'pages/fillOrderPostList', // 支付订单 订单列表--接受的提供
       'pages/fillOrderPostListDteail', // 支付订单 订单列表--接受的提供详情
-
+      'pages/orderPost', // 发布评价
 
       'pages/orderListExchange', // 订单列表--同行互换
-      'pages/orderPost', // 发布评价
+      
       'pages/orderDetailBail', // 订单详情--保证金
       'pages/orderListDetail', // 订单详情
       

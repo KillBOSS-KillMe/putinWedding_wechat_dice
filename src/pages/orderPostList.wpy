@@ -129,6 +129,16 @@ export default class OrderPostList extends wepy.page {
     // 获取liebiao
     this.getListData()
   }
+  onReachBottom() {
+    wx.showToast({
+      title: "拼命加载中...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    this.current_page++
+    this.getListData()
+    // Do something when page reach bottom.
+  }
 }
 </script>
 <style lang="less">

@@ -28,7 +28,7 @@
               <view class="totaol">共计：<text>￥{{item.money}}</text></view>
             </view>
           </view>
-          <view class="display orderListBottom">
+          <view class="display orderListBottom {{3 == currentIndex ? 'hide' : 'show'}}">
             <text class="arrears">尾款{{item.w_d_money}}元/订金{{item.f_d_money}}元</text>
             <view class="del">
               <text wx:if="{{item.x_f_status=='1'}}">删除</text>
@@ -37,6 +37,7 @@
             <view class="orderType">
               <text @tap='pay' data-id='{{item.id}}' data-type='1' wx:if="{{item.x_f_status=='1'}}">支付定金</text>
               <text @tap='pay' data-id='{{item.id}}' data-type='2' wx:if="{{item.x_f_status=='2'}}">支付尾款</text>
+              <text @tap='pay' data-id='{{item.id}}' data-type='4' wx:if="{{item.x_f_status=='4'}}">确定完成</text>
               <text @tap='pay' data-id='{{item.id}}' data-type='5' wx:if="{{item.x_f_status=='5'}}">订单评价</text>
               <text wx:else style="display:none"></text>
             </view>
@@ -72,7 +73,7 @@ export default class OrderList extends wepy.page {
      
   };
   titleClick (e) {
-    console.log(e.currentTarget.dataset.idx)
+    console.log(e)
     this.currentIndex = e.currentTarget.dataset.idx
     this.current_page=0
     this.getListData()
@@ -118,9 +119,30 @@ export default class OrderList extends wepy.page {
   pay(e){
     let type =e.currentTarget.dataset.type
     let orderId=e.currentTarget.dataset.id
-    let url = `/pages/fillOrder?type=${type}&id=${orderId}`
-     console.log(url)
-    this.$navigate(url)
+    //支付定金
+    if(type==1){
+      let url = `/pages/fillOrder?type=${type}&id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
+    //支付尾款
+    if(type==2){
+      let url = `/pages/orderPostTail?type=${type}&id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
+     //确定完成
+    if(type==4){
+      let url = `/pages/orderPostConfirm?type=${type}&id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
+    //订单评价
+    if(type==5){
+      let url = `/pages/orderPost?type=${type}&id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
   }
     // 下拉刷新
   onPullDownRefresh() {
@@ -156,6 +178,12 @@ export default class OrderList extends wepy.page {
     border-bottom: 5rpx solid #f42652;
     font-size: 28rpx;
   }
+}
+.show{
+  opacity: 1;
+}
+.hide{
+  opacity: 0
 }
 .flex{
     width: 100%;
