@@ -18,7 +18,7 @@
     <view class="item">
       <view style="width:690rpx">
         <label>需要日期</label>
-        <picker mode="date" value="{{formNode.dataTime}}" start="2015-09-01" data-name='dataTime' end="2017-09-01" bindchange="getSetData">
+        <picker mode="date" value="{{formNode.dataTime}}" start="2018-09-01" data-name='dataTime' end="2030-09-01" bindchange="getSetData">
           <view class="picker" wx:if="{{formNode.dataTime==''}}"><text>请选择日期</text><icon class="iconfont iconjiantou"></icon></view>
           <view class="picker" wx:else><text>{{formNode.dataTime}}</text><icon class="iconfont iconjiantou"></icon></view>
         </picker>
@@ -135,6 +135,7 @@
 
     onLoad(e) {
       console.log(e)
+
       this.industrie_ids=e.id
       qqmapsdk = new qqmapwx({
         key: this.$parent.globalData.mapKey

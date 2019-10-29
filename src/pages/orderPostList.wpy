@@ -33,14 +33,13 @@
             </view> -->
             <view class="orderType">
               <text @tap='pay' data-id='{{item.id}}' data-type='1' wx:if="{{item.x_j_status=='1'}}">支付押金</text>
-              <!-- <text @tap='pay' data-id='{{item.id}}' data-type='2' wx:if="{{item.x_j_status=='2'}}">支付尾款</text> -->
-              <text @tap='pay' data-id='{{item.id}}' data-type='5' wx:if="{{item.x_j_status=='3'}}">订单评价</text>
+              <text @tap='pay' data-id='{{item.id}}' data-type='2' wx:if="{{item.x_j_status=='2'}}">确认订单</text>
+              <text @tap='pay' data-id='{{item.id}}' data-type='3' wx:if="{{item.x_j_status=='3'}}">订单评价</text>
               <text wx:else style="display:none"></text>
             </view>
           </view>
         </view>
       </repeat>
-      <view class="listNull" wx:if="{{list.length==0}}">暂无数据</view>
     </view>
   </view>
 </template>
@@ -78,9 +77,11 @@ export default class OrderPostList extends wepy.page {
   }
   events = {};
 
-  onLoad() {
+  onLoad(e) {
+    console.log("++++++++++++"+e)
     this.getListData()
   }
+  //获取列表
   getListData(){
     wx.showToast({
       title: "数据加载...",
@@ -115,9 +116,25 @@ export default class OrderPostList extends wepy.page {
   pay(e){
     let type =e.currentTarget.dataset.type
     let orderId=e.currentTarget.dataset.id
-    let url = `/pages/orderPostListDteail?type=${type}&id=${orderId}`
-     console.log(url)
-    this.$navigate(url)
+    //支付押金
+    if(type==1){
+      let url = `/pages/orderPostListDteail?type=${type}&id=${orderId}`
+      console.log(url)
+      this.$navigate(url)
+      return false
+    }
+     //确定完成
+    if(type==2){
+      let url = `/pages/orderNeedConfirm?type=${type}&id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
+    //订单评价
+    if(type==3){
+      let url = `/pages/orderPost?type=${type}&id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
   }
     // 下拉刷新
   onPullDownRefresh() {

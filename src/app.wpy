@@ -116,6 +116,7 @@ export default class extends wepy.app {
       'pages/orderPostConfirm', // 订单--需要--确认订单
       'pages/orderPostList', // 订单列表--接受的需要
       'pages/orderPostListDteail', // 订单列表--接受的需要详情
+      'pages/orderNeedConfirm', // 订单--接受的需要--确认订单
       'pages/orderOfferList', // 订单列表--提供
       'pages/fillOrderOffer', // 支付订单 订单列表--提供
       'pages/fillOrderPostList', // 支付订单 订单列表--接受的提供
