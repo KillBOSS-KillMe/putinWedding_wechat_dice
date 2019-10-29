@@ -4,7 +4,7 @@
       <input type="text" placeholder="请输入搜索内容" @input="getSearchKey" />
       <icon class="iconfont iconsousuo"></icon>
     </view>
-    <view class="selList">
+    <!-- <view class="selList">
       <picker bindchange="setType" value="{{indexNode[0]}}" range="{{showType}}">
         <view class="item">
           {{showType[indexNode[0]]}}
@@ -26,25 +26,24 @@
           <icon class="iconfont iconjiantouarrow486"></icon>
         </view>
       </picker>
-    </view>
+    </view> -->
     <view class="list">
       <repeat for="{{list}}" item="item">
-        <view class="item">
-          <image src="{{item.img}}" />
+        <view class="item" data-id='{{item.id}}' @tap='listItem'>
+          <image src="{{item.images}}" />
           <view class="info">
             <view>
-              <text class="type" wx:if="{{item.type == '1'}}">车队</text>
-              <text class="type" wx:if="{{item.type == '2'}}">主持</text>
-              <text class="type" wx:if="{{item.type == '3'}}">化妆</text>
-              <text class="name">{{item.name}}</text>
+              <text class="type" >{{item.industrie_ids}}</text>
+              <text class="name">{{item.title}}</text>
             </view>
             <view>
-              <text class="price">￥{{item.price}}</text>
-              <text class="user">{{item.user}}/{{item.address}}</text>
+              <text class="price">￥{{item.money}}</text>
+              <text class="user">{{item.address}}</text>
             </view>
           </view>
         </view>
       </repeat>
+      <view class="listNull" wx:if="{{list.length==0}}">暂无数据</view>
     </view>
   </view>
 </template>
@@ -60,24 +59,14 @@
     mixins = []
 
     data = {
-      list: [
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '2', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '3', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'},
-        {id: '1', name: '宝马', type: '1', price: '1200', user: '二狗子', address: '西安市', img: '../image/daw.jpg'}
-      ],
+      list: [],
       indexNode: [0,0,0],
       showType: ['全部','摄像师','车队','花艺','主持人','策划','灯光'],
       priceList: ['全部','升序','降序'],
       addressList: ['区域','西安','咸阳','宝鸡'],
-      searchKey: ''
+      searchKey: '',
+      current_page:1,
+      title:''
     }
 
     computed = {
@@ -109,7 +98,8 @@
       // 搜索输入监听
       getSearchKey(e) {
         this.searchKey = e.detail.value
-        this.runSearch()
+        this.title=e.detail.value
+        this.getList()
       }
     }
 
@@ -117,7 +107,91 @@
       
     }
 
-    onLoad() {
+    onLoad(e) {
+      console.log(e)
+      this.orderId=e.a
+
+      this.getList()
+    }
+    listItem(e){
+      console.log(e)
+      let id=e.currentTarget.dataset.id
+      if(this.orderId == 0){
+        let url = `/pages/peopleRecommendDetail?id=${id}`
+        this.$navigate(url)
+        return false
+      }
+      if(this.orderId == 1){
+        let url = `/pages/serviceRecommendDetail?id=${id}`
+        this.$navigate(url)
+        return false
+      }
+      // if(this.orderId == 2){
+      //   let url = `/pages/serviceRecommendDetail?id=${id}`
+      //   this.$navigate(url)
+      //   return false
+      // }
+    }
+    //获取列表
+    getList(e){
+      let url=''
+      console.log(this.orderId)
+      if (this.orderId == 0) {
+        // 执行抢单
+        url = 'index/get_index_single_list'
+        console.log(url)
+      } else if (this.orderId == 1) {
+        // 执行服务
+        url = `index/get_index_provide_list`
+      }else if(this.orderId == 2){
+        //执行互换
+        // url = `withdraw/get_withdraw_tpl_list`
+      }
+      wx.showToast({
+        title: "数据加载...",
+        icon: 'loading',
+        duration: 1000000
+      });
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/${url}`,
+        method: 'GET',
+        header: {
+          Authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        data: {
+          page: this.current_page,
+          title:this.title
+        },
+        success: data => {
+          wx.hideToast()
+          data = this.$parent.null2str(data)
+          if (data.data.code == 8888) {
+            console.log(data)
+            this.list=data.data.data.data
+                  // 当前页码
+            this.current_page = data.data.data.current_page
+            // 总页码
+            this.last_page = data.data.data.last_page
+            this.$apply()
+          }
+        }
+      })
+    }
+        // 下拉刷新
+    onPullDownRefresh() {
+      wx.showToast({
+        title: "拼命加载中...",
+        icon: 'loading',
+        duration: 1000000
+      });
+      // 获取liebiao
+      this.getList()
+    }
+     //下拉加载
+    onReachBottom(){
+      this.current_page++;
+      this.getList()
     }
   }
 </script>

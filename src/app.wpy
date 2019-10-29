@@ -74,14 +74,12 @@ export default class extends wepy.app {
       'pages/productDetails', // 产品详情
       'pages/productSelIndustry', // 选择行业
       'pages/grabOrder', // 抢单
-      'pages/grabOrderDetails', // 抢单-产品详情
+      // 'pages/grabOrderDetails', // 抢单-产品详情
       'pages/service', // 服务
       'pages/interactiveInfo', // 同行互动-详情
       'pages/interactive', // 同行互动
       'pages/allCommodity', // 所有商品
-      'pages/serviceRecommend', // 服务推荐
       'pages/serviceRecommendDetail', // 服务推荐详情
-      'pages/peopleRecommend', // 人气推荐
       'pages/peopleRecommendDetail', // 人气推荐详情
 
       // 发布
@@ -130,7 +128,8 @@ export default class extends wepy.app {
       
       'pages/orderDetailBail', // 订单详情--保证金
       'pages/orderListDetail', // 订单详情
-      
+      'pages/peopleRecommend', // 人气推荐
+      'pages/serviceRecommend', // 服务推荐
       
 
       // 注册部分

@@ -1,24 +1,18 @@
 <template>
   <view>
-    <view class="title">选择行业</view>
-    <view class="list">
-      <repeat for="{{list}}" item="item">
-        <view class="{{item.id == active?'active':''}}" data-index="{{index}}" @tap="sel">
-          {{item.name}}
-        </view>
-      </repeat>
-      <view class="{{item.id == active?'active':''}}" @tap="newItem">全部</view>
-    </view>
-    <view class="sub">
-      <view @tap="sub">确认</view>
-    </view>
-    <view class="maskCon" wx:if="{{maskShow}}">
-      <view class="mask" @tap="newItem"></view>
-      <view class="showCon">
-        <view class="name">添加行业</view>
-        <input type="text" placeholder="请输入添加名称" @input="getVal" />
-        <view class="maskSub" @tap="addItem">确定</view>
+    <view class="name">服务类型</view>
+    <radio-group bindchange="selLocal" data-index="{{index}}" data-checks="{{item.checks}}">
+      <view class="sel">
+        <repeat for="{{typeList}}" item="item">
+          <view class="item" data-id="{{item.id}}">
+            <radio color='#5DA4EF' data-index="{{index}}" value="{{index}}" checked="{{item.checks}}"></radio>
+            {{item.name}}
+          </view>
+        </repeat>
       </view>
+    </radio-group>
+    <view class="sub" @tap='next'>
+      <view>确定</view>
     </view>
   </view>
 </template>
@@ -27,75 +21,51 @@
   import wepy from 'wepy'
   export default class ProductSelIndustry extends wepy.page {
     config = {
-      navigationBarTitleText: '选择行业'
+      navigationBarTitleText: '选择需求'
     }
-    components = {}
+    components = {
+    }
 
     mixins = []
 
     data = {
-      maskShow: false,
-      active: '',
-      list: [
-        {name: '车队', id: '1'},
-        {name: '车队', id: '2'},
-        {name: '车队', id: '3'},
-        {name: '车队', id: '4'},
-        {name: '车队', id: '5'},
-        {name: '车队车队', id: '6'},
-        {name: '车队', id: '7'},
-        {name: '车队', id: '8'},
-        {name: '车队', id: '9'},
-        {name: '车队', id: '10'},
-        {name: '车队', id: '11'},
-        {name: '车队车队', id: '12'},
-        {name: '车队', id: '13'}
+      userInfo: null,
+      typeList: [
+        {id: '1', name: '抢单'},
+        {id: '2', name: '服务'},
+        {id: '3', name: '互换'}
       ],
-      disabled: false,
-      currentTime: 60,   // 倒计时初始值
-      time: '发送验证码'
+      j:''
     }
 
     computed = {
-      
+
     }
 
     methods = {
-      // 获取输入框值
-      getVal() {
-
+      selLocal(e) {
+        let i = 0
+        console.log(e)
+        let cartIndex = e.detail.value
+        let localList = this.searchList
+        this.cartInde=e.detail.value
+        this.$apply();
       },
-      // 提交值
-      addItem() {
-
-      },
-      // 弹框显示
-      newItem() {
-        if (this.maskShow) {
-          this.maskShow = false
-        } else {
-          this.maskShow = true
-        }
-        this.$apply()
-      },
-      // 选择行业
-      sel(e) {
-        let index = e.currentTarget.dataset.index
-        this.active = this.list[index].id
-        console.log(this.active)
-        this.$apply()
-      },
-      // 下一步
-      sub(e) {
-        let index = this.active
-        console.log(index)
-        if(index==''){
+      //跳转选择行业
+      next(e){
+        // this.cartIndex=cartIndex
+        let i=this.cartInde
+        console.log(i)
+        if(i==undefined){
           wx.showToast({
-            title: "请选择行业...",
+            title: '请选择类型',
             icon: 'none',
-          });
+            duration: 1000,
+            mask: true
+          })
         }else{
-          let url = `/pages/allCommodity?id=${index}`
+          let url = `/pages/allCommodity?a=${i}`
+          console.log(url)
           this.$navigate(url)
         }
         this.$apply()
@@ -103,52 +73,54 @@
     }
 
     events = {
-      
+
     }
 
     onLoad() {
-      this.getIndustry()
+      
     }
-    // 获取分类
-    getIndustry() {
+    
 
+    // 用户信息校验
+    verificationUserInfo() {
+      if (!this.userInfo.hasOwnProperty('id')) {
+        wx.showToast({
+          title: "用户信息加载中...",
+          icon: 'none',
+        });
+        return true
+      }
     }
   }
 </script>
 <style lang="less">
-.title{
-  width: 690rpx;
-  height: auto;
-  padding: 30rpx;
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #1F1F1F;
-}
-.list{
-  width: 690rpx;
-  height: auto;
-  padding: 30rpx;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
-  view{
-    margin: 10rpx;
-    color: #1F1F1F;
+  .name{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
     font-size: 30rpx;
-    // font-weight: 600;
-    padding: 20rpx 30rpx;
-    background-color: #F7F7F7;
-    border-radius: 100rpx;
+    font-weight: 600;
+    color: #1F1F1F;
   }
-  .active{
-    color: #fff;
-    background-color: #F42652;
+  .sel{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
+    font-size: 26rpx;
+    color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .item{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      radio{
+        transform:scale(0.7);
+      }
+    }
   }
-}
-.showCon{
-  width: 580rpx;
-  height: 445rpx;
-}
+  .sub{
+    bottom: 100rpx;
+  }
 </style>

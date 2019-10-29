@@ -180,10 +180,10 @@
         let id = e.currentTarget.dataset.id
         //1服务推荐 2人气推荐
         if(id=='1'){
-          let url = `/pages/serviceRecommend`
+          let url = `/pages/service`
           this.$navigate(url)
         }else if(id=='2'){
-          let url = `/pages/peopleRecommend`
+          let url = `/pages/grabOrder`
           this.$navigate(url)
         }
         this.$apply()
