@@ -54,7 +54,8 @@ export default class OrderListExchange extends wepy.page {
       {id: '1',name:'本人19年9-21-08:00需要十辆奔驰x6',type:'1',price:'6666',username:'王先生',adders:'西安市',time:'2019-10-19 12:30:48',orderType:'2'},
       {id: '1',name:'本人19年9-21-08:00需要十辆奔驰x6',type:'1',price:'9999',username:'刘先生',adders:'西安市',time:'2019-10-19 12:30:48',orderType:'3'},
     ],
-    
+    current_page: 1,
+    last_page: 0,
   };
 
   computed = {};
@@ -63,6 +64,9 @@ export default class OrderListExchange extends wepy.page {
      titleClick: function (e) {
         console.log(e.currentTarget.dataset.idx)
         this.currentIndex = e.currentTarget.dataset.idx
+        this.current_page=1
+        // this.getListData()
+        this.list=[]
         this.$apply()
     }
   };

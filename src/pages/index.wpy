@@ -68,6 +68,7 @@
           </repeat>
         </view>
       </view>
+      <image class="logo" src='../image/technicalSupport.png'/>
     </view>
     <view class="maskCon" wx:if="{{collectionStr}}">
       <view class="mask" @tap="hideMask"></view>
@@ -660,5 +661,11 @@
     width: 580rpx;
     height: 445rpx;
     justify-content: center;
+  }
+  .logo{
+    width: 280rpx;
+    height: 90rpx;
+    display: block;
+    margin: 0 auto !important;
   }
 </style>

@@ -78,13 +78,13 @@
         </view>
         <icon class="iconfont iconjiantou"></icon>
       </view>
-      <view class="meListItem">
+      <button class="meListItem" open-type="contact">
         <view>
           <image src='../image/meZxzx.png'>
           <text>在线咨询</text>
         </view>
         <icon class="iconfont iconjiantou"></icon>
-      </view>
+      </button>
       <view class="meListItem">
         <view>
           <image src='../image/meFxm.png'>
@@ -392,5 +392,18 @@
             display: block;
         }
     }
+}
+button.meListItem{
+  padding: 0;
+  border: none !important;
+  line-height: normal !important;
+}
+.button-hover {
+  color: transparent;
+  background: transparent;
+  line-height: normal !important;
+}
+button::after {
+  border: none;
 }
 </style>

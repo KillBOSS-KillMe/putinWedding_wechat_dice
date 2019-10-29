@@ -119,8 +119,11 @@ export default class extends wepy.app {
       'pages/orderNeedConfirm', // 订单--接受的需要--确认订单
       'pages/orderOfferList', // 订单列表--提供
       'pages/fillOrderOffer', // 支付订单 订单列表--提供
+      'pages/fillOrderOfferConfirm', // 支付订单 订单列表--提供--确认订单
       'pages/fillOrderPostList', // 支付订单 订单列表--接受的提供
-      'pages/fillOrderPostListDteail', // 支付订单 订单列表--接受的提供详情
+      'pages/fillOrderPostListDteail', // 支付订单 订单列表--接受的提供--支付定金
+      'pages/fillOrderPostTail', // 订单--接受--尾款
+      'pages/postOrderOfferConfirm', // 支付订单 订单列表--接受提供--确认订单
       'pages/orderPost', // 发布评价
 
       'pages/orderListExchange', // 订单列表--同行互换
@@ -411,6 +414,15 @@ export default class extends wepy.app {
   justify-content: space-between;
   box-sizing: border-box;
 }
+.orderTitle{
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #fff;
+}
+.orderList{
+  margin-top: 120rpx !important;
+}
 .sub,
 .submit {
   // height: 200;
@@ -433,6 +445,12 @@ export default class extends wepy.app {
     align-items: center;
     justify-content: center;
   }
+}
+.orderDataInfo{
+  width: 530rpx;
+}
+.orderCount{
+  width: 400rpx;
 }
 .sub {
   // height: 200;

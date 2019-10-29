@@ -1,6 +1,6 @@
 <template>
   <view class="concontainer">
-    <view class="header">
+    <view class="header" @tap="runCall">
       <icon class="iconfont icondianhuazhengzaibohao"></icon>
       客服电话：1800066445
     </view>
@@ -79,8 +79,8 @@
       </view>
     </view>
     <view class="bottom flex">
-      <text @tap="communicate" data-id="{{list.id}}" class="text1">立即沟通</text>
-      <text class="text2">支付押金</text>
+      <!-- <text @tap="communicate" data-id="{{list.id}}" class="text1">立即沟通</text> -->
+      <text @tap="communicate" class="text2">支付押金</text>
     </view>
   </view>
 </template>
@@ -146,16 +146,15 @@ export default class FillOrder extends wepy.page {
       }
     })
   }
-  //立即沟通
+  //支付押金
   communicate(e){
-    let id=e.currentTarget.dataset.id
     wx.showToast({
       title: "数据加载...",
       icon: 'loading',
       duration: 1000000
     });
     wx.request({
-      url: `${this.$parent.globalData.requestUrl}/message/set_message`,
+      url: `${this.$parent.globalData.requestUrl}/order/set_provide_payment`,
       method: 'POST',
       header: {
         Authorization: this.$parent.globalData.token,
@@ -168,13 +167,48 @@ export default class FillOrder extends wepy.page {
         wx.hideToast()
         data = this.$parent.null2str(data)
         if (data.data.code == 8888) {
-          console.log(data.data.data.id)
-          let url = `/pages/messageDetail?id=${data.data.data.id}`
-          this.$navigate(url)
+           this.runRecharge(data.data.data)
         }
       }
     })
     this.$apply()
+  }
+  runRecharge(payNode) {
+    console.log(payNode)
+    wx.showToast({
+      title: "支付中...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    wx.requestPayment({
+      'timeStamp': payNode.timestamp,
+      'nonceStr': payNode.nonceStr,
+      'package': payNode.package,
+      'signType': payNode.signType,
+      'paySign': payNode.paySign,
+      'success': data => {
+        wx.hideToast()
+        wx.showToast({
+          title: "支付成功",
+          icon: 'success',
+          duration: 2000
+        });
+        // 两秒后返回上一页
+        setTimeout(e => {
+          wx.navigateTo({
+            url: `/pages/orderOfferList`
+          });
+        }, 2000)
+      },
+      'fail': data => {
+        wx.hideToast()
+        wx.showToast({
+          title: "支付失败",
+          icon: 'none',
+          duration: 2000
+        });
+      }
+    })
   }
   //查看日期详情
   details(){
@@ -371,7 +405,7 @@ export default class FillOrder extends wepy.page {
     background: #fff;
     justify-content: flex-end;
     text{
-      width: 50%;
+      width: 100%;
       height: 98rpx;
       line-height: 98rpx;
       text-align: center;

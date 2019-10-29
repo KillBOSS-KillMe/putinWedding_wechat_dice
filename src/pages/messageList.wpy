@@ -77,13 +77,8 @@
       messageList:[],
       collectionStr:false,
       col:2,
-      info:{
-        name:'王菲',
-        tel:'13100000000',
-        adder:'西安市高新区高新六路21号高新小区',
-        time:'2019-10-20 12:30:00'
-      },
-      current_page: 0,
+      info:{},
+      current_page: 1,
       last_page: 0,
     }
 
@@ -155,7 +150,7 @@
           apikey: this.$parent.globalData.apikey
         },
         data: {
-          page: this.current_page + 1,
+          page: this.current_page,
         },
         success: data => {
           wx.hideToast()
@@ -180,6 +175,11 @@
         duration: 1000000
       });
       // 获取liebiao
+      this.communicate()
+    }
+     //下拉加载
+    onReachBottom(){
+      this.current_page++;
       this.communicate()
     }
     // 用户信息校验

@@ -61,7 +61,7 @@ export default class OrderList extends wepy.page {
 
   data = {
     currentIndex: 1,
-    current_page: 0,
+    current_page:1,
     last_page: 0,
     list: [],
     
@@ -75,7 +75,7 @@ export default class OrderList extends wepy.page {
   titleClick (e) {
     console.log(e)
     this.currentIndex = e.currentTarget.dataset.idx
-    this.current_page=0
+    this.current_page=1
     this.getListData()
     this.list=[]
     this.$apply()
@@ -99,7 +99,7 @@ export default class OrderList extends wepy.page {
         apikey: this.$parent.globalData.apikey
       },
       data: {
-        page: this.current_page + 1,
+        page: this.current_page,
         x_f_status:this.currentIndex
       },
       success: data => {
@@ -144,16 +144,12 @@ export default class OrderList extends wepy.page {
       return false
     }
   }
-    // 下拉刷新
-  onPullDownRefresh() {
-    wx.showToast({
-      title: "拼命加载中...",
-      icon: 'loading',
-      duration: 1000000
-    });
-    // 获取liebiao
+  //下拉加载
+  onReachBottom(){
+    this.current_page++;
     this.getListData()
   }
+
 }
 </script>
 <style lang="less">
@@ -268,5 +264,7 @@ export default class OrderList extends wepy.page {
         margin-left: 20rpx
     }
 }
-
+.orderCount{
+  width: 400rpx;
+}
 </style>

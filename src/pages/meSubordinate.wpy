@@ -84,7 +84,7 @@ export default class MeSubordinate extends wepy.page {
   data = {
     userInfo: {},
     list: [],
-    current_page: 0,
+    current_page: 1,
     last_page: 0
   };
 
@@ -111,7 +111,7 @@ export default class MeSubordinate extends wepy.page {
         apikey: this.$parent.globalData.apikey
       },
       data: {
-        page:this.current_page + 1
+        page:this.current_page
       },
       method: 'GET',
       success: data => {
@@ -139,6 +139,16 @@ export default class MeSubordinate extends wepy.page {
     });
     // 获取liebiao
     this.getListData()
+  }
+  //上拉加载
+  onReachBottom(){
+    this.current_page + +
+    wx.showToast({
+      title: "拼命加载中...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    this.getList()
   }
 }
 </script>

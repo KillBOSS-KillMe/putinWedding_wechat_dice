@@ -35,7 +35,8 @@
             <view class="orderType">
               <text @tap='pay' data-id='{{item.id}}' data-type='1' wx:if="{{item.t_j_status=='1'}}">支付订金</text>
               <text @tap='pay' data-id='{{item.id}}' data-type='2' wx:if="{{item.t_j_status=='2'}}">支付尾款</text>
-              <text @tap='pay' data-id='{{item.id}}' data-type='5' wx:if="{{item.t_j_status=='4'}}">订单评价</text>
+              <text @tap='pay' data-id='{{item.id}}' data-type='3' wx:if="{{item.t_j_status=='3'}}">确认订单</text>
+              <!-- <text @tap='pay' data-id='{{item.id}}' data-type='5' wx:if="{{item.t_j_status=='4'}}">订单评价</text> -->
               <text wx:else style="display:none"></text>
             </view>
           </view>
@@ -58,7 +59,7 @@ export default class FillOrderPostList extends wepy.page {
 
   data = {
     currentIndex: 1,
-    current_page: 0,
+    current_page: 1,
     last_page: 0,
     list: [],
     
@@ -72,7 +73,7 @@ export default class FillOrderPostList extends wepy.page {
   titleClick (e) {
     console.log(e.currentTarget.dataset.idx)
     this.currentIndex = e.currentTarget.dataset.idx
-    this.current_page=0
+    this.current_page=1
     this.getListData()
     this.list=[]
     this.$apply()
@@ -96,7 +97,7 @@ export default class FillOrderPostList extends wepy.page {
         apikey: this.$parent.globalData.apikey
       },
       data: {
-        page: this.current_page + 1,
+        page: this.current_page,
         t_j_status:this.currentIndex
       },
       success: data => {
@@ -116,9 +117,24 @@ export default class FillOrderPostList extends wepy.page {
   pay(e){
     let type =e.currentTarget.dataset.type
     let orderId=e.currentTarget.dataset.id
-    let url = `/pages/orderPostListDteail?type=${type}&id=${orderId}`
-     console.log(url)
-    this.$navigate(url)
+     //支付订金
+    // if(type==1){
+    //   let url = `/pages/fillOrderPostListDteail?id=${orderId}`
+    //   this.$navigate(url)
+    //   return false
+    // }
+     //支付尾款
+    if(type==2){
+      let url = `/pages/fillOrderPostTail?id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
+    //确定
+    if(type==1){
+      let url = `/pages/postOrderOfferConfirm?id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
   }
     // 下拉刷新
   onPullDownRefresh() {
@@ -127,8 +143,20 @@ export default class FillOrderPostList extends wepy.page {
       icon: 'loading',
       duration: 1000000
     });
+    this.current_page++
     // 获取liebiao
     this.getListData()
+  }
+  //上拉加载
+  onReachBottom() {
+    wx.showToast({
+      title: "拼命加载中...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    this.current_page++
+    this.getListData()
+    // Do something when page reach bottom.
   }
 }
 </script>

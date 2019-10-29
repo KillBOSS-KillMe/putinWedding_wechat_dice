@@ -3,7 +3,7 @@
     <view class="title">选择行业</view>
     <view class="list">
       <repeat for="{{list}}" item="item">
-        <view class="{{activeNum == index?'active':''}}" data-sel="{{index}}" data-index="{{index}}" @tap="sel">
+        <view class="{{activeNum == item.id?'active':''}}" data-sel="{{item.id}}"  @tap="sel">
           {{item.name}}
         </view>
       </repeat>
@@ -36,13 +36,14 @@
     methods = {
       // 选择行业
       sel(e) {
-        this.activeNum = e.currentTarget.dataset.index
+        console.log(e)
+        this.activeNum = e.currentTarget.dataset.sel
         console.log(this.activeNum)
         this.$apply()
       },
       // 提交
       sub() {
-        let id=this.activeNum
+        let id=this.list.id
         console.log(id)
         if(id=='-1'){
           wx.showToast({

@@ -1,6 +1,6 @@
 <template>
   <view class="concontainer">
-    <view class="header">
+    <view class="header" @tap="runCall">
       <icon class="iconfont icondianhuazhengzaibohao"></icon>
       客服电话：1800066445
     </view>

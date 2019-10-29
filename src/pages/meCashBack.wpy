@@ -10,7 +10,7 @@
     <view class="list">
       <!-- list -->
       <repeat for="{{list}}" item="item">
-        <view class="item" data-id="{{item.id}}" style="height:400rpx">
+        <view class="item" data-id="{{item.id}}">
           <view>
             <view class="name" wx:if="{{item.type == 1}}">提现成功</view>
             <view class="name" wx:if="{{item.type == 3}}">接单返佣</view>
@@ -29,13 +29,7 @@
         </view>
         
       </repeat>
-      <view class="listNull" wx:if="{{list.length == 0}}">暂无数据</view>
     </view>
-    
-    <!-- <view class="listMore"  wx:if="{{isShow}}">
-      <text>暂无更多数据</text>
-      <icon class="iconfont iconxiala"></icon>
-    </view> -->
   </view>
 </template>
 
@@ -52,7 +46,7 @@
     data = {
       userInfo: {},
       list: [],
-      current_page: 0,
+      current_page: 1,
       last_page: 0,
     }
 
@@ -94,7 +88,7 @@
           apikey: this.$parent.globalData.apikey
         },
         data: {
-           page: this.current_page + 1
+           page: this.current_page
         },
         method: 'GET',
         success: data => {

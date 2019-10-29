@@ -1,6 +1,6 @@
 <template>
   <view class="concontainer">
-    <view class="header">
+    <view class="header" @tap="runCall">
       <icon class="iconfont icondianhuazhengzaibohao"></icon>
       客服电话：1800066445
     </view>
@@ -66,7 +66,7 @@
     </view>
     <view class="bottom flex">
       <!-- <text @tap="communicate" data-id="{{list.id}}" class="text1">立即沟通</text> -->
-      <text class="text2">立即抢单</text>
+      <text @tap="immediately" class="text2">立即抢单</text>
     </view>
   </view>
 </template>
@@ -105,8 +105,8 @@ export default class PeopleRecommendDetail extends wepy.page {
       duration: 1000000
     });
     wx.request({
-      url: `${this.$parent.globalData.requestUrl}/index/set_single_order`,
-      method: 'POST',
+      url: `${this.$parent.globalData.requestUrl}/order/get_need_info`,
+      method: 'GET',
       header: {
         Authorization: this.$parent.globalData.token,
         apikey: this.$parent.globalData.apikey
@@ -126,8 +126,8 @@ export default class PeopleRecommendDetail extends wepy.page {
       }
     })
   }
-  //立即沟通
-  communicate(e){
+  //抢单
+  immediately(e){
     let id=e.currentTarget.dataset.id
     wx.showToast({
       title: "数据加载...",
@@ -135,7 +135,7 @@ export default class PeopleRecommendDetail extends wepy.page {
       duration: 1000000
     });
     wx.request({
-      url: `${this.$parent.globalData.requestUrl}/message/set_message`,
+      url: `${this.$parent.globalData.requestUrl}/index/set_single_order`,
       method: 'POST',
       header: {
         Authorization: this.$parent.globalData.token,
@@ -148,9 +148,14 @@ export default class PeopleRecommendDetail extends wepy.page {
         wx.hideToast()
         data = this.$parent.null2str(data)
         if (data.data.code == 8888) {
-          console.log(data.data.data.id)
-          let url = `/pages/messageDetail?id=${data.data.data.id}`
-          this.$navigate(url)
+          wx.showToast({
+            title: "抢单成功",
+            icon: 'success',
+            duration: 2000
+          });
+          setTimeout(() => {
+            this.$redirect('/pages/orderPostList')
+          }, 2000)
         }
       }
     })
@@ -328,7 +333,7 @@ export default class PeopleRecommendDetail extends wepy.page {
     background: #fff;
     justify-content: flex-end;
     text{
-      width: 50%;
+      width: 100%;
       height: 98rpx;
       line-height: 98rpx;
       text-align: center;

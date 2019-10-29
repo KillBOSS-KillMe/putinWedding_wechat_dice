@@ -27,7 +27,7 @@
               <view class="totaol">共计：<text>￥{{item.money}}</text></view>
             </view>
           </view>
-          <view class="display orderListBottom">
+          <view class="display orderListBottom {{2 == currentIndex ? 'hide' : 'show'}}">
             <text class="arrears">押金{{item.j_d_money}}元</text>
             <!-- <view class="del">
               <text wx:if="{{item.x_f_status=='1'}}">删除</text>
@@ -35,8 +35,8 @@
             </view> -->
             <view class="orderType">
               <text @tap='pay' data-id='{{item.id}}' data-type='1' wx:if="{{item.t_f_status=='1'}}">支付押金</text>
-              <text @tap='pay' data-id='{{item.id}}' data-type='2' wx:if="{{item.t_f_status=='2'}}">支付尾款</text>
-              <text @tap='pay' data-id='{{item.id}}' data-type='5' wx:if="{{item.t_f_status=='5'}}">订单评价</text>
+              <text @tap='pay' data-id='{{item.id}}' data-type='3' wx:if="{{item.t_f_status=='3'}}">确认订单</text>
+              <text @tap='pay' data-id='{{item.id}}' data-type='4' wx:if="{{item.t_f_status=='4'}}">订单评价</text>
               <text wx:else style="display:none"></text>
             </view>
           </view>
@@ -59,7 +59,7 @@ export default class OrderOfferList extends wepy.page {
 
   data = {
     currentIndex: 1,
-    current_page: 0,
+    current_page: 1,
     last_page: 0,
     list: [],
     
@@ -73,7 +73,7 @@ export default class OrderOfferList extends wepy.page {
   titleClick (e) {
     console.log(e.currentTarget.dataset.idx)
     this.currentIndex = e.currentTarget.dataset.idx
-    this.current_page=0
+    this.current_page=1
     this.getListData()
     this.list=[]
     this.$apply()
@@ -97,7 +97,7 @@ export default class OrderOfferList extends wepy.page {
         apikey: this.$parent.globalData.apikey
       },
       data: {
-        page: this.current_page + 1,
+        page: this.current_page,
         t_f_status:this.currentIndex
       },
       success: data => {
@@ -118,9 +118,24 @@ export default class OrderOfferList extends wepy.page {
   pay(e){
     let type =e.currentTarget.dataset.type
     let orderId=e.currentTarget.dataset.id
-    let url = `/pages/fillOrderOffer?type=${type}&id=${orderId}`
-     console.log(url)
-    this.$navigate(url)
+    //支付押金
+    if(type==1){
+      let url = `/pages/fillOrderOffer?id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
+     //确定完成
+    if(type==3){
+      let url = `/pages/fillOrderOfferConfirm?id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
+    //订单评价
+    if(type==4){
+      let url = `/pages/orderPost?id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
   }
     // 下拉刷新
   onPullDownRefresh() {
@@ -131,6 +146,17 @@ export default class OrderOfferList extends wepy.page {
     });
     // 获取liebiao
     this.getListData()
+  }
+  //上拉加载
+  onReachBottom() {
+    wx.showToast({
+      title: "拼命加载中...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    this.current_page++
+    this.getListData()
+    // Do something when page reach bottom.
   }
 }
 </script>
@@ -240,5 +266,10 @@ export default class OrderOfferList extends wepy.page {
         margin-left: 20rpx
     }
 }
-
+.hide{
+  opacity: 0;
+}
+.show{
+  opacity: 1;
+}
 </style>
