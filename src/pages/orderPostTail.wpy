@@ -1,8 +1,8 @@
 <template>
   <view class="concontainer">
-    <view class="header" @tap="runCall">
+    <view class="header" @tap="tel">
       <icon class="iconfont icondianhuazhengzaibohao"></icon>
-      客服电话：1800066445
+      客服电话：{{userInfo.service_tal}}
     </view>
     <view class="cityList">
       <view class="orderInfo">
@@ -86,7 +86,8 @@ export default class OrderPostTail extends wepy.page {
     date: '',
     img:{},
     dj:'',
-    earnest:''
+    earnest:'',
+    userInfo: {}
   };
 
   computed = {};
@@ -96,6 +97,7 @@ export default class OrderPostTail extends wepy.page {
     console.log(e)
     this.orderId=e.id
     this.getListData()
+    this.userInfo = this.$parent.globalData.userInfo
   }
   //获取数据
   getListData(){
@@ -184,42 +186,48 @@ export default class OrderPostTail extends wepy.page {
     this.$apply()
   }
   runRecharge(payNode) {
-      console.log(payNode)
-      wx.showToast({
-        title: "支付中...",
-        icon: 'loading',
-        duration: 1000000
-      });
-      wx.requestPayment({
-        'timeStamp': payNode.timestamp,
-        'nonceStr': payNode.nonceStr,
-        'package': payNode.package,
-        'signType': payNode.signType,
-        'paySign': payNode.paySign,
-        'success': data => {
-          wx.hideToast()
-          wx.showToast({
-            title: "支付成功",
-            icon: 'success',
-            duration: 2000
+    console.log(payNode)
+    wx.showToast({
+      title: "支付中...",
+      icon: 'loading',
+      duration: 1000000
+    });
+    wx.requestPayment({
+      'timeStamp': payNode.timestamp,
+      'nonceStr': payNode.nonceStr,
+      'package': payNode.package,
+      'signType': payNode.signType,
+      'paySign': payNode.paySign,
+      'success': data => {
+        wx.hideToast()
+        wx.showToast({
+          title: "支付成功",
+          icon: 'success',
+          duration: 2000
+        });
+        // 两秒后返回上一页
+        setTimeout(e => {
+          wx.navigateTo({
+            url: "pages/orderList"
           });
-          // 两秒后返回上一页
-          setTimeout(e => {
-            wx.navigateTo({
-              url: "pages/orderList"
-            });
-          }, 2000)
-        },
-        'fail': data => {
-          wx.hideToast()
-          wx.showToast({
-            title: "支付失败",
-            icon: 'none',
-            duration: 2000
-          });
-        }
-      })
-    }
+        }, 2000)
+      },
+      'fail': data => {
+        wx.hideToast()
+        wx.showToast({
+          title: "支付失败",
+          icon: 'none',
+          duration: 2000
+        });
+      }
+    })
+  }
+    //拨打电话
+  tel(){
+    wx.makePhoneCall({
+      phoneNumber: this.userInfo.service_tal
+    })
+  }
 }
 </script>
 <style lang="less">

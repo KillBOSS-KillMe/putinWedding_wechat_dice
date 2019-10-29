@@ -102,6 +102,7 @@ export default class ServiceRecommendDetail extends wepy.page {
     dj:'',
     earnest:'',
     collectionStr:false,
+    userInfo:''
   };
 
   computed = {};
@@ -111,6 +112,7 @@ export default class ServiceRecommendDetail extends wepy.page {
     console.log(e)
     this.orderId=e.id
     this.getListData()
+    this.userInfo = this.$parent.globalData.userInfo
   }
   //获取数据
   getListData(){

@@ -9,7 +9,7 @@
             <text class="name">{{userInfo.nickName}}</text>
             <text class="userId">ID：{{userInfo.phone}}</text>
           </view>
-          <text class="fontInfo">登录后获取更多服务信息</text>
+          <!-- <text class="fontInfo">登录后获取更多服务信息</text> -->
         </view>
       </view>
       <view class="headLift" wx:if="{{userInfo.phone != ''}}">
@@ -33,7 +33,7 @@
         <text>分销返佣</text>
       </view>
       <view @tap='meSubordinate'>
-        <text class="monyText">{{userInfo.money}}</text>
+        <text class="monyText">{{userInfo.user_count}}</text>
         <text>我的下级</text>
       </view>
     </view>
@@ -72,7 +72,7 @@
     </view>
     <view class="meList">
       <view class="meListItem">
-        <view>
+        <view @tap='tel'>
           <image src='../image/meKf.png'>
           <text>专属客服</text>
         </view>
@@ -91,8 +91,8 @@
           <text>我的分享码</text>
         </view>
         <view class="erWeiMa">
-          <text>123465</text>
-          <text class="number">复制</text>
+          <text>{{userInfo.invitation_code}}</text>
+          <text @tap='clip' class="number">复制</text>
         </view>
       </view>
     </view>
@@ -218,8 +218,23 @@
       this.userInfo = this.$parent.globalData.userInfo
       this.$apply()
     }
-    
-
+    //拨打电话
+    tel(){
+      wx.makePhoneCall({
+        phoneNumber: this.userInfo.service_tal
+      })
+    }
+    //复制
+    clip(){
+      wx.getClipboardData({
+        success (res) {
+          wx.showToast({
+            title: "内容已复制",
+            icon: 'none',
+          });
+        }
+      })
+    }
     // 用户信息校验
     verificationUserInfo() {
       if (!this.userInfo.hasOwnProperty('id')) {

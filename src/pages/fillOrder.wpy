@@ -1,8 +1,8 @@
 <template>
   <view class="concontainer">
-    <view class="header" @tap="runCall">
+    <view class="header" @tap="tel">
       <icon class="iconfont icondianhuazhengzaibohao"></icon>
-      客服电话：1800066445
+      客服电话：{{userInfo.service_tal}}
     </view>
     <view class="cityList">
       <view class="orderInfo">
@@ -83,10 +83,11 @@ export default class FillOrder extends wepy.page {
 
   data = {
     list:{ },
-    date: '2016-09-01',
+    date: '',
     img:{},
     dj:'',
-    earnest:''
+    earnest:'',
+    userInfo: {}
   };
 
   computed = {};
@@ -104,6 +105,7 @@ export default class FillOrder extends wepy.page {
       this.dj=100
       this.earnest='支付尾款'
     }
+    this.userInfo = this.$parent.globalData.userInfo
   }
   //获取数据
   getListData(){
@@ -226,6 +228,12 @@ export default class FillOrder extends wepy.page {
             duration: 2000
           });
         }
+      })
+    }
+    //dadianhua
+    tel(){
+      wx.makePhoneCall({
+        phoneNumber: this.userInfo.service_tal
       })
     }
 }

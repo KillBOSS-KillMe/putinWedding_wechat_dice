@@ -1,8 +1,8 @@
 <template>
   <view class="concontainer">
-    <view class="header" @tap="runCall">
+    <view class="header" @tap="tel">
       <icon class="iconfont icondianhuazhengzaibohao"></icon>
-      客服电话：1800066445
+      客服电话：{{userInfo.service_tal}}
     </view>
     <view class="cityList">
       <view class="orderInfo">
@@ -89,6 +89,7 @@ export default class OrderPostConfirm extends wepy.page {
     dj:'',
     earnest:'',
     collectionStr:false,
+    userInfo: {}
   };
 
   computed = {};
@@ -98,6 +99,7 @@ export default class OrderPostConfirm extends wepy.page {
     console.log(e)
     this.orderId=e.id
     this.getListData()
+    this.userInfo = this.$parent.globalData.userInfo
   }
   //获取数据
   getListData(){
@@ -222,6 +224,12 @@ export default class OrderPostConfirm extends wepy.page {
   onReachBottom() {
     
     // Do something when page reach bottom.
+  }
+   //拨打电话
+  tel(){
+    wx.makePhoneCall({
+      phoneNumber: this.userInfo.service_tal
+    })
   }
 }
 </script>
