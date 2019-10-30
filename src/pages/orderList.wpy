@@ -45,6 +45,7 @@
         </view>
       </repeat>
       <view class="listNull" wx:if="{{list.length==0}}">暂无数据</view>
+      <view class="listNull" wx:if="{{current_page > last_page}}">暂无更多数据</view>
     </view>
   </view>
 </template>

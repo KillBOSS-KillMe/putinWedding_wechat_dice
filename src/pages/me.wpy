@@ -9,14 +9,20 @@
             <text class="name">{{userInfo.nickName}}</text>
             <text class="userId">ID：{{userInfo.phone}}</text>
           </view>
-          <!-- <text class="fontInfo">登录后获取更多服务信息</text> -->
+          <text class="fontInfo">登录后获取更多服务信息</text>
         </view>
       </view>
       <view class="headLift" wx:if="{{userInfo.phone != ''}}">
-        <image src='{{userInfo.avatarUrl}}'>
+        <view>
+          <image wx:if="{{userInfo.head_portrait==''}}" src='{{userInfo.avatarUrl}}'>
+          <image wx:else src='{{userInfo.head_portrait}}'>
+        </view>
         <view>
           <view>
-            <text class="name">{{userInfo.nickName}}</text>
+            <view>
+              <text wx:if="{{userInfo.nickname==''}}" class="name">{{userInfo.nickName}}</text>
+              <text wx:else class="name">{{userInfo.nickname}}</text>
+            </view>
             <text class="userId">ID：{{userInfo.phone}}</text>
           </view>
         </view>
@@ -368,28 +374,35 @@
     width: 690rpx;
     padding: 0 30rpx;
     .meListItem{
-        display: flex;
-        justify-content: space-between;
-        align-content: center;
-        margin: 50rpx 0;
-        image{
-            width: 32rpx;
-            height: 32rpx;
-            margin-right: 30rpx;
-        }
-        text{
-            font-size: 32rpx;
-            color: #494949;
-        }
-        icon{
-            width: 20rpx;
-            width: 20rpx;
-            font-size: 20rpx;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color:#BFBFBF;
-        }
+      display: flex;
+      justify-content: space-between;
+      align-content: center;
+      margin: 50rpx 0;
+      height: 44rpx;
+      line-height: 44rpx;
+      image{
+          width: 32rpx;
+          height: 32rpx;
+          margin-right: 30rpx;
+      }
+      text{
+          font-size: 32rpx;
+          color: #494949;
+      }
+      icon{
+          width: 20rpx;
+          width: 20rpx;
+          font-size: 20rpx;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color:#BFBFBF;
+      }
+      
+    }
+    .meListItem>view{
+      display: flex;
+      align-items: center;
     }
     .erWeiMa{
         display: flex;

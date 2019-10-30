@@ -50,6 +50,7 @@
           <icon @tap="hideMask" class="iconfont iconguanbi"></icon>
         </view>
       </view>
+      <view class="listNull" wx:if="{{current_page > last_page}}">暂无更多数据</view>
       <!-- <view class="showCon">
         <view class="name">为了方便您使用此产品，点击</view>
         <view class="name">右上角按钮，选择“添加到桌面”</view>

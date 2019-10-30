@@ -27,8 +27,8 @@
             <view>{{item.created_at}}</view>
           </view>
         </view>
-        
       </repeat>
+      <view class="listNull" wx:if="{{current_page > last_page}}">暂无更多数据</view>
     </view>
   </view>
 </template>
@@ -108,7 +108,7 @@
     }
     //上拉加载
     onReachBottom(){
-      this.current_page + +
+      this.current_page++
       wx.showToast({
         title: "拼命加载中...",
         icon: 'loading',

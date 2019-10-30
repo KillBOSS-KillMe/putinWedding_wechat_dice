@@ -15,6 +15,7 @@
           <view>
             <view class="name" wx:if="{{item.type==0}}">提现成功</view>
             <view class="name" wx:if="{{item.type==1}}">返还保证金</view>
+            <view class="name" wx:else></view>
             <view class="money">
               <text wx:if="{{item.type == 4}}">+</text>
               <text wx:else>-</text>
@@ -29,7 +30,9 @@
           </view>
         </view>
       </repeat>
+      <view class="listNull" wx:if="{{current_page > last_page}}">暂无更多数据</view>
     </view>
+    
     <!-- <view class="listMore" @tap="getList" wx:if="{{current_page < last_page}}">
       <text>加载更多</text>
       <icon class="iconfont iconxiala"></icon>
@@ -117,12 +120,12 @@
     }
     //上拉加载
     onReachBottom(){
-      this.current_page + +
       wx.showToast({
         title: "拼命加载中...",
         icon: 'loading',
         duration: 1000000
       });
+      this.current_page++
       this.getList()
     }
   }
