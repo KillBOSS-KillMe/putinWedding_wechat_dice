@@ -126,11 +126,11 @@
         this.$navigate(url)
         return false
       }
-      // if(this.orderId == 2){
-      //   let url = `/pages/serviceRecommendDetail?id=${id}`
-      //   this.$navigate(url)
-      //   return false
-      // }
+      if(this.orderId == 2){
+        let url = `/pages/exchangeFillDetail?id=${id}`
+        this.$navigate(url)
+        return false
+      }
     }
     //获取列表
     getList(e){
@@ -145,7 +145,7 @@
         url = `index/get_index_provide_list`
       }else if(this.orderId == 2){
         //执行互换
-        // url = `withdraw/get_withdraw_tpl_list`
+        url = `index/get_index_swap_list`
       }
       wx.showToast({
         title: "数据加载...",

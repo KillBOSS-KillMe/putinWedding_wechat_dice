@@ -47,9 +47,9 @@
 			"current": 2,
 			"list": [
 				{
-					"id": -1,
-					"name": "pages/meSubordinate",
-					"pathName": "pages/meSubordinate",
+					"id": 0,
+					"name": "pages/interactiveInfo",
+					"pathName": "pages/interactiveInfo",
 					"query": "",
 					"scene": null
 				},

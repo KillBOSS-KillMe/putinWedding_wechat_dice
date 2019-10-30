@@ -117,7 +117,6 @@
 
     onLoad(e) {
       console.log(e)
-      // this.orderId=e.id
       this.getList()
     }
     //获取列表

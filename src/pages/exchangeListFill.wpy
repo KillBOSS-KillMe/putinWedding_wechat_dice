@@ -2,8 +2,7 @@
   <view class="container">
     <view class="orderTitle">
       <text class="{{1 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='1'>未支付</text>
-      <text class="{{2 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='2'>待接单</text>
-      <text class="{{3 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='3'>已接单</text>
+      <text class="{{3 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='3'>待接单</text>
       <text class="{{4 == currentIndex ? 'cur' : 'title-sel'}}" bindtap='titleClick' data-idx='4'>已完成</text>
     </view>
     <view class="orderList"  current='{{currentIndex}}'>
@@ -20,16 +19,17 @@
           <text class="time">发布于{{item.created_at}}</text>
           <view class="display orderType">
             <view class="orderTypeItem">
-              <text wx:if="{{item.th_f_status=='1'}}">未支付</text>
-              <text wx:if="{{item.th_f_status=='2'}}">待接单</text>
-              <text wx:if="{{item.th_f_status=='3'}}">已接单</text>
-              <text wx:if="{{item.th_f_status=='4'}}">已完成</text>
+              <text wx:if="{{item.th_j_status=='1'}}">未支付定金</text>
+              <text wx:if="{{item.th_j_status=='2'}}">未支付尾款</text>
+              <text wx:if="{{item.th_j_status=='3'}}">待完成</text>
+              <text wx:if="{{item.th_j_status=='4'}}">已完成</text>
             </view>
             <view class="orderListType">
               <view class="orderType">
-                <text @tap='pay' data-id='{{item.id}}' data-type='1' wx:if="{{item.th_f_status=='1'}}">支付押金</text>
-                <text @tap='pay' data-id='{{item.id}}' data-type='3' wx:if="{{item.th_f_status=='3'}}">确定完成</text>
-                <text @tap='pay' data-id='{{item.id}}' data-type='4' wx:if="{{item.th_f_status=='4'}}">订单评价</text>
+                <text @tap='pay' data-id='{{item.id}}' data-type='1' wx:if="{{item.th_j_status=='1'}}">支付定金</text>
+                <text @tap='pay' data-id='{{item.id}}' data-type='2' wx:if="{{item.th_j_status=='2'}}">未支付尾款</text>
+                <text @tap='pay' data-id='{{item.id}}' data-type='3' wx:if="{{item.th_j_status=='3'}}">确定完成</text>
+                <text @tap='pay' data-id='{{item.id}}' data-type='4' wx:if="{{item.th_j_status=='4'}}">订单评价</text>
                 <text wx:else style="display:none"></text>
               </view>
               <!-- <text class="del" wx:if="{{item.th_f_status=='1' || item.th_f_status=='3'}}">删除</text> -->
@@ -46,9 +46,9 @@
 
 <script>
 import wepy from 'wepy';
-export default class OrderListExchange extends wepy.page {
+export default class ExchangeListFill extends wepy.page {
   config = {
-    navigationBarTitleText: '同行互换'
+    navigationBarTitleText: '同行互换-被'
   };
   components = {};
 
@@ -87,7 +87,7 @@ export default class OrderListExchange extends wepy.page {
       duration: 1000000
     });
     wx.request({
-      url: `${this.$parent.globalData.requestUrl}/order/get_swap_list`,
+      url: `${this.$parent.globalData.requestUrl}/order/get_swap_b_list`,
       method: 'GET',
       header: {
         Authorization: this.$parent.globalData.token,
@@ -95,7 +95,7 @@ export default class OrderListExchange extends wepy.page {
       },
       data: {
         page: this.current_page,
-        th_f_status:this.currentIndex
+        th_j_status:this.currentIndex
       },
       success: data => {
         wx.hideToast()
@@ -114,20 +114,26 @@ export default class OrderListExchange extends wepy.page {
   pay(e){
     let type =e.currentTarget.dataset.type
     let orderId=e.currentTarget.dataset.id
-    //支付押金
+    //支付定金
     if(type==1){
-      let url = `/pages/orderExchangeDetail?id=${orderId}`
+      let url = `/pages/exchangeFillEarnest?id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
+    //支付尾款
+    if(type==2){
+      let url = `/pages/exchangeFillEnd?id=${orderId}`
       this.$navigate(url)
       return false
     }
      //确定完成
     if(type==3){
-      let url = `/pages/orderExchangeConfirm?id=${orderId}`
+      let url = `/pages/exchangeFillConfirm?id=${orderId}`
       this.$navigate(url)
       return false
     }
     //订单评价
-    if(type==5){
+    if(type==4){
       let url = `/pages/orderPost?id=${orderId}`
       this.$navigate(url)
       return false

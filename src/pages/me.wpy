@@ -39,9 +39,9 @@
     </view>
     <view class="meOrder">
       <text class="meOrderTitle">订单</text>
-      <view class="meOrderMore">
+      <!-- <view class="meOrderMore">
         查看全部订单
-        <icon class="iconfont iconjiantou"></icon>
+        <icon class="iconfont iconjiantou"></icon> -->
       </view>
     </view>
     <view class="mony">
@@ -182,9 +182,9 @@
           this.$navigate(url)
           return false
         }
-        //
+        //发布的互换
         if(index=='3'){
-          let url = `/pages/orderList` 
+          let url = `/pages/orderListExchange` 
           this.$navigate(url)
           return false
         }
@@ -200,8 +200,9 @@
           this.$navigate(url)
           return false
         }
+        //接受的互换
         if(index=='6'){
-          let url = `/pages/orderList` 
+          let url = `/pages/exchangeListFill` 
           this.$navigate(url)
           return false
         }

@@ -76,11 +76,11 @@ export default class extends wepy.app {
       'pages/grabOrder', // 抢单
       // 'pages/grabOrderDetails', // 抢单-产品详情
       'pages/service', // 服务
-      'pages/interactiveInfo', // 同行互动-详情
-      'pages/interactive', // 同行互动
+      'pages/interactive', // 同行互动-列表
       'pages/allCommodity', // 所有商品
       'pages/serviceRecommendDetail', // 服务推荐详情
       'pages/peopleRecommendDetail', // 人气推荐详情
+      'pages/exchangeFillDetail', // 同行互换--详情
 
       // 发布
       'pages/releaseTypeSel', // 发帖--类型选择
@@ -89,6 +89,7 @@ export default class extends wepy.app {
       'pages/postNeed', // 发帖--需要
       'pages/selIndustry', // 选择行业
       'pages/fillOrder', // 支付订单
+      
 
       // 消息
       'pages/messageList', // 消息列表
@@ -122,11 +123,17 @@ export default class extends wepy.app {
       'pages/fillOrderPostListDteail', // 支付订单 订单列表--接受的提供--支付定金
       'pages/fillOrderPostTail', // 订单--接受--尾款
       'pages/postOrderOfferConfirm', // 支付订单 订单列表--接受提供--确认订单
+      'pages/orderListExchange', // 订单列表--同行互换
+      'pages/orderExchangeDetail', // 订单列表--同行互换--详情
+      'pages/orderExchangeConfirm', // 订单列表--同行互换--确认
+      'pages/exchangeListFill', // 订单列表--接受的同行互换
+      'pages/exchangeFillEarnest', // 订单列表--接受的同行互换--详情支付定金
+      'pages/exchangeFillEnd', // 订单列表--接受的同行互换--详情支付尾款
+      'pages/exchangeFillConfirm', // 订单列表--接受的同行互换--确认
       'pages/orderPost', // 发布评价
 
-      'pages/orderListExchange', // 订单列表--同行互换
       'pages/orderListDetail', // 订单详情
-      
+      'pages/interactiveInfo', // 同行互动-详情
 
       // 注册部分
       'pages/registeredSel', // 注册选择

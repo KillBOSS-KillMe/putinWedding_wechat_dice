@@ -36,14 +36,13 @@
     methods = {
       // 选择行业
       sel(e) {
-        console.log(e)
         this.activeNum = e.currentTarget.dataset.sel
         console.log(this.activeNum)
         this.$apply()
       },
       // 提交
       sub() {
-        let id=this.list.id
+        let id=this.activeNum
         console.log(id)
         if(id=='-1'){
           wx.showToast({
