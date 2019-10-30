@@ -125,11 +125,7 @@ export default class extends wepy.app {
       'pages/orderPost', // 发布评价
 
       'pages/orderListExchange', // 订单列表--同行互换
-      
-      'pages/orderDetailBail', // 订单详情--保证金
       'pages/orderListDetail', // 订单详情
-      'pages/peopleRecommend', // 人气推荐
-      'pages/serviceRecommend', // 服务推荐
       
 
       // 注册部分
@@ -160,7 +156,8 @@ export default class extends wepy.app {
     // requestUrl: 'http://192.168.0.101:8083/api/v1/wedding_api',
     requestUrl:'https://wedding.lvacms.cn/api/v1/wedding_api',
     // 图片路径
-    requestImgUrl: 'https://192.168.0.101/api/v1/wedding_api',
+    requestImgUrl: 'https://wedding.lvacms.cn/api/v1/wedding_api',
+    // requestImgUrl: 'https://192.168.0.101/api/v1/wedding_api',
     mapKey: 'GCABZ-J4G64-2WKUX-DNQMK-MVCGK-OSFD4',
     apikey: '123456',
     token: '',

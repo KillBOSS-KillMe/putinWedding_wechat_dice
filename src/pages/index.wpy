@@ -24,7 +24,7 @@
         </repeat>
       </view>
       <view class="VIP">
-        <image src="../image/vip.png" />
+        <image src="https://wedding.lvacms.cn/vip.png" />
       </view>
       <view class="listCon">
         <view class="listTile">
