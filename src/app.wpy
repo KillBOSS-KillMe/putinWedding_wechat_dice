@@ -133,7 +133,7 @@ export default class extends wepy.app {
       'pages/orderPost', // 发布评价
 
       'pages/orderListDetail', // 订单详情
-      'pages/interactiveInfo', // 同行互动-详情
+      // 'pages/interactiveInfo', // 同行互动-详情
 
       // 注册部分
       'pages/registeredSel', // 注册选择

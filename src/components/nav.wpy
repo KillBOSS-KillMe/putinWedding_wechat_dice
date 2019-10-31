@@ -16,6 +16,7 @@
       <text class="text">消息</text>
     </view>
     <view class="ft_item {{navAction[3]}}" @tap="goUser">
+      <!-- <view class="iconfont icon-wode"></view> -->
       <image wx:if="{{navAction[3] == 'action'}}" src="../image/user1.png" />
       <image wx:if="{{navAction[3] == 'noAction'}}" src="../image/user0.png" />
       <text class="text">我的</text>

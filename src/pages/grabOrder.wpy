@@ -142,7 +142,7 @@
           data = this.$parent.null2str(data)
           if (data.data.code == 8888) {
             console.log(data)
-            this.list=data.data.data.data
+            this.list=this.list.concat(data.data.data.data)
                   // 当前页码
             this.current_page = data.data.data.current_page
             // 总页码
