@@ -97,7 +97,7 @@ export default class OrderPostListDteail extends wepy.page {
 
   data = {
     list:{ },
-    date: '2016-09-01',
+    date: '',
     img:{},
     dataTime:{},
     dj:'',

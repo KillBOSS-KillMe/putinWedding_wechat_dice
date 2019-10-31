@@ -63,7 +63,7 @@ export default class OrderOfferList extends wepy.page {
     current_page: 1,
     last_page: 0,
     list: [],
-    
+    cur:''
   };
 
   computed = {};
@@ -81,10 +81,16 @@ export default class OrderOfferList extends wepy.page {
   }
   events = {};
 
-  onLoad() {
+  onLoad(e) {
+    this.currentIndex=e.index
     this.getListData()
   }
   getListData(){
+    if(this.currentIndex==undefined){
+      this.cur=1
+    }else{
+      this.cur=this.currentIndex
+    }
     wx.showToast({
       title: "数据加载...",
       icon: 'loading',
@@ -99,7 +105,7 @@ export default class OrderOfferList extends wepy.page {
       },
       data: {
         page: this.current_page,
-        t_f_status:this.currentIndex
+        t_f_status:this.cur
       },
       success: data => {
         wx.hideToast()

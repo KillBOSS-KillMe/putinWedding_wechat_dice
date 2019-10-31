@@ -270,6 +270,12 @@ export default class ExchangeFillEarnest extends wepy.page {
       phoneNumber: this.userInfo.service_tal
     })
   }
+  onUnload(){
+    wx.switchTab({
+      url: '/pages/index'
+    })
+  }
+ 
 }
 </script>
 <style lang="less">

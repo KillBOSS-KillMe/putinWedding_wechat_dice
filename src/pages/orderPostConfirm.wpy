@@ -210,7 +210,7 @@ export default class OrderPostConfirm extends wepy.page {
             // 两秒后返回上一页
           setTimeout(e => {
             wx.navigateTo({
-                url: `pages/orderList?index=${5}`
+                url: `/pages/orderList?index=${5}`
             });
           }, 2000)
         }

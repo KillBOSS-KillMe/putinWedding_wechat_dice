@@ -1,25 +1,21 @@
 <template>
   <view class="footer">
     <view class="ft_item {{navAction[0]}}" @tap="goIndex">
-      <!-- <view class="iconfont icon-shouye"></view> -->
       <image wx:if="{{navAction[0] == 'action'}}" src="../image/home1.png" />
       <image wx:if="{{navAction[0] == 'noAction'}}" src="../image/home0.png" />
       <text class="text">首页</text>
     </view>
     <view class="ft_item {{navAction[1]}}" @tap="goRelease">
-      <!-- <view class="iconfont icon-kehu"></view> -->
       <image wx:if="{{navAction[1] == 'action'}}" src="../image/release1.png" />
       <image wx:if="{{navAction[1] == 'noAction'}}" src="../image/release0.png" />
       <text class="text">发布</text>
     </view>
     <view class="ft_item {{navAction[2]}}" @tap="goMessage">
-      <!-- <view class="iconfont icon-kehu"></view> -->
       <image wx:if="{{navAction[2] == 'action'}}" src="../image/message1.png" />
       <image wx:if="{{navAction[2] == 'noAction'}}" src="../image/message0.png" />
       <text class="text">消息</text>
     </view>
     <view class="ft_item {{navAction[3]}}" @tap="goUser">
-      <!-- <view class="iconfont icon-wode"></view> -->
       <image wx:if="{{navAction[3] == 'action'}}" src="../image/user1.png" />
       <image wx:if="{{navAction[3] == 'noAction'}}" src="../image/user0.png" />
       <text class="text">我的</text>

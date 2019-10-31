@@ -81,7 +81,8 @@ export default class FillOrderPostList extends wepy.page {
   }
   events = {};
 
-  onLoad() {
+  onLoad(e) {
+    console.log(e)
     this.getListData()
   }
   getListData(){

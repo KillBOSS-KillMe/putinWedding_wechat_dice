@@ -60,6 +60,7 @@ export default class ExchangeListFill extends wepy.page {
     list: [],
     current_page: 1,
     last_page: 0,
+    cur:''
   };
 
   computed = {};
@@ -79,9 +80,15 @@ export default class ExchangeListFill extends wepy.page {
 
   onLoad() {
     this.userInfo = this.$parent.globalData.userInfo
+    this.currentIndex=e.index
     this.getListData()
   }
   getListData(){
+    if(this.currentIndex==undefined){
+      this.cur=1
+    }else{
+      this.cur=this.currentIndex
+    }
     wx.showToast({
       title: "数据加载...",
       icon: 'loading',
@@ -96,7 +103,7 @@ export default class ExchangeListFill extends wepy.page {
       },
       data: {
         page: this.current_page,
-        th_j_status:this.currentIndex
+        th_j_status:this.curr
       },
       success: data => {
         wx.hideToast()

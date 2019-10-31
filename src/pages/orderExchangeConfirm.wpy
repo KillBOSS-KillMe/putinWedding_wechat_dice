@@ -176,7 +176,7 @@ export default class OrderExchangeConfirm extends wepy.page {
           });
           // 两秒后返回上一页
           setTimeout(e => {
-            wx.navigateTo({
+            wx.redirectTo({
               url: `/pages/orderListExchange`
             });
           }, 2000)
