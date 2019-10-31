@@ -14,10 +14,11 @@
         <view class="item" data-id="{{item.id}}">
           <view>
             <view class="name" wx:if="{{item.type==0}}">提现成功</view>
-            <view class="name" wx:if="{{item.type==1}}">返还保证金</view>
+            <view class="name" wx:if="{{item.type==2}}">接单收入</view>
+            <view class="name" wx:if="{{item.type==4}}">返还保证金</view>
             <view class="name" wx:else></view>
             <view class="money">
-              <text wx:if="{{item.type == 4}}">+</text>
+              <text wx:if="{{item.type == 4 || item.type == 2}}">+</text>
               <text wx:else>-</text>
               <text>￥{{item.money}}</text>
               <!-- ￥{{item.amount}} -->
@@ -54,7 +55,8 @@
       userInfo: {},
       list: [],
       current_page: 1,
-      last_page: 0
+      last_page: 0,
+      arm:''
     }
 
     computed = {}
@@ -73,11 +75,31 @@
     }
 
     onLoad() {
-      this.userInfo = this.$parent.globalData.userInfo
       this.$apply()
     }
+    
     onShow() {
       this.getList()
+      this.meUser()
+    }
+    //获取信息
+    meUser(){
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/auth/my`,
+        header: {
+          authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        method: 'GET',
+        success: data => {
+          data = this.$parent.null2str(data)
+          if (data.data.code === 8888) {
+            this.userInfo = Object.assign(this.userInfo, data.data.data);
+            this.$apply()
+            console.log(this.userInfo)
+          }
+        }
+      })
     }
     // 执行列表加载
     getList() {
@@ -109,6 +131,7 @@
           data = this.$parent.null2str(data)
           if (data.data.code === 8888) {
             this.list = this.list.concat(data.data.data.data)
+            this.arm=this.list.amount
             // 当前页码
             this.current_page = data.data.data.current_page
             // 总页码

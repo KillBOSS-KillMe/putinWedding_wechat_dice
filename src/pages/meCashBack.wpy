@@ -67,12 +67,31 @@
     }
 
     onLoad() {
-      this.userInfo = this.$parent.globalData.userInfo
-      console.log(this.userInfo)
       this.$apply()
     }
     onShow() {
       this.getList()
+      this.meUser()
+      this.$apply()
+    }
+     //获取信息
+    meUser(){
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/auth/my`,
+        header: {
+          authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        method: 'GET',
+        success: data => {
+          data = this.$parent.null2str(data)
+          if (data.data.code === 8888) {
+            this.userInfo = Object.assign(this.userInfo, data.data.data);
+            console.log(this.userInfo.money)
+            this.$apply()
+          }
+        }
+      })
     }
     // 执行列表加载
     getList() {

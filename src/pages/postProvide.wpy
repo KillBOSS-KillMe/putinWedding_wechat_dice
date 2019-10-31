@@ -11,7 +11,7 @@
     <view class="item">
       <view>
         <label>数量</label>
-        <input type="number" data-name="number" @input="getSetData" placeholder="请输入数量">
+        <input type="number" data-name="num" @input="getSetData" placeholder="请输入数量">
       </view>
       <icon class="iconfont iconjiantou"></icon>
     </view>
@@ -370,7 +370,6 @@
       year = parseInt(year)
       month = parseInt(month)
       day = parseInt(day)
-      
       var arr =[];
       var now = new Date();
       var nowYear = now.getFullYear();

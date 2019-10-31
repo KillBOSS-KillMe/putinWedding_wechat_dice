@@ -26,7 +26,7 @@
       <view class="VIP">
         <image src="https://wedding.lvacms.cn/vip.png" />
       </view>
-      <view class="listCon">
+      <view class="listCon" wx:if="{{serviceList.length>0}}">
         <view class="listTile">
           <text class="name">服务推荐</text>
           <view @tap='recommendMore' data-id="1">
@@ -47,7 +47,7 @@
           </repeat>
         </view>
       </view>
-      <view class="listCon">
+      <view class="listCon" wx:if="{{peopleList.length>0}}">
         <view class="listTile">
           <text class="name">人气推荐</text>
           <view @tap='recommendMore' data-id="2">

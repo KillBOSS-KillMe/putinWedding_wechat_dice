@@ -177,6 +177,11 @@ export default class ServiceRecommendDetail extends wepy.page {
           setTimeout(() => {
             this.$redirect('/pages/orderOfferList')
           }, 2000)
+        }else{
+          wx.showToast({
+            title: data.data.msg,
+            duration: 2000
+          });
         }
       }
     })

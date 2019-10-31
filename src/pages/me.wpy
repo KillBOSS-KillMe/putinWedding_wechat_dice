@@ -23,7 +23,7 @@
               <text wx:if="{{userInfo.nickname==''}}" class="name">{{userInfo.nickName}}</text>
               <text wx:else class="name">{{userInfo.nickname}}</text>
             </view>
-            <text class="userId">ID：{{userInfo.phone}}</text>
+            <text class="userId">Tel：{{userInfo.phone}}</text>
           </view>
         </view>
       </view>
@@ -77,12 +77,15 @@
       </view>
     </view>
     <view class="meList">
-      <view class="meListItem">
-        <view @tap='tel'>
+      <view class="meListItem" @tap='tel'>
+        <view>
           <image src='../image/meKf.png'>
           <text>专属客服</text>
         </view>
-        <icon class="iconfont iconjiantou"></icon>
+        <view>
+          <text>{{userInfo.service_tal}}</text>
+          <icon class="iconfont iconjiantou"></icon>
+        </view>
       </view>
       <button class="meListItem" open-type="contact">
         <view>
@@ -253,6 +256,27 @@
         });
         return true
       }
+    }
+    onshow(){
+      this.meUser()
+    }
+     //获取信息
+    meUser(){
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/auth/my`,
+        header: {
+          authorization: this.$parent.globalData.token,
+          apikey: this.$parent.globalData.apikey
+        },
+        method: 'GET',
+        success: data => {
+          data = this.$parent.null2str(data)
+          if (data.data.code === 8888) {
+            this.userInfo = Object.assign(this.userInfo, data.data.data);
+            this.$apply()
+          }
+        }
+      })
     }
   }
 </script>

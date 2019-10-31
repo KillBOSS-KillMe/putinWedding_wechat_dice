@@ -119,11 +119,11 @@ export default class FillOrderPostList extends wepy.page {
     let type =e.currentTarget.dataset.type
     let orderId=e.currentTarget.dataset.id
      //支付订金
-    // if(type==1){
-    //   let url = `/pages/fillOrderPostListDteail?id=${orderId}`
-    //   this.$navigate(url)
-    //   return false
-    // }
+    if(type==1){
+      let url = `/pages/fillOrderPostListDteail?id=${orderId}`
+      this.$navigate(url)
+      return false
+    }
      //支付尾款
     if(type==2){
       let url = `/pages/fillOrderPostTail?id=${orderId}`
@@ -131,7 +131,7 @@ export default class FillOrderPostList extends wepy.page {
       return false
     }
     //确定
-    if(type==1){
+    if(type==3){
       let url = `/pages/postOrderOfferConfirm?id=${orderId}`
       this.$navigate(url)
       return false

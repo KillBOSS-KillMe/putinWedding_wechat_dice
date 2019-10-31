@@ -65,7 +65,7 @@
       </view>
     </view>
     <view class="bottom flex">
-      <text @tap="communicate" data-id="{{list.id}}" class="text1">立即沟通</text>
+      <!-- <text @tap="communicate" data-id="{{list.id}}" class="text1">立即沟通</text> -->
       <text @tap="Payment" class="text2">支付订金</text>
     </view>
   </view>
@@ -408,7 +408,7 @@ export default class FillOrder extends wepy.page {
     background: #fff;
     justify-content: flex-end;
     text{
-      width: 50%;
+      width: 100%;
       height: 98rpx;
       line-height: 98rpx;
       text-align: center;

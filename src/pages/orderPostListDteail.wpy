@@ -59,7 +59,7 @@
             </view>
         </view>
         <view class="flex" style="justify-content: space-between">
-          <text class="text">押金</text>
+          <text class="text">定金</text>
           <text class="textMony">￥{{list.j_d_money}}</text>
         </view>
       </view>
@@ -80,7 +80,7 @@
     </view>
     <view class="bottom flex">
       <text @tap="communicate" data-id="{{list.id}}" class="text1">立即沟通</text>
-      <text @tap='Payment' class="text2">支付押金</text>
+      <text @tap='Payment' class="text2">支付定金</text>
     </view>
   </view>
 </template>

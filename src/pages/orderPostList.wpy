@@ -32,7 +32,7 @@
               <text wx:else hidden>删除</text>
             </view> -->
             <view class="orderType">
-              <text @tap='pay' data-id='{{item.id}}' data-type='1' wx:if="{{item.x_j_status=='1'}}">支付押金</text>
+              <text @tap='pay' data-id='{{item.id}}' data-type='1' wx:if="{{item.x_j_status=='1'}}">支付定金</text>
               <text @tap='pay' data-id='{{item.id}}' data-type='2' wx:if="{{item.x_j_status=='2'}}">确认订单</text>
               <text @tap='pay' data-id='{{item.id}}' data-type='3' wx:if="{{item.x_j_status=='3'}}">订单评价</text>
               <text wx:else style="display:none"></text>
@@ -40,8 +40,10 @@
           </view>
         </view>
       </repeat>
+      <view>
+        
+      </view>
       <view class="listNull" wx:if="{{list.length==0}}">暂无数据</view>
-      <view class="listNull" wx:if="{{current_page >=last_page}}">暂无更多数据</view>
     </view>
   </view>
 </template>
@@ -118,7 +120,7 @@ export default class OrderPostList extends wepy.page {
   pay(e){
     let type =e.currentTarget.dataset.type
     let orderId=e.currentTarget.dataset.id
-    //支付押金
+    //支付定金
     if(type==1){
       let url = `/pages/orderPostListDteail?type=${type}&id=${orderId}`
       console.log(url)
