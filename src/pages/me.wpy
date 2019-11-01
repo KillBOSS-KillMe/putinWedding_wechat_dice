@@ -105,7 +105,7 @@
         </view>
       </view>
     </view>
-    <nav @childFn.user="goPage" @childFnOrReturn.user="goModifyUserInfo" />
+    <nav :tabBar.sync="tabBarData" /></nav>
   </view>
 </template>
 
@@ -123,7 +123,8 @@
     mixins = []
 
     data = {
-      userInfo: {}
+      userInfo: {},
+      tabBarData: {}
     }
 
     computed = {
@@ -226,6 +227,7 @@
     onLoad() {
       console.log(this.$parent.globalData.userInfo)
       this.userInfo = this.$parent.globalData.userInfo
+      this.tabBarData = this.$parent.tabBarClickHandle(0, this);
       this.$apply()
     }
     //拨打电话

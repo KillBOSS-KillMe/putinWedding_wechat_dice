@@ -19,7 +19,7 @@
       <view @tap='calendarInit'>
         <label>需要日期</label>
         <view>
-          <input wx:if="{{calendarData==''}}" type="text" data-name="dataTime" @input="getSetData" placeholder="请选择日期">
+          <input wx:if="{{calendarData==''}}" type="text" data-name="dataTime" @input="getSetData" placeholder="请选择日期" disabled>
           <view wx:else @tap.stop='calendarInit'>查看详情</view>
         </view>
       </view>
