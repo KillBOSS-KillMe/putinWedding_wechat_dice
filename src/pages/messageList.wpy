@@ -81,7 +81,6 @@
       info:{},
       current_page: 1,
       last_page: 0,
-      userInfo:{}
     }
 
     computed = {
@@ -92,14 +91,9 @@
       // 底部导航跳转
       // 底部导航跳转
       goPage (url, evt) {
-        if (this.userInfo.nickname) {
-          this.showModal()
-          return false
-        }
-        if(this.userInfo.head_portrait){
-          this.showModalImg()
-          return false
-        }
+        // if (this.verificationUserInfo()) {
+        //   return 
+        // }
         // 销毁当前页{跳转}
         this.$redirect(url)
       },
@@ -137,9 +131,10 @@
     events = {
 
     }
+
    onLoad(e) {
       console.log(e)
-      this.userInfo=this.$parent.globalData.userInfo
+      // this.orderId=e.id
       this.communicate()
     }
     communicate(){
@@ -197,36 +192,6 @@
         });
         return true
       }
-    }
-    // 昵称
-    showModal() {
-      wx.showModal({
-        title: '',
-        content: '请修改用户昵称',
-        success: sm => {
-          if (sm.confirm) {
-            // this.$redirect('/page/loginRegistered')
-            this.$navigate('/pages/meSetting')
-          } else if (sm.cancel) {
-            // 用户点击取消
-          }
-        }
-      })
-    }
-    // 头像
-    showModalImg() {
-      wx.showModal({
-        title: '',
-        content: '请修改用户头像',
-        success: sm => {
-          if (sm.confirm) {
-            // this.$redirect('/page/loginRegistered')
-            this.$navigate('/pages/meSetting')
-          } else if (sm.cancel) {
-            // 用户点击取消
-          }
-        }
-      })
     }
   }
 </script>
