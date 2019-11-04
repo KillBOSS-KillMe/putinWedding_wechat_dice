@@ -2,21 +2,23 @@
   <view class="me">
     <image class="meBj" src='../image/meBj.png'>
     <view class="header">
-      <view class="headLift" wx:if="{{userInfo.nickname || userInfo.head_portrait == ''}}">
+      <!-- <view class="headLift" wx:if="{{userInfo.nickname || userInfo.head_portrait == ''}}">
         <image src='{{userInfo.avatarUrl}}' style="visibility:hidden">
         <view @tap='fontInfo'>
           <text  class="fontInfo">修改昵称和头像信息</text>
         </view>
-      </view>
-      <view class="headLift" wx:if="{{userInfo.nickname || userInfo.head_portrait != ''}}">
+      </view> -->
+      <view class="headLift">
         <view>
-          <image src='{{userInfo.head_portrait}}'>
+          <text @tap='fontInfo' style="margin-right: 30rpx;" wx:if="{{userInfo.head_portrait==''}}" class="fontInfo">请修改头像</text>
+          <!-- <image wx:if="{{userInfo.head_portrait==''}}" src='{{userInfo.avatarUrl}}' title="请修改头像" style="visibility:hidden"> -->
+          <image wx:else src='{{userInfo.head_portrait}}'>
         </view>
         <view>
           <view>
             <view>
-              <!-- <text wx:if="{{userInfo.nickname==''}}" class="name">{{userInfo.nickName}}</text> -->
-              <text class="name">{{userInfo.nickname}}</text>
+              <text @tap='fontInfo' wx:if="{{userInfo.nickname==''}}" class="name">请修改昵称</text>
+              <text wx:else class="name">{{userInfo.nickname}}</text>
             </view>
             <text class="userId">Tel：{{userInfo.phone}}</text>
           </view>

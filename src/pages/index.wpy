@@ -526,7 +526,7 @@
     showModalImg() {
       wx.showModal({
         title: '',
-        content: '请修改用户头像',
+        content: '请修改用户偷像',
         success: sm => {
           if (sm.confirm) {
             // this.$redirect('/page/loginRegistered')
@@ -541,7 +541,7 @@
     showModalName() {
       wx.showModal({
         title: '',
-        content: '请修改用户昵称',
+        content: '请修改用户偷像',
         success: sm => {
           if (sm.confirm) {
             // this.$redirect('/page/loginRegistered')
