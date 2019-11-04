@@ -450,7 +450,7 @@
       });
       setTimeout(() => {
         this.$redirect('/pages/registeredSel')
-      }, 1000)
+      }, 200)
     }
 
     // 获取轮播图
@@ -499,7 +499,6 @@
       })
     }
     loadCity(longitude, latitude) {
-      console.log('-------------------------------------')
       wx.request({
         url: `https://apis.map.qq.com/ws/geocoder/v1/?location=${latitude},${longitude}&key=${this.$parent.globalData.mapKey}`,
         data: {},
@@ -517,6 +516,36 @@
           if (sm.confirm) {
             // this.$redirect('/page/loginRegistered')
             this.$redirect('/pages/registeredSel')
+          } else if (sm.cancel) {
+            // 用户点击取消
+          }
+        }
+      })
+    }
+    // 头像
+    showModalImg() {
+      wx.showModal({
+        title: '',
+        content: '请修改用户头像',
+        success: sm => {
+          if (sm.confirm) {
+            // this.$redirect('/page/loginRegistered')
+            this.$navigate('/pages/meSetting')
+          } else if (sm.cancel) {
+            // 用户点击取消
+          }
+        }
+      })
+    }
+    // 昵称
+    showModalName() {
+      wx.showModal({
+        title: '',
+        content: '请修改用户昵称',
+        success: sm => {
+          if (sm.confirm) {
+            // this.$redirect('/page/loginRegistered')
+            this.$navigate('/pages/meSetting')
           } else if (sm.cancel) {
             // 用户点击取消
           }

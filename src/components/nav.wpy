@@ -68,6 +68,34 @@ export default class Nav extends wepy.component {
         })
         return ''
       }
+            if (this.userInfo.nickname=='') {
+        wx.showModal({
+          title: '',
+          content: '请修改用户昵称',
+          success: sm => {
+            if (sm.confirm) {
+              this.$emit('childFn', '/pages/meSetting')
+            } else if (sm.cancel) {
+              // 用户点击取消
+            }
+          }
+        })
+        return ''
+      }
+      if (this.userInfo.head_portrait=='') {
+        wx.showModal({
+          title: '',
+          content: '请修改用户头像',
+          success: sm => {
+            if (sm.confirm) {
+              this.$emit('childFn', '/pages/meSetting')
+            } else if (sm.cancel) {
+              // 用户点击取消
+            }
+          }
+        })
+        return ''
+      }
       this.$parent.$parent.globalData.navAction = ['noAction', 'action', 'noAction', 'noAction']
       this.$emit('childFn', '/pages/releaseTypeSel')
     },
@@ -81,6 +109,34 @@ export default class Nav extends wepy.component {
           success: sm => {
             if (sm.confirm) {
               this.$emit('childFn', '/pages/registeredSel')
+            } else if (sm.cancel) {
+              // 用户点击取消
+            }
+          }
+        })
+        return ''
+      }
+            if (this.userInfo.nickname=='') {
+        wx.showModal({
+          title: '',
+          content: '请修改用户昵称',
+          success: sm => {
+            if (sm.confirm) {
+              this.$emit('childFn', '/pages/meSetting')
+            } else if (sm.cancel) {
+              // 用户点击取消
+            }
+          }
+        })
+        return ''
+      }
+      if (this.userInfo.head_portrait=='') {
+        wx.showModal({
+          title: '',
+          content: '请修改用户头像',
+          success: sm => {
+            if (sm.confirm) {
+              this.$emit('childFn', '/pages/meSetting')
             } else if (sm.cancel) {
               // 用户点击取消
             }

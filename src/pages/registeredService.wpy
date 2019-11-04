@@ -117,7 +117,7 @@
               });
               setTimeout(() => {
                 let url = `/pages/index`
-                this.$redirect(url)
+                this.$reLaunch(url)
               }, 2000)
             } else {
               wx.showToast({

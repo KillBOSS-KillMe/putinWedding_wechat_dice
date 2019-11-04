@@ -48,8 +48,8 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "pages/interactiveInfo",
-					"pathName": "pages/interactiveInfo",
+					"name": "pages/registeredService",
+					"pathName": "pages/registeredService",
 					"query": "",
 					"scene": null
 				},
