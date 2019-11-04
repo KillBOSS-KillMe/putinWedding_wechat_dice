@@ -1,27 +1,31 @@
 <template>
   <view class="footer">
     <view class="ft_item {{navAction[0]}}" @tap="goIndex">
-      <!-- <view class="iconfont icon-shouye"></view> -->
-      <image wx:if="{{navAction[0] == 'action'}}" src="../image/home1.png" />
-      <image wx:if="{{navAction[0] == 'noAction'}}" src="../image/home0.png" />
+      <view>
+        <image wx:if="{{navAction[0] == 'action'}}" src="../image/home1.png" />
+        <image wx:if="{{navAction[0] == 'noAction'}}" src="../image/home0.png" />
+      </view>
       <text class="text">首页</text>
     </view>
     <view class="ft_item {{navAction[1]}}" @tap="goRelease">
-      <!-- <view class="iconfont icon-kehu"></view> -->
-      <image wx:if="{{navAction[1] == 'action'}}" src="../image/release1.png" />
-      <image wx:if="{{navAction[1] == 'noAction'}}" src="../image/release0.png" />
+      <view>
+        <image wx:if="{{navAction[1] == 'action'}}" src="../image/release1.png" />
+        <image wx:if="{{navAction[1] == 'noAction'}}" src="../image/release0.png" />
+      </view>
       <text class="text">发布</text>
     </view>
     <view class="ft_item {{navAction[2]}}" @tap="goMessage">
-      <!-- <view class="iconfont icon-kehu"></view> -->
-      <image wx:if="{{navAction[2] == 'action'}}" src="../image/message1.png" />
-      <image wx:if="{{navAction[2] == 'noAction'}}" src="../image/message0.png" />
+      <view>
+        <image wx:if="{{navAction[2] == 'action'}}" src="../image/message1.png" />
+        <image wx:if="{{navAction[2] == 'noAction'}}" src="../image/message0.png" />
+      </view>
       <text class="text">消息</text>
     </view>
     <view class="ft_item {{navAction[3]}}" @tap="goUser">
-      <!-- <view class="iconfont icon-wode"></view> -->
-      <image wx:if="{{navAction[3] == 'action'}}" src="../image/user1.png" />
-      <image wx:if="{{navAction[3] == 'noAction'}}" src="../image/user0.png" />
+      <view>
+        <image wx:if="{{navAction[3] == 'action'}}" src="../image/user1.png" />
+        <image wx:if="{{navAction[3] == 'noAction'}}" src="../image/user0.png" />
+      </view>
       <text class="text">我的</text>
     </view>
   </view>
@@ -50,17 +54,59 @@ export default class Nav extends wepy.component {
     // 发布
     goRelease() {
       // 顶部导航状态初始化
+      if (this.userInfo.phone=='') {
+        wx.showModal({
+          title: '',
+          content: '请先注册',
+          success: sm => {
+            if (sm.confirm) {
+              this.$emit('childFn', '/pages/registeredSel')
+            } else if (sm.cancel) {
+              // 用户点击取消
+            }
+          }
+        })
+        return ''
+      }
       this.$parent.$parent.globalData.navAction = ['noAction', 'action', 'noAction', 'noAction']
       this.$emit('childFn', '/pages/releaseTypeSel')
     },
     // 消息
     goMessage() {
       // 顶部导航状态初始化
+      if (this.userInfo.phone=='') {
+        wx.showModal({
+          title: '',
+          content: '请先注册',
+          success: sm => {
+            if (sm.confirm) {
+              this.$emit('childFn', '/pages/registeredSel')
+            } else if (sm.cancel) {
+              // 用户点击取消
+            }
+          }
+        })
+        return ''
+      }
       this.$parent.$parent.globalData.navAction = ['noAction','noAction', 'action', 'noAction']
       this.$emit('childFn', '/pages/messageList')
     },
     // 我的
     goUser() {
+      if (this.userInfo.phone=='') {
+        wx.showModal({
+          title: '',
+          content: '请先注册',
+          success: sm => {
+            if (sm.confirm) {
+              this.$emit('childFn', '/pages/registeredSel')
+            } else if (sm.cancel) {
+              // 用户点击取消
+            }
+          }
+        })
+        return ''
+      }
       this.$parent.$parent.globalData.navAction = ['noAction', 'noAction', 'noAction', 'action']
       this.$emit('childFn', '/pages/me')
     }
@@ -81,18 +127,24 @@ export default class Nav extends wepy.component {
   border-top: 1rpx solid #f3f1f1;
   // padding-bottom: -120rpx;
   z-index: 30;
+  height: 95rpx;
+  padding-bottom: 20rpx;
 }
 
 .footer .ft_item {
   width: 25%;
-  height: 100%;
+  height: 85rpx;
   text-align: center;
   float: left;
-  padding: 10rpx 0;
+  padding: 15rpx 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
+}
+.footer .ft_item>view{
+  width: 46rpx;
+  height: 46rpx;
 }
 .footer .ft_item text {
   font-size: 25rpx;
@@ -100,7 +152,7 @@ export default class Nav extends wepy.component {
 .footer .ft_item image {
   width: 46rpx;
   height: 46rpx;
-  margin: 10rpx;
+  // margin: 10rpx;
 }
 
 .appointment {

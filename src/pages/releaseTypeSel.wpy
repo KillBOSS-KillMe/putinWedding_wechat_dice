@@ -32,7 +32,7 @@
     mixins = []
 
     data = {
-      userInfo: null,
+      userInfo: {},
       typeList: [
         {id: '1', name: '需求'},
         {id: '2', name: '提供'},
@@ -49,9 +49,10 @@
       // 底部导航跳转
       // 底部导航跳转
       goPage (url, evt) {
-        // if (this.verificationUserInfo()) {
-        //   return 
-        // }
+        if (this.userInfo.phone=='') {
+          this.showModal()
+          return false
+        }
         // 销毁当前页{跳转}
         this.$redirect(url)
       },
@@ -94,7 +95,7 @@
     }
 
     onLoad() {
-      
+      this.userInfo = this.$parent.globalData.userInfo
     }
     
 
@@ -107,6 +108,21 @@
         });
         return true
       }
+    }
+    showModal() {
+      wx.showModal({
+        title: '',
+        content: '尚未注册，是否注册',
+        success: sm => {
+          if (sm.confirm) {
+            // this.$redirect('/page/loginRegistered')
+            this.$redirect('/pages/registeredSel')
+          } else if (sm.cancel) {
+            // 用户点击取消
+            this.$redirect('/pages/index')
+          }
+        }
+      })
     }
   }
 </script>

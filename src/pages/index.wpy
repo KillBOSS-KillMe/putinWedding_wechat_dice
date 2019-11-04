@@ -133,18 +133,22 @@
       // 页面中部导航点击事件
       pageNavClick(e) {
         let id = e.currentTarget.dataset.id
-        if(id=='1'){
+        if(this.userInfo.phone==''){
+          this.showModal()
+        }else{
+          if(id=='1'){
           //全部商品
-          this.$navigate({url:"/pages/productSelIndustry"})
-        }else if(id=='2'){
-          //抢单
-          this.$navigate({url:"/pages/grabOrder"})
-        }else if(id=='3'){
-          //服务
-          this.$navigate({url:"/pages/service"})
-        }else if(id=='4'){
-          //同行互换
-          this.$navigate({url:"/pages/interactive"})
+            this.$navigate({url:"/pages/productSelIndustry"})
+          }else if(id=='2'){
+            //抢单
+            this.$navigate({url:"/pages/grabOrder"})
+          }else if(id=='3'){
+            //服务
+            this.$navigate({url:"/pages/service"})
+          }else if(id=='4'){
+            //同行互换
+            this.$navigate({url:"/pages/interactive"})
+          }
         }
         this.$apply()
       },
@@ -164,27 +168,39 @@
       //服务推荐商品详情
       shopDetail(e){
          let id = e.currentTarget.dataset.id
-         let url = `/pages/serviceRecommendDetail?id=${id}`
-         this.$navigate(url)
+         if(this.userInfo.phone==''){
+            this.showModal()
+         }else{
+            let url = `/pages/serviceRecommendDetail?id=${id}`
+            this.$navigate(url)
+         }
          this.$apply()
       },
       //人气推荐商品详情
       peopleDetail(e){
          let id = e.currentTarget.dataset.id
-         let url = `/pages/peopleRecommendDetail?id=${id}`
-         this.$navigate(url)
+         if(this.userInfo.phone==''){
+          this.showModal()
+        }else{
+          let url = `/pages/peopleRecommendDetail?id=${id}`
+          this.$navigate(url)
+        }
          this.$apply()
       },
       //服务人气推荐更多
       recommendMore(e){
         let id = e.currentTarget.dataset.id
-        //1服务推荐 2人气推荐
-        if(id=='1'){
-          let url = `/pages/service`
-          this.$navigate(url)
-        }else if(id=='2'){
-          let url = `/pages/grabOrder`
-          this.$navigate(url)
+        if(this.userInfo.phone==''){
+          this.showModal()
+        }else{
+          //1服务推荐 2人气推荐
+          if(id=='1'){
+            let url = `/pages/service`
+            this.$navigate(url)
+          }else if(id=='2'){
+            let url = `/pages/grabOrder`
+            this.$navigate(url)
+          }
         }
         this.$apply()
       }
@@ -197,6 +213,8 @@
     onLoad(options) {
       // 收藏小程序提示显示
       this.addCollectionShow()
+      this.userInfo=this.$parent.globalData.userInfo
+      console.log(this.userInfo)
       // 分享信息获取
       if (options.hasOwnProperty("scene")) {
         let data = options.scene.split('%3D')
@@ -216,7 +234,6 @@
       // 获取用户信息
       this.onGetUserInfo()
       let token = this.$parent.globalData.token
-      console.log('+++++++++++++++'+this.$parent.globalData.token)
       if (token != '') {
         // 轮播图加载
         this.getSwiperList()
@@ -433,7 +450,7 @@
       });
       setTimeout(() => {
         this.$redirect('/pages/registeredSel')
-      }, 2000)
+      }, 1000)
     }
 
     // 获取轮播图
@@ -489,6 +506,20 @@
         success: (res) => {
           this.address = res.data.result.address
           console.log(this.address)
+        }
+      })
+    }
+    showModal() {
+      wx.showModal({
+        title: '',
+        content: '尚未注册，是否注册',
+        success: sm => {
+          if (sm.confirm) {
+            // this.$redirect('/page/loginRegistered')
+            this.$redirect('/pages/registeredSel')
+          } else if (sm.cancel) {
+            // 用户点击取消
+          }
         }
       })
     }

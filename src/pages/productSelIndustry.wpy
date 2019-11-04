@@ -65,8 +65,8 @@
           })
         }else{
           let url = `/pages/allCommodity?a=${i}`
-          console.log(url)
-          this.$navigate(url)
+          // console.log(url)
+          this.$redirect(url)
         }
         this.$apply()
       }

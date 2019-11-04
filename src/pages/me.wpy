@@ -45,10 +45,10 @@
     </view>
     <view class="meOrder">
       <text class="meOrderTitle">订单</text>
-      <!-- <view class="meOrderMore">
+      <view class="meOrderMore">
         查看全部订单
-        <icon class="iconfont iconjiantou"></icon> -->
-      </view>
+        <icon class="iconfont iconjiantou"></icon>
+       </view>
     </view>
     <view class="mony">
       <view class="meOrderItem" @tap='meXy' data-id='1'>
@@ -105,7 +105,7 @@
         </view>
       </view>
     </view>
-    <nav :tabBar.sync="tabBarData" /></nav>
+    <nav @childFn.user="goPage" @childFnOrReturn.user="goModifyUserInfo" />
   </view>
 </template>
 
@@ -225,9 +225,8 @@
     }
 
     onLoad() {
-      console.log(this.$parent.globalData.userInfo)
       this.userInfo = this.$parent.globalData.userInfo
-      this.tabBarData = this.$parent.tabBarClickHandle(0, this);
+      console.log(this.userInfo)
       this.$apply()
     }
     //拨打电话
